@@ -5,17 +5,49 @@ import { SECTIONS } from '@/data/sections'
 export const MODE_SECTION = 0
 export const MODE_PAGE    = 1
 
-// Fallback images — one per section, always available via CDN
-// These guarantee the dissolve effect works even before video frames are captured
-const FALLBACK_IMAGES = [
-  'https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=800&q=80',
-  'https://images.unsplash.com/photo-1518770660439-4636190af475?w=800&q=80',
-  'https://images.unsplash.com/photo-1485827404703-89b55fcc595e?w=800&q=80',
-  'https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=800&q=80',
-  'https://images.unsplash.com/photo-1523961131990-5ea7c61b2107?w=800&q=80',
-  'https://images.unsplash.com/photo-1497366216548-37526070297c?w=800&q=80',
-  'https://images.unsplash.com/photo-1477281765962-ef34e8bb0967?w=800&q=80',
-]
+// Extract first frame from a video src by seeking to 0.1s
+function extractFirstFrame(
+  src: string,
+  onFrame: (canvas: HTMLCanvasElement) => void
+) {
+  const v = document.createElement('video')
+  v.crossOrigin = 'anonymous'
+  v.muted       = true
+  v.preload     = 'auto'
+  v.playsInline = true
+
+  const done = (c: HTMLCanvasElement | null) => {
+    v.src = ''
+    v.load()
+    if (c) onFrame(c)
+  }
+
+  const grab = () => {
+    if (v.videoWidth === 0) return
+    try {
+      const c = document.createElement('canvas')
+      c.width  = Math.min(v.videoWidth,  1280)
+      c.height = Math.min(v.videoHeight, 720)
+      c.getContext('2d')!.drawImage(v, 0, 0, c.width, c.height)
+      done(c)
+    } catch { done(null) }
+  }
+
+  v.onseeked      = grab
+  v.onerror       = () => done(null)
+
+  // Seek to 0.1s once metadata is loaded
+  v.onloadedmetadata = () => {
+    v.currentTime = 0.1
+  }
+
+  // Timeout fallback — if video never loads
+  const t = setTimeout(() => done(null), 5000)
+  v.onseeked = () => { clearTimeout(t); grab() }
+  v.onerror  = () => { clearTimeout(t); done(null) }
+
+  v.src = src
+}
 
 export function useWebGL(curRef: React.RefObject<number>) {
   const canvasRef     = useRef<HTMLCanvasElement>(null)
@@ -139,24 +171,42 @@ export function useWebGL(curRef: React.RefObject<number>) {
     uAR_.current   = gl.getUniformLocation(prg, 'uAR')
     uMode_.current = gl.getUniformLocation(prg, 'uMode')
 
-    // Load fallback images immediately — guarantees dissolve works from first switch
-    let loaded = 0
-    FALLBACK_IMAGES.forEach((url, i) => {
-      if (i >= SECTIONS.length) return
-      const img = new Image()
-      img.crossOrigin = 'anonymous'
-      img.onload = () => {
-        texsRef.current[i] = mkTex(gl, img)
-        loaded++
-        if (loaded === 1) {
-          // First image ready — init from/to and start render loop
-          fromTexRef.current = texsRef.current[0]!
-          toTexRef.current   = texsRef.current[0]!
-          if (!rafRef.current) rafRef.current = requestAnimationFrame(loop)
-        }
+    // Extract first frame from each section's video as the WebGL texture
+    // This gives us real video content for the dissolve effect
+    let firstLoaded = false
+
+    const tryStart = () => {
+      if (!firstLoaded && texsRef.current[0]) {
+        firstLoaded = true
+        fromTexRef.current = texsRef.current[0]!
+        toTexRef.current   = texsRef.current[0]!
+        if (!rafRef.current) rafRef.current = requestAnimationFrame(loop)
       }
-      img.onerror = () => { loaded++ }
-      img.src = url
+    }
+
+    SECTIONS.forEach((sec, i) => {
+      if (!sec.isVideo || !sec.videoSrc) {
+        // Non-video section — use a dark gradient canvas
+        const c = document.createElement('canvas')
+        c.width = 4; c.height = 4
+        const ctx = c.getContext('2d')!
+        const cols = ['#0a0f1e','#060d0a','#1a0a04','#06081a','#120614','#060e12','#040408']
+        ctx.fillStyle = cols[i % cols.length]
+        ctx.fillRect(0, 0, 4, 4)
+        texsRef.current[i] = mkTex(gl, c)
+        tryStart()
+        return
+      }
+
+      extractFirstFrame(sec.videoSrc, (canvas) => {
+        texsRef.current[i] = mkTex(gl, canvas)
+        // If currently on this section and idle, update textures
+        if (i === curRef.current && transPRef.current >= 1) {
+          fromTexRef.current = texsRef.current[i]!
+          toTexRef.current   = texsRef.current[i]!
+        }
+        tryStart()
+      })
     })
 
     function loop(ts: number) {
