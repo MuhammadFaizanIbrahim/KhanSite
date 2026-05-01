@@ -35,16 +35,10 @@ export default function HomeSlideshow() {
   const toId    = useRef<ReturnType<typeof setTimeout> | null>(null)
   const heroRef = useRef<HeroVideoHandle>(null)
 
-  // Hidden video elements for ALL sections — preloaded in background
-  const bgVideoRefs = useRef<(HTMLVideoElement | null)[]>(
-    new Array(SECTIONS.length).fill(null)
-  )
-
   useEffect(() => { curRef.current = cur }, [cur])
 
   const {
     canvasRef, triggerTransition, setSkipDraw,
-    snapshotVideoFrame, setLiveVideo, setIncomingVideo,
     captureVideoTexture,
   } = useWebGL(curRef)
 
@@ -167,29 +161,6 @@ export default function HomeSlideshow() {
 
   return (
     <>
-      {/* ── Hidden background videos for ALL video sections ──
-          These load in the background so frames can be captured for WebGL textures.
-          They are muted, paused, and invisible — purely for texture capture. */}
-      <div style={{ position: 'fixed', left: -9999, top: -9999, pointerEvents: 'none' }}>
-        {SECTIONS.map((sec, i) => {
-          if (!sec.isVideo || !sec.videoSrc) return null
-          if (i === cur) return null // current section handled by HeroVideo below
-          return (
-            <video
-              key={sec.videoSrc}
-              ref={el => { bgVideoRefs.current[i] = el }}
-              src={sec.videoSrc}
-              muted playsInline preload="auto"
-              style={{ width: 1, height: 1 }}
-              onCanPlay={e => {
-                const v = e.currentTarget
-                captureVideoTexture(i, v)
-              }}
-            />
-          )
-        })}
-      </div>
-
       {/* ── Active section video ── */}
       {isVideoSection && (
         <HeroVideo
@@ -219,7 +190,7 @@ export default function HomeSlideshow() {
       />
 
       <div className="fixed bottom-0 left-0 right-0 z-30 px-20 pb-11 flex items-end justify-between fade-in">
-        <SlideText section={SECTIONS[cur]} />
+        <SlideText section={SECTIONS[cur]} onViewProjects={() => handlePageTransition('/work')} />
         <div className="flex items-center gap-2.5 flex-shrink-0">
           <span className="font-inter text-[10px] text-white/22 tracking-[0.06em] whitespace-nowrap">
             {holdForVideo

@@ -2,15 +2,17 @@ import { SECTIONS } from '@/data/sections'
 
 interface SlideTextProps {
   section: typeof SECTIONS[0]
+  onViewProjects?: () => void
 }
 
-export default function SlideText({ section }: SlideTextProps) {
+export default function SlideText({ section, onViewProjects }: SlideTextProps) {
   if (!section.sidebarParent) return <div />
 
   return (
     <div className="flex items-end">
       <button
         className="group relative overflow-hidden"
+        onClick={onViewProjects}
         style={{
           background: 'transparent',
           border: '0.5px solid rgba(255,255,255,0.22)',

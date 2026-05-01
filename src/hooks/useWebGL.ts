@@ -5,47 +5,45 @@ import { SECTIONS } from '@/data/sections'
 export const MODE_SECTION = 0
 export const MODE_PAGE    = 1
 
-// Extract first frame from a video src by seeking to 0.1s
+// Extract first frame from a video — loads only metadata then seeks
 function extractFirstFrame(
   src: string,
   onFrame: (canvas: HTMLCanvasElement) => void
 ) {
   const v = document.createElement('video')
-  v.crossOrigin = 'anonymous'
   v.muted       = true
-  v.preload     = 'auto'
+  v.preload     = 'metadata'
   v.playsInline = true
 
-  const done = (c: HTMLCanvasElement | null) => {
+  let settled = false
+  const t = setTimeout(() => { if (!settled) { settled = true; release(null) } }, 8000)
+
+  const release = (c: HTMLCanvasElement | null) => {
+    clearTimeout(t)
+    v.onloadedmetadata = null
+    v.onseeked = null
+    v.onerror  = null
     v.src = ''
     v.load()
     if (c) onFrame(c)
   }
 
-  const grab = () => {
-    if (v.videoWidth === 0) return
+  v.onloadedmetadata = () => { v.currentTime = 0.01 }
+
+  v.onseeked = () => {
+    if (settled) return
+    settled = true
+    if (v.videoWidth === 0) { release(null); return }
     try {
       const c = document.createElement('canvas')
-      c.width  = Math.min(v.videoWidth,  1280)
-      c.height = Math.min(v.videoHeight, 720)
+      c.width  = Math.min(v.videoWidth,  640)
+      c.height = Math.min(v.videoHeight, 360)
       c.getContext('2d')!.drawImage(v, 0, 0, c.width, c.height)
-      done(c)
-    } catch { done(null) }
+      release(c)
+    } catch { release(null) }
   }
 
-  v.onseeked      = grab
-  v.onerror       = () => done(null)
-
-  // Seek to 0.1s once metadata is loaded
-  v.onloadedmetadata = () => {
-    v.currentTime = 0.1
-  }
-
-  // Timeout fallback — if video never loads
-  const t = setTimeout(() => done(null), 5000)
-  v.onseeked = () => { clearTimeout(t); grab() }
-  v.onerror  = () => { clearTimeout(t); done(null) }
-
+  v.onerror = () => { if (!settled) { settled = true; release(null) } }
   v.src = src
 }
 
@@ -69,6 +67,7 @@ export function useWebGL(curRef: React.RefObject<number>) {
   const lastFRef      = useRef<number | null>(null)
   const rafRef        = useRef(0)
   const isTransRef    = useRef(false)
+  const loopRef       = useRef<(ts: number) => void>(() => {})
 
   const mkShader = useCallback((gl: WebGLRenderingContext, type: number, src: string) => {
     const s = gl.createShader(type)!
@@ -136,6 +135,8 @@ export function useWebGL(curRef: React.RefObject<number>) {
     transStartRef.current = performance.now()
     transModeRef.current  = mode
     transDurRef.current   = mode === MODE_PAGE ? 650 : 900
+    // Restart the RAF loop if it was stopped
+    if (!rafRef.current) rafRef.current = requestAnimationFrame(loopRef.current)
   }, [curRef])
 
   useEffect(() => {
@@ -184,9 +185,11 @@ export function useWebGL(curRef: React.RefObject<number>) {
       }
     }
 
+    // Deduplicate video sources so the same file isn't fetched twice
+    const seenSrc = new Map<string, number>()
+
     SECTIONS.forEach((sec, i) => {
       if (!sec.isVideo || !sec.videoSrc) {
-        // Non-video section — use a dark gradient canvas
         const c = document.createElement('canvas')
         c.width = 4; c.height = 4
         const ctx = c.getContext('2d')!
@@ -198,15 +201,34 @@ export function useWebGL(curRef: React.RefObject<number>) {
         return
       }
 
-      extractFirstFrame(sec.videoSrc, (canvas) => {
-        texsRef.current[i] = mkTex(gl, canvas)
-        // If currently on this section and idle, update textures
-        if (i === curRef.current && transPRef.current >= 1) {
-          fromTexRef.current = texsRef.current[i]!
-          toTexRef.current   = texsRef.current[i]!
-        }
-        tryStart()
-      })
+      // Reuse texture if this src was already loaded
+      if (seenSrc.has(sec.videoSrc)) {
+        const srcIdx = seenSrc.get(sec.videoSrc)!
+        const existing = texsRef.current[srcIdx]
+        if (existing) { texsRef.current[i] = existing; tryStart(); return }
+      } else {
+        seenSrc.set(sec.videoSrc, i)
+      }
+
+      // Stagger requests: first section loads immediately, others wait
+      // to avoid saturating the network at startup
+      const delay = i === 0 ? 0 : i * 1200
+
+      setTimeout(() => {
+        extractFirstFrame(sec.videoSrc!, (canvas) => {
+          texsRef.current[i] = mkTex(gl, canvas)
+          if (i === curRef.current && transPRef.current >= 1) {
+            fromTexRef.current = texsRef.current[i]!
+            toTexRef.current   = texsRef.current[i]!
+          }
+          // Propagate to any section sharing the same src
+          SECTIONS.forEach((s, j) => {
+            if (j !== i && s.videoSrc === sec.videoSrc)
+              texsRef.current[j] = texsRef.current[i]
+          })
+          tryStart()
+        })
+      }, delay)
     })
 
     function loop(ts: number) {
@@ -242,11 +264,11 @@ export function useWebGL(curRef: React.RefObject<number>) {
 
       const isTrans = transPRef.current < 1
 
-      // Idle: transparent — video plays underneath
+      // Idle: stop the loop — triggerTransition will restart it
       if (!isTrans) {
         gl.clearColor(0, 0, 0, 0)
         gl.clear(gl.COLOR_BUFFER_BIT)
-        rafRef.current = requestAnimationFrame(loop)
+        rafRef.current = 0
         return
       }
 
@@ -272,6 +294,7 @@ export function useWebGL(curRef: React.RefObject<number>) {
       rafRef.current = requestAnimationFrame(loop)
     }
 
+    loopRef.current = loop
     return () => { cancelAnimationFrame(rafRef.current); rafRef.current = 0 }
   }, [mkShader, mkTex])
 
