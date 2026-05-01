@@ -134,7 +134,7 @@ export function useWebGL(curRef: React.RefObject<number>) {
     transPRef.current     = 0
     transStartRef.current = performance.now()
     transModeRef.current  = mode
-    transDurRef.current   = mode === MODE_PAGE ? 650 : 900
+    transDurRef.current   = mode === MODE_PAGE ? 1200 : 900
     // Restart the RAF loop if it was stopped
     if (!rafRef.current) rafRef.current = requestAnimationFrame(loopRef.current)
   }, [curRef])

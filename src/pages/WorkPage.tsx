@@ -438,7 +438,6 @@ export default function WorkPage() {
   const [view, setView] = useState<ViewMode>('grid')
   const [activeCat, setActiveCat] = useState('All')
   const [activeSubCat, setActiveSubCat] = useState('All')
-  const [bgSound, setBgSound] = useState(false)
 
   const subCats = SUB_CATS[activeCat] ?? SUB_CATS.All
 
@@ -487,40 +486,8 @@ export default function WorkPage() {
           display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between',
         }}>
 
-          {/* Left: ambient sound toggle */}
-          <div style={{ paddingTop: 12, minWidth: 100 }}>
-            <button
-              onClick={() => setBgSound(s => !s)}
-              style={{
-                display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 8,
-                background: 'none', border: 'none', cursor: 'pointer', padding: 0,
-              }}
-            >
-              <div style={{
-                width: 32, height: 32, borderRadius: '50%',
-                border: `0.5px solid ${bgSound ? 'rgba(255,255,255,0.4)' : 'rgba(255,255,255,0.15)'}`,
-                display: 'flex', alignItems: 'center', justifyContent: 'center',
-                transition: 'border-color 0.3s',
-                background: bgSound ? 'rgba(255,255,255,0.06)' : 'transparent',
-              }}>
-                <svg width="13" height="13" viewBox="0 0 13 13" fill="none">
-                  <path d="M5 3.5L2 6H0v1h2l3 2.5V3.5z" fill={bgSound ? 'rgba(255,255,255,0.7)' : 'rgba(255,255,255,0.3)'}/>
-                  {bgSound && <>
-                    <path d="M8 5a2.5 2.5 0 010 3" stroke="rgba(255,255,255,0.5)" strokeWidth="0.9" strokeLinecap="round" fill="none"/>
-                    <path d="M9.5 3.5a4.5 4.5 0 010 6" stroke="rgba(255,255,255,0.25)" strokeWidth="0.9" strokeLinecap="round" fill="none"/>
-                  </>}
-                </svg>
-              </div>
-              <span style={{
-                fontFamily: 'Manrope, sans-serif', fontSize: 8,
-                fontWeight: 400, letterSpacing: '0.14em', textTransform: 'uppercase',
-                color: bgSound ? 'rgba(255,255,255,0.4)' : 'rgba(255,255,255,0.2)',
-                textAlign: 'center', lineHeight: 1.5, transition: 'color 0.3s',
-              }}>
-                Low<br/>Background<br/>Sound
-              </span>
-            </button>
-          </div>
+          {/* Left spacer */}
+          <div style={{ minWidth: 100 }} />
 
           {/* Center: heading */}
           <div style={{ textAlign: 'center', flex: 1 }}>

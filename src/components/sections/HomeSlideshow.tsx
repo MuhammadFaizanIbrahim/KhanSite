@@ -55,7 +55,7 @@ export default function HomeSlideshow() {
     if (path === '/') return
     const idx = nextSection(curRef.current, 1)
     triggerTransition(idx, MODE_PAGE)
-    setTimeout(() => navigate(path), 700)
+    setTimeout(() => navigate(path), 900)
   }, [triggerTransition, navigate])
 
   const goTo = useCallback((idx: number, mode = MODE_SECTION) => {
@@ -68,7 +68,7 @@ export default function HomeSlideshow() {
     triggerTransition(idx, mode)
     setCur(idx)
 
-    const dur = mode === MODE_PAGE ? 700 : 1000
+    const dur = mode === MODE_PAGE ? 1200 : 1000
     setTimeout(() => {
       setTransActive(false)
       updateSkip(idx, false)
