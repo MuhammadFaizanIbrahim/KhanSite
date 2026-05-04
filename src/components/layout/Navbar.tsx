@@ -41,7 +41,7 @@ const FS = `
   }
 `
 
-const FONT_SIZE    = 'clamp(22px, 3vw, 32px)'
+const FONT_SIZE    = 'clamp(30px, 4.2vw, 52px)'
 const FONT_FAMILY  = "'BastligaOne', serif"
 const ASSEMBLE_DUR = 1800
 
@@ -58,14 +58,24 @@ function LogoAssemble() {
     const dustCanvas = dustCanvasRef.current
     if (!wrap || !glCanvas || !dustCanvas) return
 
-    // Wait 2 frames for layout + font paint to settle
     let tid: ReturnType<typeof setTimeout>
     let raf1: number
-    raf1 = requestAnimationFrame(() => {
+
+    const scheduleStart = () => {
       raf1 = requestAnimationFrame(() => {
-        tid = setTimeout(start, 50)
+        raf1 = requestAnimationFrame(() => {
+          tid = setTimeout(start, 50)
+        })
       })
-    })
+    }
+
+    // On first load the app is hidden behind the preloader — wait for it to reveal.
+    // On navigation (app already visible) start immediately.
+    if ((window as { __appReady?: boolean }).__appReady) {
+      scheduleStart()
+    } else {
+      window.addEventListener('app:ready', scheduleStart, { once: true })
+    }
 
     function start() {
       const dpr = Math.min(window.devicePixelRatio, 2)
@@ -185,6 +195,7 @@ function LogoAssemble() {
     }
 
     return () => {
+      window.removeEventListener('app:ready', scheduleStart)
       clearTimeout(tid)
       cancelAnimationFrame(raf1)
       cancelAnimationFrame(rafRef.current)
@@ -230,14 +241,14 @@ function LogoAssemble() {
 
 export default function Navbar({ autoOn, onToggleAuto }: NavbarProps) {
   return (
-    <nav className="fixed top-0 left-0 right-0 z-30 flex items-center justify-between px-12 py-7 fade-in">
+    <nav className="fixed top-0 left-0 right-0 z-30 flex items-start justify-between px-12 py-7 fade-in">
       <div className="w-28" />
 
       <div className="flex-1 flex justify-center">
         <LogoAssemble />
       </div>
 
-      <div className="w-28 flex justify-end">
+      <div className="w-28 flex justify-end" style={{ marginTop: 72 }}>
         <button
           onClick={onToggleAuto}
           className="flex items-center gap-2 border border-white/12 rounded-full px-3.5 py-1.5 transition-colors duration-200"

@@ -4,9 +4,7 @@ import { SECTIONS, SECTION_INTERVAL } from '@/data/sections'
 import { useWebGL, MODE_SECTION, MODE_PAGE } from '@/hooks/useWebGL'
 import Navbar         from '@/components/layout/Navbar'
 import Sidebar        from '@/components/layout/Sidebar'
-import SlideText      from '@/components/sections/SlideText'
 import HeroVideo, { HeroVideoHandle } from '@/components/sections/HeroVideo'
-import ContactOverlay from '@/components/sections/ContactOverlay'
 
 function nextSection(from: number, dir: 1 | -1): number {
   const total = SECTIONS.length
@@ -25,7 +23,6 @@ export default function HomeSlideshow() {
   const [autoOn, setAutoOn]           = useState(true)
   const [videoReady, setVideoReady]   = useState(false)
   const [transActive, setTransActive] = useState(false)
-  const [contactOpen, setContactOpen] = useState(false)
 
   const curRef  = useRef(0)
   const progRef = useRef<HTMLDivElement>(null)
@@ -60,7 +57,7 @@ export default function HomeSlideshow() {
 
   const goTo = useCallback((idx: number, mode = MODE_SECTION) => {
     if (idx === curRef.current) return
-    if (SECTIONS[idx]?.isOverlay) { setContactOpen(true); return }
+    if (SECTIONS[idx]?.isOverlay) return
 
     setTransActive(true)
     setVideoReady(false)
@@ -129,20 +126,20 @@ export default function HomeSlideshow() {
   // Keyboard + scroll + touch
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
-      if (autoOn || contactOpen) return
+      if (autoOn) return
       if (e.key === 'ArrowDown' || e.key === 'ArrowRight') manualNav(1)
       if (e.key === 'ArrowUp'   || e.key === 'ArrowLeft')  manualNav(-1)
     }
     let wLock = false
     const onWheel = (e: WheelEvent) => {
-      if (autoOn || wLock || contactOpen) return
+      if (autoOn || wLock) return
       wLock = true; setTimeout(() => { wLock = false }, 1000)
       manualNav(e.deltaY > 0 ? 1 : -1)
     }
     let tY: number | null = null
     const onTouchStart = (e: TouchEvent) => { tY = e.touches[0].clientY }
     const onTouchEnd   = (e: TouchEvent) => {
-      if (autoOn || tY === null || contactOpen) return
+      if (autoOn || tY === null) return
       const dy = tY - e.changedTouches[0].clientY
       if (Math.abs(dy) > 45) manualNav(dy > 0 ? 1 : -1)
       tY = null
@@ -157,7 +154,7 @@ export default function HomeSlideshow() {
       window.removeEventListener('touchstart', onTouchStart)
       window.removeEventListener('touchend',   onTouchEnd)
     }
-  }, [autoOn, manualNav, contactOpen])
+  }, [autoOn, manualNav])
 
   return (
     <>
@@ -186,11 +183,65 @@ export default function HomeSlideshow() {
         autoOn={autoOn}
         onNav={manualNav}
         onDotClick={(i) => goTo(i)}
-        onContactOpen={() => setContactOpen(true)}
+        onContactOpen={() => handlePageTransition('/contact')}
+        onDisableAuto={() => setAutoOn(false)}
       />
 
-      <div className="fixed bottom-0 left-0 right-0 z-30 px-20 pb-11 flex items-end justify-between fade-in">
-        <SlideText section={SECTIONS[cur]} onViewProjects={() => handlePageTransition('/work')} />
+      {/* Center-bottom: action buttons */}
+      <div className="fixed z-30 fade-in" style={{ bottom: 44, left: '50%', transform: 'translateX(-50%)' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+          {(['View All Projects', 'Contact Us'] as const).map((label) => (
+            <button
+              key={label}
+              className="group relative overflow-hidden"
+              onClick={() => handlePageTransition(label === 'Contact Us' ? '/contact' : '/work')}
+              style={{
+                background: 'rgba(255,255,255,0.04)',
+                border: '1px solid rgba(255,255,255,0.22)',
+                borderRadius: 50,
+                padding: '10px 26px',
+                cursor: 'pointer',
+                backdropFilter: 'blur(10px)',
+                WebkitBackdropFilter: 'blur(10px)',
+                transition: 'border-color 0.3s ease, background 0.3s ease, box-shadow 0.3s ease',
+                whiteSpace: 'nowrap',
+              }}
+              onMouseEnter={e => {
+                e.currentTarget.style.borderColor = 'rgba(255,255,255,0.5)'
+                e.currentTarget.style.background  = 'rgba(255,255,255,0.08)'
+                e.currentTarget.style.boxShadow   = '0 0 18px rgba(255,255,255,0.06)'
+              }}
+              onMouseLeave={e => {
+                e.currentTarget.style.borderColor = 'rgba(255,255,255,0.22)'
+                e.currentTarget.style.background  = 'rgba(255,255,255,0.04)'
+                e.currentTarget.style.boxShadow   = 'none'
+              }}
+            >
+              <span
+                className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"
+                style={{
+                  background: 'linear-gradient(105deg, transparent 35%, rgba(255,255,255,0.06) 50%, transparent 65%)',
+                  borderRadius: 'inherit',
+                }}
+              />
+              <span style={{
+                fontFamily: "'Inter', sans-serif",
+                fontSize: 10,
+                fontWeight: 400,
+                letterSpacing: '0.18em',
+                textTransform: 'uppercase',
+                color: 'rgba(255,255,255,0.78)',
+                position: 'relative',
+              }}>
+                {label}
+              </span>
+            </button>
+          ))}
+        </div>
+      </div>
+
+      {/* Bottom-right: countdown */}
+      <div className="fixed bottom-0 right-0 z-30 px-20 pb-11 flex items-end fade-in">
         <div className="flex items-center gap-2.5 flex-shrink-0">
           <span className="font-inter text-[10px] text-white/22 tracking-[0.06em] whitespace-nowrap">
             {holdForVideo
@@ -204,10 +255,6 @@ export default function HomeSlideshow() {
         </div>
       </div>
 
-      <ContactOverlay
-        visible={contactOpen}
-        onClose={() => setContactOpen(false)}
-      />
     </>
   )
 }

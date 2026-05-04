@@ -44,16 +44,18 @@ const FS = `
 `
 
 export default function Preloader({ onComplete }: PreloaderProps) {
-  const [pct, setPct]           = useState(0)
-  const [htmlVisible, setHtmlVisible] = useState(false)  // shows AFTER effect completes
-  const [exiting, setExiting]   = useState(false)
+  const [pct, setPct]                 = useState(0)
+  const [htmlVisible, setHtmlVisible] = useState(false)
+  const [canvasHiding, setCanvasHiding] = useState(false)
+  const [exiting, setExiting]         = useState(false)
 
-  const glCanvasRef   = useRef<HTMLCanvasElement>(null)
-  const dustCanvasRef = useRef<HTMLCanvasElement>(null)
-  const htmlTextRef   = useRef<HTMLDivElement>(null)
-  const minDone       = useRef(false)
-  const exitTriggered = useRef(false)
-  const rafRef        = useRef(0)
+  const glCanvasRef    = useRef<HTMLCanvasElement>(null)
+  const dustCanvasRef  = useRef<HTMLCanvasElement>(null)
+  const htmlTextRef    = useRef<HTMLDivElement>(null)
+  const minDone        = useRef(false)
+  const exitTriggered  = useRef(false)
+  const crossfadeRef   = useRef(false)
+  const rafRef         = useRef(0)
 
   const tryExit = () => {
     if (minDone.current && !exitTriggered.current) {
@@ -214,15 +216,18 @@ export default function Preloader({ onComplete }: PreloaderProps) {
       }
       dctx.globalAlpha = 1
 
+      // Start crossfade at 72%: HTML fades in while WebGL canvas fades out
+      if (raw > 0.72 && !crossfadeRef.current) {
+        crossfadeRef.current = true
+        setHtmlVisible(true)
+        setCanvasHiding(true)
+      }
+
       if (raw < 1) {
         rafRef.current = requestAnimationFrame(frame)
       } else {
-        // Effect done — clear WebGL canvas, make HTML text visible
-        // The HTML text was rendered invisibly (opacity:0) the whole time
-        // Now reveal it — it sits exactly where the WebGL effect drew it
         gl.clearColor(0,0,0,0); gl.clear(gl.COLOR_BUFFER_BIT)
         dctx.clearRect(0,0,W,H)
-        setHtmlVisible(true)  // fade in HTML text — seamless handoff
       }
     }
     rafRef.current = requestAnimationFrame(frame)
@@ -277,16 +282,20 @@ export default function Preloader({ onComplete }: PreloaderProps) {
         }}>I innovate concepts that redefine industries.</span>
       </div>
 
-      {/* WebGL assembly effect — on top of HTML, clears when done */}
+      {/* WebGL assembly effect — on top of HTML, crossfades out when HTML fades in */}
       <canvas ref={glCanvasRef} style={{
         position: 'absolute', inset: 0,
         width: '100%', height: '100%',
         zIndex: 2, pointerEvents: 'none',
+        opacity: canvasHiding ? 0 : 1,
+        transition: canvasHiding ? 'opacity 0.85s cubic-bezier(0.22,1,0.36,1)' : 'none',
       }}/>
       <canvas ref={dustCanvasRef} style={{
         position: 'absolute', inset: 0,
         width: '100%', height: '100%',
         zIndex: 3, pointerEvents: 'none',
+        opacity: canvasHiding ? 0 : 1,
+        transition: canvasHiding ? 'opacity 0.85s cubic-bezier(0.22,1,0.36,1)' : 'none',
       }}/>
 
       {/* Progress bar */}

@@ -6,6 +6,7 @@ interface SidebarProps {
   onNav: (dir: number) => void
   onDotClick: (idx: number) => void
   onContactOpen: () => void
+  onDisableAuto: () => void
 }
 
 interface SidebarItem {
@@ -20,6 +21,7 @@ function buildTree(): SidebarItem[] {
   let servicesParent: SidebarItem | null = null
 
   SECTIONS.forEach((sec, i) => {
+    if (sec.isOverlay) return
     if (sec.sidebarParent) {
       if (!servicesParent) {
         servicesParent = { type: 'parent', idx: -1, label: sec.sidebarParent, children: [] }
@@ -35,9 +37,7 @@ function buildTree(): SidebarItem[] {
 
 const TREE = buildTree()
 
-export default function Sidebar({ currentIdx, autoOn, onDotClick, onContactOpen }: SidebarProps) {
-  const activeSection  = SECTIONS[currentIdx]
-  const isInServices   = !!activeSection?.sidebarParent
+export default function Sidebar({ currentIdx, autoOn, onDotClick, onContactOpen, onDisableAuto }: SidebarProps) {
 
   const renderDot = (isActive: boolean, isPassed: boolean, isSub = false) => {
     const size = isSub ? 7 : 9
@@ -99,7 +99,8 @@ export default function Sidebar({ currentIdx, autoOn, onDotClick, onContactOpen 
                 style={{ display: 'flex', alignItems: 'center', gap: 14, cursor: 'pointer' }}
                 onClick={() => {
                   if (isOverlay) { onContactOpen(); return }
-                  if (!autoOn) onDotClick(item.idx)
+                  if (autoOn) onDisableAuto()
+                  onDotClick(item.idx)
                 }}
               >
                 {/* Overlay sections get a small dash instead of a dot */}
@@ -173,8 +174,8 @@ export default function Sidebar({ currentIdx, autoOn, onDotClick, onContactOpen 
                   return (
                     <div key={sub.label} style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start' }}>
                       <div
-                        style={{ display: 'flex', alignItems: 'center', gap: 11, cursor: autoOn ? 'default' : 'pointer' }}
-                        onClick={() => { if (!autoOn) onDotClick(sub.idx) }}
+                        style={{ display: 'flex', alignItems: 'center', gap: 11, cursor: 'pointer' }}
+                        onClick={() => { if (autoOn) onDisableAuto(); onDotClick(sub.idx) }}
                       >
                         {renderDot(isActive, isPassed, true)}
                         <span style={{
