@@ -348,8 +348,7 @@ export default function ContactPage() {
                   color: 'rgba(255,255,255,0.35)', lineHeight: 1.8, marginBottom: 20,
                 }}>
                   Create a free account at <strong style={{ color: 'rgba(255,255,255,0.6)' }}>calendly.com</strong>,
-                  set up a meeting type, then add your booking URL to{' '}
-                  <code style={{ color: 'rgba(255,255,255,0.5)', fontSize: 11 }}>.env.local</code>:
+                  set up a meeting type, then provide your booking URL
                 </p>
                 <code style={{
                   display: 'block', fontFamily: 'monospace', fontSize: 11,
@@ -359,7 +358,7 @@ export default function ContactPage() {
                   borderRadius: 4, padding: '10px 14px',
                   textAlign: 'left', lineHeight: 1.9,
                 }}>
-                  VITE_CALENDLY_URL=https://calendly.com/yourname/30min
+                  Example = https://calendly.com/yourname/30min
                 </code>
               </div>
             </div>
