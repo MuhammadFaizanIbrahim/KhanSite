@@ -96,7 +96,7 @@ export default function ContactPage() {
             fontFamily: "'Inter', sans-serif", fontSize: 10, fontWeight: 300,
             color: '#fff', letterSpacing: '0.14em', textTransform: 'uppercase', margin: 0,
           }}>
-            if · you · are
+            "if you are"
           </p>
           <p style={{
             fontFamily: "'Playfair Display', serif",
