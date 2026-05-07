@@ -1,6 +1,7 @@
 import { useParams, useNavigate } from 'react-router-dom'
 import { usePageTransition } from '@/contexts/TransitionContext'
 import { PROJECTS } from '@/data/projects'
+import { useBreakpoint } from '@/hooks/useBreakpoint'
 
 const label = (text: string) => ({
   fontFamily: 'Manrope, sans-serif' as const,
@@ -8,7 +9,7 @@ const label = (text: string) => ({
   fontWeight: 500,
   letterSpacing: '0.18em',
   textTransform: 'uppercase' as const,
-  color: 'rgba(255,255,255,0.28)',
+  color: '#fff',
   margin: '0 0 10px',
 })
 
@@ -16,6 +17,7 @@ export default function ProjectPage() {
   const { id } = useParams<{ id: string }>()
   const navigate  = useNavigate()
   const { triggerPageOut } = usePageTransition()
+  const { isMobile } = useBreakpoint()
 
   const project = PROJECTS.find(p => p.id === Number(id))
   const handleBack = () => triggerPageOut(() => navigate('/work'))
@@ -23,7 +25,7 @@ export default function ProjectPage() {
   if (!project) {
     return (
       <div style={{ position: 'fixed', inset: 0, background: '#040609', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-        <p style={{ fontFamily: 'Manrope, sans-serif', fontSize: 13, color: 'rgba(255,255,255,0.25)', letterSpacing: '0.08em' }}>
+        <p style={{ fontFamily: 'Manrope, sans-serif', fontSize: 13, color: '#fff', letterSpacing: '0.08em' }}>
           Project not found.
         </p>
       </div>
@@ -37,8 +39,8 @@ export default function ProjectPage() {
     >
 
       {/* ── Hero image — centered, ~68% wide, 16:9 ── */}
-      <div style={{ display: 'flex', justifyContent: 'center', padding: '80px 0 0', background: '#040609' }}>
-        <div style={{ width: '68%', aspectRatio: '16/9', overflow: 'hidden', flexShrink: 0 }}>
+      <div style={{ display: 'flex', justifyContent: 'center', padding: isMobile ? '56px 0 0' : '80px 0 0', background: '#040609' }}>
+        <div style={{ width: isMobile ? '94%' : '68%', aspectRatio: '16/9', overflow: 'hidden', flexShrink: 0 }}>
           <img
             src={project.heroImage}
             alt={project.title}
@@ -51,15 +53,15 @@ export default function ProjectPage() {
       <button
         onClick={handleBack}
         style={{
-          position: 'fixed', top: 28, left: 48, zIndex: 50,
+          position: 'fixed', top: 20, left: isMobile ? 16 : 48, zIndex: 50,
           display: 'flex', alignItems: 'center', gap: 8,
           fontFamily: 'Manrope, sans-serif', fontSize: 10, fontWeight: 500,
           letterSpacing: '0.14em', textTransform: 'uppercase',
-          color: 'rgba(255,255,255,0.4)', background: 'none', border: 'none',
-          cursor: 'pointer', transition: 'color 0.2s',
+          color: '#fff', background: 'none', border: 'none',
+          cursor: 'pointer', transition: 'opacity 0.2s',
         }}
-        onMouseEnter={e => { e.currentTarget.style.color = '#fff' }}
-        onMouseLeave={e => { e.currentTarget.style.color = 'rgba(255,255,255,0.4)' }}
+        onMouseEnter={e => { e.currentTarget.style.opacity = '0.6' }}
+        onMouseLeave={e => { e.currentTarget.style.opacity = '1' }}
       >
         <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round">
           <path d="M9 6H3M5 4L3 6l2 2" />
@@ -90,7 +92,7 @@ export default function ProjectPage() {
             fontWeight: 700,
             letterSpacing: '-0.02em',
             textTransform: 'uppercase',
-            color: 'rgba(255,255,255,0.22)',
+            color: '#fff',
             lineHeight: 0.9,
             margin: 0,
           }}>
@@ -101,18 +103,26 @@ export default function ProjectPage() {
         {/* Metadata row */}
         <div style={{
           display: 'grid',
-          gridTemplateColumns: '180px 1fr',
-          gap: '0 80px',
+          gridTemplateColumns: isMobile ? '1fr' : '180px 1fr',
+          gap: isMobile ? '24px 0' : '0 80px',
           padding: '36px 0',
           borderTop: '0.5px solid rgba(255,255,255,0.08)',
           borderBottom: '0.5px solid rgba(255,255,255,0.08)',
           marginBottom: 84,
         }}>
-          <div>
-            <p style={label('Category')}>Category</p>
-            <p style={{ fontFamily: 'Manrope, sans-serif', fontSize: 15, fontWeight: 400, color: 'rgba(255,255,255,0.75)', margin: 0 }}>
-              {project.subCategory}
-            </p>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 24 }}>
+            <div>
+              <p style={label('Category')}>Category</p>
+              <p style={{ fontFamily: 'Manrope, sans-serif', fontSize: 15, fontWeight: 400, color: '#fff', margin: 0 }}>
+                {project.category}
+              </p>
+            </div>
+            <div>
+              <p style={label('Sub Category')}>Sub Category</p>
+              <p style={{ fontFamily: 'Manrope, sans-serif', fontSize: 15, fontWeight: 400, color: '#fff', margin: 0 }}>
+                {project.subCategory}
+              </p>
+            </div>
           </div>
           <div>
             <p style={label(project.brand)}>{project.brand.toUpperCase()}</p>
@@ -120,7 +130,7 @@ export default function ProjectPage() {
               fontFamily: 'Manrope, sans-serif',
               fontSize: 'clamp(13px, 1.2vw, 16px)',
               fontWeight: 300,
-              color: 'rgba(255,255,255,0.5)',
+              color: '#fff',
               lineHeight: 1.8,
               margin: 0,
               maxWidth: 580,
@@ -148,7 +158,7 @@ export default function ProjectPage() {
                 fontFamily: 'Manrope, sans-serif',
                 fontSize: 'clamp(13px, 1.15vw, 16px)',
                 fontWeight: 300,
-                color: 'rgba(255,255,255,0.48)',
+                color: '#fff',
                 lineHeight: 1.85,
                 margin: 0,
                 maxWidth: 660,

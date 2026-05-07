@@ -41,7 +41,7 @@ const FS = `
   }
 `
 
-const FONT_SIZE    = 'clamp(30px, 4.2vw, 52px)'
+const FONT_SIZE    = 'clamp(44px, 6vw, 76px)'
 const FONT_FAMILY  = "'BastligaOne', serif"
 const ASSEMBLE_DUR = 1800
 
@@ -206,11 +206,10 @@ function LogoAssemble() {
     /* Wrapper — canvases sit absolutely inside, same size */
     <div ref={wrapRef} style={{ position: 'relative', display: 'inline-block' }}>
       {/* HTML span — always in layout, invisible during effect */}
-      <span style={{
+      <span className="logo-glow" style={{
         fontFamily:    FONT_FAMILY,
         fontSize:      FONT_SIZE,
         letterSpacing: '0.06em',
-        color:         '#ffffff',
         lineHeight:    1,
         userSelect:    'none',
         display:       'block',
@@ -241,14 +240,14 @@ function LogoAssemble() {
 
 export default function Navbar({ autoOn, onToggleAuto }: NavbarProps) {
   return (
-    <nav className="fixed top-0 left-0 right-0 z-30 flex items-start justify-between px-12 py-7 fade-in">
-      <div className="w-28" />
+    <nav className="fixed top-0 left-0 right-0 z-30 flex items-start justify-between px-4 py-4 sm:px-12 sm:py-7 fade-in">
+      <div className="w-0 sm:w-28" />
 
       <div className="flex-1 flex justify-center">
         <LogoAssemble />
       </div>
 
-      <div className="w-28 flex justify-end" style={{ marginTop: 72 }}>
+      <div className="w-auto sm:w-28 flex justify-end" style={{ marginTop: 'clamp(8px, 5vw, 72px)' }}>
         <button
           onClick={onToggleAuto}
           className="flex items-center gap-2 border border-white/12 rounded-full px-3.5 py-1.5 transition-colors duration-200"
@@ -264,7 +263,7 @@ export default function Navbar({ autoOn, onToggleAuto }: NavbarProps) {
           <span style={{
             fontFamily:'Manrope,sans-serif', fontSize:10, fontWeight:500,
             letterSpacing:'0.08em', textTransform:'uppercase',
-            color:'rgba(255,255,255,0.55)',
+            color:'#fff',
           }}>{autoOn ? 'Auto' : 'Manual'}</span>
         </button>
       </div>

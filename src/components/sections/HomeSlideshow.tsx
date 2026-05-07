@@ -1,5 +1,6 @@
 import { useState, useRef, useEffect, useCallback } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { useBreakpoint } from '@/hooks/useBreakpoint'
 import { SECTIONS, SECTION_INTERVAL } from '@/data/sections'
 import { useWebGL, MODE_SECTION, MODE_PAGE } from '@/hooks/useWebGL'
 import Navbar         from '@/components/layout/Navbar'
@@ -33,6 +34,8 @@ export default function HomeSlideshow() {
   const heroRef = useRef<HeroVideoHandle>(null)
 
   useEffect(() => { curRef.current = cur }, [cur])
+
+  const { isMobile } = useBreakpoint()
 
   const {
     canvasRef, triggerTransition, setSkipDraw,
@@ -188,8 +191,8 @@ export default function HomeSlideshow() {
       />
 
       {/* Center-bottom: action buttons */}
-      <div className="fixed z-30 fade-in" style={{ bottom: 44, left: '50%', transform: 'translateX(-50%)' }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+      <div className="fixed z-30 fade-in" style={{ bottom: isMobile ? 28 : 44, left: '50%', transform: 'translateX(-50%)' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: isMobile ? 8 : 12 }}>
           {(['View All Projects', 'Contact Us'] as const).map((label) => (
             <button
               key={label}
@@ -199,7 +202,7 @@ export default function HomeSlideshow() {
                 background: 'rgba(255,255,255,0.04)',
                 border: '1px solid rgba(255,255,255,0.22)',
                 borderRadius: 50,
-                padding: '10px 26px',
+                padding: isMobile ? '8px 16px' : '10px 26px',
                 cursor: 'pointer',
                 backdropFilter: 'blur(10px)',
                 WebkitBackdropFilter: 'blur(10px)',
@@ -226,11 +229,11 @@ export default function HomeSlideshow() {
               />
               <span style={{
                 fontFamily: "'Inter', sans-serif",
-                fontSize: 10,
+                fontSize: isMobile ? 9 : 10,
                 fontWeight: 400,
-                letterSpacing: '0.18em',
+                letterSpacing: isMobile ? '0.1em' : '0.18em',
                 textTransform: 'uppercase',
-                color: 'rgba(255,255,255,0.78)',
+                color: '#fff',
                 position: 'relative',
               }}>
                 {label}
@@ -241,9 +244,9 @@ export default function HomeSlideshow() {
       </div>
 
       {/* Bottom-right: countdown */}
-      <div className="fixed bottom-0 right-0 z-30 px-20 pb-11 flex items-end fade-in">
+      <div className="fixed bottom-0 right-0 z-30 px-5 pb-7 sm:px-20 sm:pb-11 flex items-end fade-in">
         <div className="flex items-center gap-2.5 flex-shrink-0">
-          <span className="font-inter text-[10px] text-white/22 tracking-[0.06em] whitespace-nowrap">
+          <span className="font-inter text-[10px] text-white tracking-[0.06em] whitespace-nowrap">
             {holdForVideo
               ? (videoReady ? 'Playing...' : 'Loading...')
               : <>Next in <span ref={cdRef}>5</span>s</>

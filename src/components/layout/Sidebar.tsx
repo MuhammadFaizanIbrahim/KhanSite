@@ -1,4 +1,5 @@
 import { SECTIONS } from '@/data/sections'
+import { useBreakpoint } from '@/hooks/useBreakpoint'
 
 interface SidebarProps {
   currentIdx: number
@@ -38,9 +39,10 @@ function buildTree(): SidebarItem[] {
 const TREE = buildTree()
 
 export default function Sidebar({ currentIdx, autoOn, onDotClick, onContactOpen, onDisableAuto }: SidebarProps) {
+  const { isMobile } = useBreakpoint()
 
   const renderDot = (isActive: boolean, isPassed: boolean, isSub = false) => {
-    const size = isSub ? 7 : 9
+    const size = isSub ? (isMobile ? 6 : 7) : (isMobile ? 7 : 9)
     return (
       <div style={{ position: 'relative', width: size, height: size, flexShrink: 0 }}>
         {isActive && (
@@ -69,7 +71,8 @@ export default function Sidebar({ currentIdx, autoOn, onDotClick, onContactOpen,
 
   const renderLine = (isPassed: boolean, height = 36) => (
     <div style={{
-      width: 1, height,
+      width: 1,
+      height: isMobile ? Math.round(height * 0.6) : height,
       marginTop: 3, marginBottom: 3,
       background: isPassed
         ? 'linear-gradient(to bottom, rgba(100,130,255,0.6), rgba(70,100,210,0.3))'
@@ -81,52 +84,54 @@ export default function Sidebar({ currentIdx, autoOn, onDotClick, onContactOpen,
   return (
     <div
       className="fixed z-30 flex flex-col items-start fade-in"
-      style={{ left: 36, top: '50%', transform: 'translateY(-50%)' }}
+      style={{ left: isMobile ? 12 : 36, top: '50%', transform: 'translateY(-50%)' }}
     >
       {TREE.map((item, treeIdx) => {
         const isLast = treeIdx === TREE.length - 1
 
         /* ── TOP-LEVEL SECTION ── */
         if (item.type === 'section') {
-          const sec      = SECTIONS[item.idx] as any
+          const sec       = SECTIONS[item.idx] as any
           const isOverlay = sec?.isOverlay
-          const isActive = currentIdx === item.idx
-          const isPassed = currentIdx > item.idx
+          const isActive  = currentIdx === item.idx
+          const isPassed  = currentIdx > item.idx
 
           return (
             <div key={item.label} style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start' }}>
               <div
-                style={{ display: 'flex', alignItems: 'center', gap: 14, cursor: 'pointer' }}
+                style={{ display: 'flex', alignItems: 'center', gap: isMobile ? 0 : 14, cursor: 'pointer' }}
                 onClick={() => {
                   if (isOverlay) { onContactOpen(); return }
                   if (autoOn) onDisableAuto()
                   onDotClick(item.idx)
                 }}
               >
-                {/* Overlay sections get a small dash instead of a dot */}
                 {isOverlay ? (
                   <div style={{
-                    width: 9, height: 1, flexShrink: 0,
+                    width: isMobile ? 7 : 9, height: 1, flexShrink: 0,
                     background: 'rgba(255,255,255,0.3)',
                   }} />
                 ) : renderDot(isActive, isPassed)}
-                <span style={{
-                  fontFamily: "'Inter', sans-serif",
-                  fontSize: 12,
-                  fontWeight: isOverlay ? 400 : isActive ? 500 : 300,
-                  letterSpacing: '0.05em',
-                  color: isOverlay
-                    ? 'rgba(255,255,255,0.45)'
-                    : isActive ? 'rgba(255,255,255,0.92)' : isPassed ? 'rgba(255,255,255,0.3)' : 'rgba(255,255,255,0.2)',
-                  transition: 'color 0.4s ease',
-                  whiteSpace: 'nowrap',
-                  fontStyle: isOverlay ? 'italic' : 'normal',
-                }}>
-                  {item.label}
-                </span>
+
+                {!isMobile && (
+                  <span style={{
+                    fontFamily: "'Inter', sans-serif",
+                    fontSize: 12,
+                    fontWeight: isOverlay ? 400 : isActive ? 500 : 300,
+                    letterSpacing: '0.05em',
+                    color: isOverlay
+                      ? 'rgba(255,255,255,0.45)'
+                      : isActive ? 'rgba(255,255,255,0.92)' : isPassed ? 'rgba(255,255,255,0.3)' : 'rgba(255,255,255,0.2)',
+                    transition: 'color 0.4s ease',
+                    whiteSpace: 'nowrap',
+                    fontStyle: isOverlay ? 'italic' : 'normal',
+                  }}>
+                    {item.label}
+                  </span>
+                )}
               </div>
               {!isLast && (
-                <div style={{ marginLeft: 4 }}>
+                <div style={{ marginLeft: isMobile ? 3 : 4 }}>
                   {renderLine(isOverlay ? false : isPassed, 32)}
                 </div>
               )}
@@ -144,28 +149,30 @@ export default function Sidebar({ currentIdx, autoOn, onDotClick, onContactOpen,
           return (
             <div key={item.label} style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start' }}>
 
-              {/* Services parent label — indented same level, dash + uppercase */}
-              <div style={{ display: 'flex', alignItems: 'center', gap: 14, marginBottom: 10 }}>
+              {/* Parent label row */}
+              <div style={{ display: 'flex', alignItems: 'center', gap: isMobile ? 0 : 14, marginBottom: isMobile ? 5 : 10 }}>
                 <div style={{
-                  width: 10, height: 1, flexShrink: 0,
+                  width: isMobile ? 7 : 10, height: 1, flexShrink: 0,
                   background: isInGroup || isPassed ? 'rgba(255,255,255,0.45)' : 'rgba(255,255,255,0.12)',
                   transition: 'background 0.4s ease',
                 }} />
-                <span style={{
-                  fontFamily: "'Inter', sans-serif",
-                  fontSize: 9,
-                  fontWeight: 700,
-                  letterSpacing: '0.18em',
-                  textTransform: 'uppercase',
-                  color: isInGroup ? 'rgba(255,255,255,0.65)' : isPassed ? 'rgba(255,255,255,0.25)' : 'rgba(255,255,255,0.15)',
-                  transition: 'color 0.4s ease',
-                }}>
-                  {item.label}
-                </span>
+                {!isMobile && (
+                  <span style={{
+                    fontFamily: "'Inter', sans-serif",
+                    fontSize: 9,
+                    fontWeight: 700,
+                    letterSpacing: '0.18em',
+                    textTransform: 'uppercase',
+                    color: isInGroup ? 'rgba(255,255,255,0.65)' : isPassed ? 'rgba(255,255,255,0.25)' : 'rgba(255,255,255,0.15)',
+                    transition: 'color 0.4s ease',
+                  }}>
+                    {item.label}
+                  </span>
+                )}
               </div>
 
-              {/* Sub-sections — indented further */}
-              <div style={{ paddingLeft: 22, display: 'flex', flexDirection: 'column', alignItems: 'flex-start' }}>
+              {/* Sub-sections */}
+              <div style={{ paddingLeft: isMobile ? 7 : 22, display: 'flex', flexDirection: 'column', alignItems: 'flex-start' }}>
                 {item.children!.map((sub, si) => {
                   const isActive  = currentIdx === sub.idx
                   const isPassed  = currentIdx > sub.idx
@@ -174,23 +181,24 @@ export default function Sidebar({ currentIdx, autoOn, onDotClick, onContactOpen,
                   return (
                     <div key={sub.label} style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start' }}>
                       <div
-                        style={{ display: 'flex', alignItems: 'center', gap: 11, cursor: 'pointer' }}
+                        style={{ display: 'flex', alignItems: 'center', gap: isMobile ? 0 : 11, cursor: 'pointer' }}
                         onClick={() => { if (autoOn) onDisableAuto(); onDotClick(sub.idx) }}
                       >
                         {renderDot(isActive, isPassed, true)}
-                        <span style={{
-                          fontFamily: "'Inter', sans-serif",
-                          fontSize: 11,
-                          fontWeight: isActive ? 500 : 300,
-                          letterSpacing: '0.04em',
-                          color: isActive ? 'rgba(255,255,255,0.88)' : isPassed ? 'rgba(255,255,255,0.26)' : 'rgba(255,255,255,0.16)',
-                          transition: 'color 0.4s ease',
-                          whiteSpace: 'nowrap',
-                        }}>
-                          {sub.label}
-                        </span>
+                        {!isMobile && (
+                          <span style={{
+                            fontFamily: "'Inter', sans-serif",
+                            fontSize: 11,
+                            fontWeight: isActive ? 500 : 300,
+                            letterSpacing: '0.04em',
+                            color: isActive ? 'rgba(255,255,255,0.88)' : isPassed ? 'rgba(255,255,255,0.26)' : 'rgba(255,255,255,0.16)',
+                            transition: 'color 0.4s ease',
+                            whiteSpace: 'nowrap',
+                          }}>
+                            {sub.label}
+                          </span>
+                        )}
                       </div>
-                      {/* Line after sub-item */}
                       {(!isLastSub || !isLast) && (
                         <div style={{ marginLeft: 3 }}>
                           {renderLine(isPassed, isLastSub ? 28 : 30)}

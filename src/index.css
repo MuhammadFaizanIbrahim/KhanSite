@@ -110,3 +110,23 @@
 /* ── fade-in ── */
 .fade-in { animation: fadeIn 0.9s ease forwards; }
 @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+/* ── Mobile global resets ── */
+@media (max-width: 639px) {
+  input, textarea, select {
+    font-size: 16px !important; /* prevent iOS auto-zoom */
+  }
+  * { -webkit-tap-highlight-color: transparent; }
+}
+
+/* ── Logo neon glow ── */
+.logo-glow {
+  color: #ffffff;
+  text-shadow:
+    0 0 4px  #fff,
+    0 0 11px #fff,
+    0 0 24px #e9d5ff,
+    0 0 48px #a855f7,
+    0 0 85px #7c3aed,
+    0 0 130px #5b21b6;
+}

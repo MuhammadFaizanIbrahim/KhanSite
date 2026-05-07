@@ -29,13 +29,13 @@ function Pill({ label, active, onClick }: { label: string; active: boolean; onCl
         borderRadius: 40,
         border: `0.5px solid ${active ? 'rgba(255,255,255,0.45)' : 'rgba(255,255,255,0.12)'}`,
         background: active ? 'rgba(255,255,255,0.07)' : 'transparent',
-        color: active ? '#fff' : 'rgba(255,255,255,0.35)',
+        color: '#fff',
         cursor: 'pointer',
         transition: 'all 0.2s',
         whiteSpace: 'nowrap' as const,
       }}
-      onMouseEnter={e => { if (!active) e.currentTarget.style.color = 'rgba(255,255,255,0.65)' }}
-      onMouseLeave={e => { if (!active) e.currentTarget.style.color = 'rgba(255,255,255,0.35)' }}
+      onMouseEnter={e => { if (!active) e.currentTarget.style.opacity = '0.6' }}
+      onMouseLeave={e => { if (!active) e.currentTarget.style.opacity = '1' }}
     >
       {label}
     </button>
@@ -129,7 +129,7 @@ function GridView({ projects, cols, onProjectClick }: { projects: Project[]; col
           <p style={{
             fontFamily: 'Manrope, sans-serif', fontSize: cols >= 5 ? 8 : 10,
             fontWeight: 400, letterSpacing: '0.12em', textTransform: 'uppercase',
-            color: 'rgba(255,255,255,0.35)', margin: '0 0 4px',
+            color: '#fff', margin: '0 0 4px',
           }}>{p.brand}</p>
           <h3 style={{
             fontFamily: 'Manrope, sans-serif',
@@ -159,6 +159,7 @@ export default function WorkPage() {
     return () => window.removeEventListener('resize', onResize)
   }, [])
 
+  const isMobile = winWidth < 640
   const [minCols, maxCols] = getColsRange(winWidth)
 
   // Clamp cols when screen resizes past the max
@@ -193,15 +194,15 @@ export default function WorkPage() {
       <button
         onClick={handleBack}
         style={{
-          position: 'fixed', top: 32, left: 48, zIndex: 50,
+          position: 'fixed', top: 20, left: isMobile ? 16 : 48, zIndex: 50,
           display: 'flex', alignItems: 'center', gap: 8,
           fontFamily: 'Manrope, sans-serif', fontSize: 10, fontWeight: 500,
           letterSpacing: '0.14em', textTransform: 'uppercase',
-          color: 'rgba(255,255,255,0.38)', background: 'none', border: 'none',
-          cursor: 'pointer', transition: 'color 0.2s',
+          color: '#fff', background: 'none', border: 'none',
+          cursor: 'pointer', transition: 'opacity 0.2s',
         }}
-        onMouseEnter={e => { e.currentTarget.style.color = '#fff' }}
-        onMouseLeave={e => { e.currentTarget.style.color = 'rgba(255,255,255,0.38)' }}
+        onMouseEnter={e => { e.currentTarget.style.opacity = '0.6' }}
+        onMouseLeave={e => { e.currentTarget.style.opacity = '1' }}
       >
         <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round">
           <path d="M9 6H3M5 4L3 6l2 2"/>
@@ -209,18 +210,18 @@ export default function WorkPage() {
         Back
       </button>
 
-      <div style={{ maxWidth: 1360, margin: '0 auto', padding: '0 48px 100px' }}>
+      <div style={{ maxWidth: 1360, margin: '0 auto', padding: isMobile ? '0 16px 64px' : '0 48px 100px' }}>
 
         {/* ── Header ── */}
         <div style={{
-          paddingTop: 110, paddingBottom: 52,
+          paddingTop: isMobile ? 64 : 110, paddingBottom: isMobile ? 32 : 52,
           borderBottom: '0.5px solid rgba(255,255,255,0.07)',
           textAlign: 'center',
         }}>
           <p style={{
             fontFamily: 'Manrope, sans-serif', fontSize: 10, fontWeight: 500,
             letterSpacing: '0.22em', textTransform: 'uppercase',
-            color: 'rgba(255,255,255,0.25)', marginBottom: 18,
+            color: '#fff', marginBottom: 18,
           }}>Selected Work</p>
           <h1 style={{
             fontFamily: '"Playfair Display", serif',
@@ -232,7 +233,7 @@ export default function WorkPage() {
             fontFamily: 'Manrope, sans-serif',
             fontSize: 'clamp(13px, 1.3vw, 16px)',
             fontWeight: 300, fontStyle: 'italic',
-            color: 'rgba(255,255,255,0.32)', letterSpacing: '0.02em',
+            color: '#fff', letterSpacing: '0.02em',
           }}>
             There's no value in anything until it's done!
           </p>
@@ -249,11 +250,11 @@ export default function WorkPage() {
           <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
             {/* Category row */}
             <div style={{ display: 'flex', alignItems: 'center', gap: 14 }}>
-              <span style={{
+              {!isMobile && <span style={{
                 fontFamily: 'Manrope, sans-serif', fontSize: 9, fontWeight: 500,
                 letterSpacing: '0.16em', textTransform: 'uppercase',
-                color: 'rgba(255,255,255,0.25)', minWidth: 148,
-              }}>Filter by Categories</span>
+                color: '#fff', minWidth: 148,
+              }}>Filter by Categories</span>}
               <div style={{ display: 'flex', gap: 7, flexWrap: 'wrap' }}>
                 {CATEGORIES.map(cat => (
                   <Pill
@@ -268,11 +269,11 @@ export default function WorkPage() {
 
             {/* Sub-category row */}
             <div style={{ display: 'flex', alignItems: 'center', gap: 14 }}>
-              <span style={{
+              {!isMobile && <span style={{
                 fontFamily: 'Manrope, sans-serif', fontSize: 9, fontWeight: 500,
                 letterSpacing: '0.16em', textTransform: 'uppercase',
-                color: 'rgba(255,255,255,0.25)', minWidth: 148,
-              }}>Sub-Categories</span>
+                color: '#fff', minWidth: 148,
+              }}>Sub-Categories</span>}
               <div style={{ display: 'flex', gap: 7, flexWrap: 'wrap' }}>
                 {subCats.map(sub => (
                   <Pill
@@ -307,14 +308,14 @@ export default function WorkPage() {
                     letterSpacing: '0.08em',
                     width: 36, height: 32,
                     background: cols === n ? 'rgba(255,255,255,0.07)' : 'transparent',
-                    color: cols === n ? ACCENT : 'rgba(255,255,255,0.3)',
+                    color: cols === n ? ACCENT : '#fff',
                     border: 'none',
                     borderRight: i < colOptions.length - 1 ? '0.5px solid rgba(255,255,255,0.1)' : 'none',
                     cursor: 'pointer',
                     transition: 'color 0.2s, background 0.2s',
                   }}
-                  onMouseEnter={e => { if (cols !== n) e.currentTarget.style.color = 'rgba(255,255,255,0.6)' }}
-                  onMouseLeave={e => { if (cols !== n) e.currentTarget.style.color = 'rgba(255,255,255,0.3)' }}
+                  onMouseEnter={e => { if (cols !== n) e.currentTarget.style.opacity = '0.6' }}
+                  onMouseLeave={e => { if (cols !== n) e.currentTarget.style.opacity = '1' }}
                 >{n}</button>
               ))}
             </div>
@@ -326,7 +327,7 @@ export default function WorkPage() {
           <span style={{
             fontFamily: 'Manrope, sans-serif', fontSize: 9,
             letterSpacing: '0.14em', textTransform: 'uppercase',
-            color: 'rgba(255,255,255,0.18)',
+            color: '#fff',
           }}>
             {filtered.length} Project{filtered.length !== 1 ? 's' : ''}
           </span>
@@ -335,7 +336,7 @@ export default function WorkPage() {
         {/* ── Grid ── */}
         {filtered.length === 0 ? (
           <div style={{ textAlign: 'center', padding: '80px 0' }}>
-            <p style={{ fontFamily: 'Manrope, sans-serif', fontSize: 13, color: 'rgba(255,255,255,0.2)', letterSpacing: '0.08em' }}>
+            <p style={{ fontFamily: 'Manrope, sans-serif', fontSize: 13, color: '#fff', letterSpacing: '0.08em' }}>
               No projects in this category yet.
             </p>
           </div>
