@@ -249,12 +249,12 @@ export default function WorkPage() {
 
           <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
             {/* Category row */}
-            <div style={{ display: 'flex', alignItems: 'center', gap: 14 }}>
-              {!isMobile && <span style={{
+            <div style={{ display: 'flex', flexDirection: isMobile ? 'column' : 'row', alignItems: isMobile ? 'flex-start' : 'center', gap: isMobile ? 6 : 14 }}>
+              <span style={{
                 fontFamily: 'Manrope, sans-serif', fontSize: 9, fontWeight: 500,
                 letterSpacing: '0.16em', textTransform: 'uppercase',
                 color: '#fff', minWidth: 148,
-              }}>Filter by Categories</span>}
+              }}>Filter by Categories</span>
               <div style={{ display: 'flex', gap: 7, flexWrap: 'wrap' }}>
                 {CATEGORIES.map(cat => (
                   <Pill
@@ -268,12 +268,12 @@ export default function WorkPage() {
             </div>
 
             {/* Sub-category row */}
-            <div style={{ display: 'flex', alignItems: 'center', gap: 14 }}>
-              {!isMobile && <span style={{
+            <div style={{ display: 'flex', flexDirection: isMobile ? 'column' : 'row', alignItems: isMobile ? 'flex-start' : 'center', gap: isMobile ? 6 : 14 }}>
+              <span style={{
                 fontFamily: 'Manrope, sans-serif', fontSize: 9, fontWeight: 500,
                 letterSpacing: '0.16em', textTransform: 'uppercase',
                 color: '#fff', minWidth: 148,
-              }}>Sub-Categories</span>}
+              }}>Sub-Categories</span>
               <div style={{ display: 'flex', gap: 7, flexWrap: 'wrap' }}>
                 {subCats.map(sub => (
                   <Pill

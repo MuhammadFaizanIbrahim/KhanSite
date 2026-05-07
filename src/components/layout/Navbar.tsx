@@ -263,13 +263,26 @@ export default function Navbar({ autoOn, onToggleAuto }: NavbarProps) {
     </button>
   )
 
+  if (isMobile) {
+    return (
+      <nav className="fixed top-0 left-0 right-0 z-30 pointer-events-none fade-in" style={{ padding: '16px 16px 0' }}>
+        <div style={{ display: 'flex', justifyContent: 'center', pointerEvents: 'auto' }}>
+          <LogoAssemble />
+        </div>
+        <div style={{ display: 'flex', justifyContent: 'flex-end', marginTop: 14, pointerEvents: 'auto' }}>
+          {toggleButton}
+        </div>
+      </nav>
+    )
+  }
+
   return (
-    <nav className="fixed top-0 left-0 right-0 z-30 flex items-start justify-between px-4 py-4 sm:px-12 sm:py-7 fade-in">
-      <div className="w-16 sm:w-28" />
+    <nav className="fixed top-0 left-0 right-0 z-30 flex items-start justify-between px-12 py-7 fade-in">
+      <div className="w-28" />
       <div className="flex-1 flex justify-center">
         <LogoAssemble />
       </div>
-      <div className="w-16 sm:w-28 flex justify-end" style={{ marginTop: isMobile ? 10 : 72 }}>
+      <div className="w-28 flex justify-end" style={{ marginTop: 72 }}>
         {toggleButton}
       </div>
     </nav>

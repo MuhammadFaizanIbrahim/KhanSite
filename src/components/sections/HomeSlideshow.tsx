@@ -175,11 +175,11 @@ export default function HomeSlideshow() {
       {/* Center-bottom: action buttons */}
       <div className="fixed z-30 fade-in" style={{ bottom: isMobile ? 28 : 44, left: '50%', transform: 'translateX(-50%)' }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: isMobile ? 8 : 12 }}>
-          {(['View All Projects', 'Contact Us'] as const).map((label) => (
+          {(['View All Projects', 'Contact Me'] as const).map((label) => (
             <button
               key={label}
               className="group relative overflow-hidden"
-              onClick={() => handlePageTransition(label === 'Contact Us' ? '/contact' : '/work')}
+              onClick={() => handlePageTransition(label === 'Contact Me' ? '/contact' : '/work')}
               style={{
                 background: 'rgba(255,255,255,0.04)',
                 border: '1px solid rgba(255,255,255,0.22)',
