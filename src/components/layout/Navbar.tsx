@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
+import { useBreakpoint } from '@/hooks/useBreakpoint'
 
 interface NavbarProps {
   autoOn: boolean
@@ -239,33 +240,37 @@ function LogoAssemble() {
 }
 
 export default function Navbar({ autoOn, onToggleAuto }: NavbarProps) {
+  const { isMobile } = useBreakpoint()
+
+  const toggleButton = (
+    <button
+      onClick={onToggleAuto}
+      className="flex items-center gap-2 border border-white/12 rounded-full px-3.5 py-1.5 transition-colors duration-200"
+      style={{ background: 'rgba(255,255,255,0.07)' }}
+      onMouseEnter={e => (e.currentTarget.style.background = 'rgba(255,255,255,0.13)')}
+      onMouseLeave={e => (e.currentTarget.style.background = 'rgba(255,255,255,0.07)')}
+    >
+      <span className="relative inline-block rounded-full transition-colors duration-200"
+        style={{ width:28, height:16, background: autoOn ? '#22c98a' : 'rgba(255,255,255,0.18)' }}>
+        <span className="absolute top-0.5 rounded-full bg-white shadow transition-all duration-200"
+          style={{ width:12, height:12, left: autoOn ? 14 : 2 }}/>
+      </span>
+      <span style={{
+        fontFamily:'Manrope,sans-serif', fontSize:10, fontWeight:500,
+        letterSpacing:'0.08em', textTransform:'uppercase',
+        color:'#fff',
+      }}>{autoOn ? 'Auto' : 'Manual'}</span>
+    </button>
+  )
+
   return (
     <nav className="fixed top-0 left-0 right-0 z-30 flex items-start justify-between px-4 py-4 sm:px-12 sm:py-7 fade-in">
-      <div className="w-0 sm:w-28" />
-
+      <div className="w-16 sm:w-28" />
       <div className="flex-1 flex justify-center">
         <LogoAssemble />
       </div>
-
-      <div className="w-auto sm:w-28 flex justify-end" style={{ marginTop: 'clamp(8px, 5vw, 72px)' }}>
-        <button
-          onClick={onToggleAuto}
-          className="flex items-center gap-2 border border-white/12 rounded-full px-3.5 py-1.5 transition-colors duration-200"
-          style={{ background: 'rgba(255,255,255,0.07)' }}
-          onMouseEnter={e => (e.currentTarget.style.background = 'rgba(255,255,255,0.13)')}
-          onMouseLeave={e => (e.currentTarget.style.background = 'rgba(255,255,255,0.07)')}
-        >
-          <span className="relative inline-block rounded-full transition-colors duration-200"
-            style={{ width:28, height:16, background: autoOn ? '#22c98a' : 'rgba(255,255,255,0.18)' }}>
-            <span className="absolute top-0.5 rounded-full bg-white shadow transition-all duration-200"
-              style={{ width:12, height:12, left: autoOn ? 14 : 2 }}/>
-          </span>
-          <span style={{
-            fontFamily:'Manrope,sans-serif', fontSize:10, fontWeight:500,
-            letterSpacing:'0.08em', textTransform:'uppercase',
-            color:'#fff',
-          }}>{autoOn ? 'Auto' : 'Manual'}</span>
-        </button>
+      <div className="w-16 sm:w-28 flex justify-end" style={{ marginTop: isMobile ? 10 : 72 }}>
+        {toggleButton}
       </div>
     </nav>
   )

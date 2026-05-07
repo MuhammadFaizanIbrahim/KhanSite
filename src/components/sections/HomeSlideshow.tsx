@@ -22,12 +22,9 @@ export default function HomeSlideshow() {
   const navigate = useNavigate()
   const [cur, setCur]                 = useState(0)
   const [autoOn, setAutoOn]           = useState(true)
-  const [videoReady, setVideoReady]   = useState(false)
   const [transActive, setTransActive] = useState(false)
 
   const curRef  = useRef(0)
-  const progRef = useRef<HTMLDivElement>(null)
-  const cdRef   = useRef<HTMLSpanElement>(null)
   const tStart  = useRef<number | null>(null)
   const rafT    = useRef(0)
   const toId    = useRef<ReturnType<typeof setTimeout> | null>(null)
@@ -63,7 +60,6 @@ export default function HomeSlideshow() {
     if (SECTIONS[idx]?.isOverlay) return
 
     setTransActive(true)
-    setVideoReady(false)
     updateSkip(idx, true)
     triggerTransition(idx, mode)
     setCur(idx)
@@ -87,26 +83,16 @@ export default function HomeSlideshow() {
     if (toId.current) clearTimeout(toId.current)
     cancelAnimationFrame(rafT.current)
     tStart.current = null
-    if (progRef.current) progRef.current.style.width = '0%'
-    if (cdRef.current)   cdRef.current.textContent   = '—'
   }, [])
 
   const restartTimer = useCallback((idx: number) => {
     stopTimer()
     if (!autoOn) return
     const sec = SECTIONS[idx]
-    if (sec?.holdUntilVideoEnd) {
-      if (cdRef.current)   cdRef.current.textContent   = '—'
-      if (progRef.current) progRef.current.style.width = '0%'
-      return
-    }
+    if (sec?.holdUntilVideoEnd) return
     function tick(ts: number) {
       if (!tStart.current) tStart.current = ts
-      const el  = ts - tStart.current
-      const pct = Math.min((el / SECTION_INTERVAL) * 100, 100)
-      if (progRef.current) progRef.current.style.width = pct + '%'
-      if (cdRef.current)   cdRef.current.textContent   =
-        String(Math.max(0, Math.ceil((SECTION_INTERVAL - el) / 1000)))
+      const el = ts - tStart.current
       if (el < SECTION_INTERVAL) rafT.current = requestAnimationFrame(tick)
     }
     rafT.current = requestAnimationFrame(tick)
@@ -121,10 +107,6 @@ export default function HomeSlideshow() {
     if (!autoOn) return
     goTo(nextSection(curRef.current, 1), MODE_SECTION)
   }, [autoOn, goTo])
-
-  const handleVideoReady = useCallback((_dur: number) => {
-    setVideoReady(true)
-  }, [])
 
   // Keyboard + scroll + touch
   useEffect(() => {
@@ -168,7 +150,7 @@ export default function HomeSlideshow() {
           active={isVideoActive}
           videoSrc={currentSection.videoSrc!}
           onEnded={holdForVideo ? handleVideoEnded : () => {}}
-          onReady={handleVideoReady}
+          onReady={() => {}}
           onFrame={v => captureVideoTexture(cur, v)}
         />
       )}
@@ -243,20 +225,6 @@ export default function HomeSlideshow() {
         </div>
       </div>
 
-      {/* Bottom-right: countdown */}
-      <div className="fixed bottom-0 right-0 z-30 px-5 pb-7 sm:px-20 sm:pb-11 flex items-end fade-in">
-        <div className="flex items-center gap-2.5 flex-shrink-0">
-          <span className="font-inter text-[10px] text-white tracking-[0.06em] whitespace-nowrap">
-            {holdForVideo
-              ? (videoReady ? 'Playing...' : 'Loading...')
-              : <>Next in <span ref={cdRef}>5</span>s</>
-            }
-          </span>
-          <div className="w-20 h-px bg-white/8 overflow-hidden">
-            <div ref={progRef} className="prog-fill" style={{ width: '0%' }} />
-          </div>
-        </div>
-      </div>
 
     </>
   )
