@@ -124,9 +124,9 @@
   color: #ffffff;
   text-shadow:
     0 0 4px  #fff,
-    0 0 11px #fff,
-    0 0 24px #e9d5ff,
-    0 0 48px #a855f7,
-    0 0 85px #7c3aed,
-    0 0 130px #5b21b6;
+    0 0 12px #fff,
+    0 0 28px #fff,
+    0 0 56px rgba(255,255,255,0.75),
+    0 0 100px rgba(255,255,255,0.45),
+    0 0 160px rgba(255,255,255,0.2);
 }
