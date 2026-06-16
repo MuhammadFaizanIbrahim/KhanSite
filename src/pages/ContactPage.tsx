@@ -96,21 +96,21 @@ export default function ContactPage() {
             fontFamily: "'Inter', sans-serif", fontSize: 10, fontWeight: 300,
             color: '#fff', letterSpacing: '0.14em', textTransform: 'uppercase', margin: 0,
           }}>
-            "if you are"
+            Building The Future Together
           </p>
           <p style={{
             fontFamily: "'Playfair Display', serif",
             fontSize: 'clamp(12px, 1.1vw, 15px)', fontWeight: 500,
             color: '#fff', margin: 0,
           }}>
-            Building a product or business in a new industry?
-          </p>
+            Let's create the concept the world isn't ready for today—
+          </p>          
           <p style={{
             fontFamily: "'Playfair Display', serif",
             fontSize: 'clamp(12px, 1.1vw, 15px)', fontStyle: 'italic', fontWeight: 400,
             color: '#fff', margin: 0,
           }}>
-            I innovate the concepts that set you ahead.
+            Until eventually... the world can't imagine living without it.
           </p>
         </div>
 
