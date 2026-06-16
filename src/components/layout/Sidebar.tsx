@@ -6,43 +6,28 @@ interface SidebarProps {
   autoOn: boolean
   onNav: (dir: number) => void
   onDotClick: (idx: number) => void
-  onContactOpen: () => void
+  onPageTransition: (path: string) => void
   onDisableAuto: () => void
 }
 
 interface SidebarItem {
-  type: 'section' | 'parent' | 'sub'
-  idx: number
   label: string
-  children?: SidebarItem[]
+  idx: number
+  path?: string
 }
 
-function buildTree(): SidebarItem[] {
-  const tree: SidebarItem[] = []
-  let servicesParent: SidebarItem | null = null
+const SIDEBAR_ITEMS: SidebarItem[] = [
+  { label: 'Intro', idx: 0 },
+  { label: 'About', idx: 1 },
+  { label: 'Featured concepts', idx: -1, path: '/concepts' },
+  { label: 'Contact me', idx: -1, path: '/contact' },
+]
 
-  SECTIONS.forEach((sec, i) => {
-    if (sec.isOverlay) return
-    if (sec.sidebarParent) {
-      if (!servicesParent) {
-        servicesParent = { type: 'parent', idx: -1, label: sec.sidebarParent, children: [] }
-        tree.push(servicesParent)
-      }
-      servicesParent.children!.push({ type: 'sub', idx: i, label: sec.label })
-    } else {
-      tree.push({ type: 'section', idx: i, label: sec.label })
-    }
-  })
-  return tree
-}
-
-const TREE = buildTree()
-
-export default function Sidebar({ currentIdx, autoOn, onDotClick, onContactOpen, onDisableAuto }: SidebarProps) {
+export default function Sidebar({ currentIdx, autoOn, onDotClick, onPageTransition, onDisableAuto }: SidebarProps) {
   const { isMobile } = useBreakpoint()
 
-  const renderDot = (isActive: boolean, isPassed: boolean, isSub = false) => {
-    const size = isSub ? (isMobile ? 6 : 7) : (isMobile ? 7 : 9)
+  const renderDot = (isActive: boolean, isPassed: boolean) => {
+    const size = isMobile ? 7 : 9
     return (
       <div style={{ position: 'relative', width: size, height: size, flexShrink: 0 }}>
         {isActive && (
@@ -86,128 +71,47 @@ export default function Sidebar({ currentIdx, autoOn, onDotClick, onContactOpen,
       className="fixed z-30 flex flex-col items-start fade-in"
       style={{ left: isMobile ? 12 : 36, top: '50%', transform: 'translateY(-50%)' }}
     >
-      {TREE.map((item, treeIdx) => {
-        const isLast = treeIdx === TREE.length - 1
+      {SIDEBAR_ITEMS.map((item, i) => {
+        const isLast = i === SIDEBAR_ITEMS.length - 1
+        const isActive = item.idx !== -1 ? currentIdx === item.idx : false
+        const isPassed = item.idx !== -1 ? currentIdx > item.idx : false
 
-        /* ── TOP-LEVEL SECTION ── */
-        if (item.type === 'section') {
-          const sec       = SECTIONS[item.idx] as any
-          const isOverlay = sec?.isOverlay
-          const isActive  = currentIdx === item.idx
-          const isPassed  = currentIdx > item.idx
-
-          return (
-            <div key={item.label} style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start' }}>
-              <div
-                style={{ display: 'flex', alignItems: 'center', gap: isMobile ? 8 : 14, cursor: 'pointer' }}
-                onClick={() => {
-                  if (isOverlay) { onContactOpen(); return }
+        return (
+          <div key={item.label} style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start' }}>
+            <div
+              style={{ display: 'flex', alignItems: 'center', gap: isMobile ? 8 : 14, cursor: 'pointer' }}
+              onClick={() => {
+                if (item.path) {
+                  onPageTransition(item.path)
+                } else {
                   if (autoOn) onDisableAuto()
                   onDotClick(item.idx)
-                }}
-              >
-                {isOverlay ? (
-                  <div style={{
-                    width: isMobile ? 7 : 9, height: 1, flexShrink: 0,
-                    background: 'rgba(255,255,255,0.3)',
-                  }} />
-                ) : renderDot(isActive, isPassed)}
+                }
+              }}
+            >
+              {renderDot(isActive, isPassed)}
 
-                <span style={{
-                  fontFamily: "'Inter', sans-serif",
-                  fontSize: isMobile ? 10 : 12,
-                  fontWeight: isOverlay ? 400 : isActive ? 500 : 300,
-                  letterSpacing: '0.05em',
-                  color: isOverlay
-                    ? 'rgba(255,255,255,0.45)'
-                    : isActive ? 'rgba(255,255,255,0.92)' : isPassed ? 'rgba(255,255,255,0.3)' : 'rgba(255,255,255,0.2)',
-                  transition: 'color 0.4s ease',
-                  whiteSpace: 'nowrap',
-                  fontStyle: isOverlay ? 'italic' : 'normal',
-                }}>
-                  {item.label}
-                </span>
-              </div>
-              {!isLast && (
-                <div style={{ marginLeft: isMobile ? 3 : 4 }}>
-                  {renderLine(isOverlay ? false : isPassed, 32)}
-                </div>
-              )}
+              <span style={{
+                fontFamily: "'Inter', sans-serif",
+                fontSize: isMobile ? 11 : 14,
+                fontWeight: isActive ? 500 : 300,
+                letterSpacing: '0.05em',
+                color: isActive
+                  ? 'rgba(255,255,255,0.92)'
+                  : isPassed ? 'rgba(255,255,255,0.3)' : 'rgba(255,255,255,0.2)',
+                transition: 'color 0.4s ease',
+                whiteSpace: 'nowrap',
+              }}>
+                {item.label}
+              </span>
             </div>
-          )
-        }
-
-        /* ── SERVICES PARENT + SUB-SECTIONS ── */
-        if (item.type === 'parent') {
-          const firstSubIdx = item.children![0].idx
-          const lastSubIdx  = item.children![item.children!.length - 1].idx
-          const isPassed    = currentIdx > lastSubIdx
-          const isInGroup   = currentIdx >= firstSubIdx && currentIdx <= lastSubIdx
-
-          return (
-            <div key={item.label} style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start' }}>
-
-              {/* Parent label row */}
-              <div style={{ display: 'flex', alignItems: 'center', gap: isMobile ? 8 : 14, marginBottom: isMobile ? 5 : 10 }}>
-                <div style={{
-                  width: isMobile ? 7 : 10, height: 1, flexShrink: 0,
-                  background: isInGroup || isPassed ? 'rgba(255,255,255,0.45)' : 'rgba(255,255,255,0.12)',
-                  transition: 'background 0.4s ease',
-                }} />
-                <span style={{
-                  fontFamily: "'Inter', sans-serif",
-                  fontSize: 9,
-                  fontWeight: 700,
-                  letterSpacing: '0.18em',
-                  textTransform: 'uppercase',
-                  color: isInGroup ? 'rgba(255,255,255,0.65)' : isPassed ? 'rgba(255,255,255,0.25)' : 'rgba(255,255,255,0.15)',
-                  transition: 'color 0.4s ease',
-                }}>
-                  {item.label}
-                </span>
+            {!isLast && (
+              <div style={{ marginLeft: isMobile ? 3 : 4 }}>
+                {renderLine(isPassed, 52)}
               </div>
-
-              {/* Sub-sections */}
-              <div style={{ paddingLeft: isMobile ? 14 : 22, display: 'flex', flexDirection: 'column', alignItems: 'flex-start' }}>
-                {item.children!.map((sub, si) => {
-                  const isActive  = currentIdx === sub.idx
-                  const isPassed  = currentIdx > sub.idx
-                  const isLastSub = si === item.children!.length - 1
-
-                  return (
-                    <div key={sub.label} style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start' }}>
-                      <div
-                        style={{ display: 'flex', alignItems: 'center', gap: isMobile ? 7 : 11, cursor: 'pointer' }}
-                        onClick={() => { if (autoOn) onDisableAuto(); onDotClick(sub.idx) }}
-                      >
-                        {renderDot(isActive, isPassed, true)}
-                        <span style={{
-                          fontFamily: "'Inter', sans-serif",
-                          fontSize: isMobile ? 10 : 11,
-                          fontWeight: isActive ? 500 : 300,
-                          letterSpacing: '0.04em',
-                          color: isActive ? 'rgba(255,255,255,0.88)' : isPassed ? 'rgba(255,255,255,0.26)' : 'rgba(255,255,255,0.16)',
-                          transition: 'color 0.4s ease',
-                          whiteSpace: 'nowrap',
-                        }}>
-                          {sub.label}
-                        </span>
-                      </div>
-                      {(!isLastSub || !isLast) && (
-                        <div style={{ marginLeft: 3 }}>
-                          {renderLine(isPassed, isLastSub ? 28 : 30)}
-                        </div>
-                      )}
-                    </div>
-                  )
-                })}
-              </div>
-
-            </div>
-          )
-        }
-
-        return null
+            )}
+          </div>
+        )
       })}
 
       <style>{`

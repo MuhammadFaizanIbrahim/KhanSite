@@ -9,13 +9,7 @@ import HeroVideo, { HeroVideoHandle } from '@/components/sections/HeroVideo'
 
 function nextSection(from: number, dir: 1 | -1): number {
   const total = SECTIONS.length
-  let idx = (from + dir + total) % total
-  let guard = 0
-  while (SECTIONS[idx]?.isOverlay && guard < total) {
-    idx = (idx + dir + total) % total
-    guard++
-  }
-  return idx
+  return (from + dir + total) % total
 }
 
 export default function HomeSlideshow() {
@@ -168,62 +162,11 @@ export default function HomeSlideshow() {
         autoOn={autoOn}
         onNav={manualNav}
         onDotClick={(i) => goTo(i)}
-        onContactOpen={() => handlePageTransition('/contact')}
+        onPageTransition={handlePageTransition}
         onDisableAuto={() => setAutoOn(false)}
       />
 
-      {/* Center-bottom: action buttons */}
-      <div className="fixed z-30 fade-in" style={{ bottom: isMobile ? 28 : 44, left: '50%', transform: 'translateX(-50%)' }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: isMobile ? 8 : 12 }}>
-          {(['View All Projects', 'Contact Me'] as const).map((label) => (
-            <button
-              key={label}
-              className="group relative overflow-hidden"
-              onClick={() => handlePageTransition(label === 'Contact Me' ? '/contact' : '/work')}
-              style={{
-                background: 'rgba(255,255,255,0.04)',
-                border: '1px solid rgba(255,255,255,0.22)',
-                borderRadius: 50,
-                padding: isMobile ? '8px 16px' : '10px 26px',
-                cursor: 'pointer',
-                backdropFilter: 'blur(10px)',
-                WebkitBackdropFilter: 'blur(10px)',
-                transition: 'border-color 0.3s ease, background 0.3s ease, box-shadow 0.3s ease',
-                whiteSpace: 'nowrap',
-              }}
-              onMouseEnter={e => {
-                e.currentTarget.style.borderColor = 'rgba(255,255,255,0.5)'
-                e.currentTarget.style.background  = 'rgba(255,255,255,0.08)'
-                e.currentTarget.style.boxShadow   = '0 0 18px rgba(255,255,255,0.06)'
-              }}
-              onMouseLeave={e => {
-                e.currentTarget.style.borderColor = 'rgba(255,255,255,0.22)'
-                e.currentTarget.style.background  = 'rgba(255,255,255,0.04)'
-                e.currentTarget.style.boxShadow   = 'none'
-              }}
-            >
-              <span
-                className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"
-                style={{
-                  background: 'linear-gradient(105deg, transparent 35%, rgba(255,255,255,0.06) 50%, transparent 65%)',
-                  borderRadius: 'inherit',
-                }}
-              />
-              <span style={{
-                fontFamily: "'Inter', sans-serif",
-                fontSize: isMobile ? 9 : 10,
-                fontWeight: 400,
-                letterSpacing: isMobile ? '0.1em' : '0.18em',
-                textTransform: 'uppercase',
-                color: '#fff',
-                position: 'relative',
-              }}>
-                {label}
-              </span>
-            </button>
-          ))}
-        </div>
-      </div>
+
 
 
     </>

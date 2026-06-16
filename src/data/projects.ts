@@ -9,6 +9,8 @@ export interface Project {
   year: string
   description: string
   details: Array<{ question: string; answer: string }>
+  /** Google Slides embed URL — paste the embed link from File → Share → Publish to web */
+  slidesUrl?: string
 }
 
 export const PROJECTS: Project[] = [
@@ -23,6 +25,7 @@ export const PROJECTS: Project[] = [
     heroImage: 'https://images.unsplash.com/photo-1485827404703-89b55fcc595e?w=1600&h=900&fit=crop',
     year: '2025',
     description: 'A next-generation haptic interface glove that translates digital environments into precise tactile feedback — allowing surgeons, engineers, and designers to physically feel what exists only in code.',
+    slidesUrl: 'https://docs.google.com/presentation/d/e/2PACX-1vQaZQFT55NvoemKwiL5-QhPG4s4aEfGc17uvdDOs3BWrnM5IFT1fB8N4RzuGRGuT4xVEG5Gw-dRY3OG/pubembed?start=true&loop=true&delayms=3000', // Google Slides
     details: [
       {
         question: 'The problem we were solving',
@@ -48,6 +51,7 @@ export const PROJECTS: Project[] = [
     heroImage: 'https://images.unsplash.com/photo-1536152470836-b943b246224c?w=1600&h=900&fit=crop',
     year: '2024',
     description: 'A biometric AR lens that surfaces real-time physiological data directly in your field of vision — turning the body\'s own signals into an ambient, always-on health intelligence layer.',
+    slidesUrl: 'https://docs.google.com/presentation/d/e/2PACX-1vQaZQFT55NvoemKwiL5-QhPG4s4aEfGc17uvdDOs3BWrnM5IFT1fB8N4RzuGRGuT4xVEG5Gw-dRY3OG/pubembed?start=true&loop=true&delayms=3000', // Google Slides
     details: [
       {
         question: 'Why a lens, not a watch?',
@@ -75,6 +79,7 @@ export const PROJECTS: Project[] = [
     heroImage: 'https://images.unsplash.com/photo-1518770660439-4636190af475?w=1600&h=900&fit=crop',
     year: '2024',
     description: 'A decentralized peer-to-peer marketplace architecture that eliminates intermediary rent extraction — letting producers and consumers transact with full price transparency and zero platform fees.',
+    slidesUrl: 'https://docs.google.com/presentation/d/e/2PACX-1vQaZQFT55NvoemKwiL5-QhPG4s4aEfGc17uvdDOs3BWrnM5IFT1fB8N4RzuGRGuT4xVEG5Gw-dRY3OG/pubembed?start=true&loop=true&delayms=3000', // Google Slides
     details: [
       {
         question: 'The business model problem',
@@ -100,6 +105,7 @@ export const PROJECTS: Project[] = [
     heroImage: 'https://images.unsplash.com/photo-1477959858617-67f85cf4f1df?w=1600&h=900&fit=crop',
     year: '2025',
     description: 'A unified urban mobility subscription that collapses transit, micro-mobility, and autonomous pods into a single monthly access layer — priced by zone density, not by trip.',
+    slidesUrl: 'https://docs.google.com/presentation/d/e/2PACX-1vQaZQFT55NvoemKwiL5-QhPG4s4aEfGc17uvdDOs3BWrnM5IFT1fB8N4RzuGRGuT4xVEG5Gw-dRY3OG/pubembed?start=true&loop=true&delayms=3000', // Google Slides
     details: [
       {
         question: 'Why subscriptions change everything',
@@ -127,6 +133,7 @@ export const PROJECTS: Project[] = [
     heroImage: 'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=1600&h=900&fit=crop',
     year: '2024',
     description: 'A post-quantum cryptographic framework built on lattice-based algorithms — designed to secure financial and governmental infrastructure against the decryption capabilities of fault-tolerant quantum computers.',
+    slidesUrl: 'https://docs.google.com/presentation/d/e/2PACX-1vQaZQFT55NvoemKwiL5-QhPG4s4aEfGc17uvdDOs3BWrnM5IFT1fB8N4RzuGRGuT4xVEG5Gw-dRY3OG/pubembed?start=true&loop=true&delayms=3000', // Google Slides
     details: [
       {
         question: 'Why now?',
@@ -152,6 +159,7 @@ export const PROJECTS: Project[] = [
     heroImage: 'https://images.unsplash.com/photo-1677756119517-756a188d2d94?w=1600&h=900&fit=crop',
     year: '2025',
     description: 'A neural architecture that maps cognitive load and emotional state in real time — enabling AI systems to adapt their behavior, pacing, and output density to the actual mental state of the person they\'re serving.',
+    slidesUrl: 'https://docs.google.com/presentation/d/e/2PACX-1vQaZQFT55NvoemKwiL5-QhPG4s4aEfGc17uvdDOs3BWrnM5IFT1fB8N4RzuGRGuT4xVEG5Gw-dRY3OG/pubembed?start=true&loop=true&delayms=3000', // Google Slides
     details: [
       {
         question: 'The core insight',
@@ -179,6 +187,7 @@ export const PROJECTS: Project[] = [
     heroImage: 'https://images.unsplash.com/photo-1473341304170-971dccb5ac1e?w=1600&h=900&fit=crop',
     year: '2023',
     description: 'An open-source distributed solar grid protocol that allows communities to build, own, and trade energy locally — eliminating dependence on centralized utility infrastructure for the 800 million people who live beyond its reach.',
+    slidesUrl: 'https://docs.google.com/presentation/d/e/2PACX-1vQaZQFT55NvoemKwiL5-QhPG4s4aEfGc17uvdDOs3BWrnM5IFT1fB8N4RzuGRGuT4xVEG5Gw-dRY3OG/pubembed?start=true&loop=true&delayms=3000', // Google Slides
     details: [
       {
         question: 'The civilizational gap',
@@ -204,6 +213,7 @@ export const PROJECTS: Project[] = [
     heroImage: 'https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?w=1600&h=900&fit=crop',
     year: '2024',
     description: 'An open governance framework that enables participatory legislative drafting at scale — allowing citizens to propose, deliberate, and ratify local policy with the precision of legal language and the accessibility of plain speech.',
+    slidesUrl: 'https://docs.google.com/presentation/d/e/2PACX-1vQaZQFT55NvoemKwiL5-QhPG4s4aEfGc17uvdDOs3BWrnM5IFT1fB8N4RzuGRGuT4xVEG5Gw-dRY3OG/pubembed?start=true&loop=true&delayms=3000', // Google Slides
     details: [
       {
         question: 'Why governance is a technology problem',

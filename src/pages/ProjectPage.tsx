@@ -38,17 +38,6 @@ export default function ProjectPage() {
       style={{ position: 'fixed', inset: 0, background: '#040609', overflowY: 'auto', overflowX: 'hidden' }}
     >
 
-      {/* ── Hero image — centered, ~68% wide, 16:9 ── */}
-      <div style={{ display: 'flex', justifyContent: 'center', padding: isMobile ? '56px 0 0' : '80px 0 0', background: '#040609' }}>
-        <div style={{ width: isMobile ? '94%' : '68%', aspectRatio: '16/9', overflow: 'hidden', flexShrink: 0 }}>
-          <img
-            src={project.heroImage}
-            alt={project.title}
-            style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
-          />
-        </div>
-      </div>
-
       {/* ── Back button (fixed, always visible) ── */}
       <button
         onClick={handleBack}
@@ -73,7 +62,7 @@ export default function ProjectPage() {
       <div style={{ padding: 'clamp(52px, 5.5vw, 88px) clamp(28px, 6vw, 96px)', maxWidth: 1380, margin: '0 auto' }}>
 
         {/* Title block */}
-        <div style={{ marginBottom: 52 }}>
+        <div style={{ marginBottom: 32, paddingTop: isMobile ? 40 : 20 }}>
           <h1 style={{
             fontFamily: 'Manrope, sans-serif',
             fontSize: 'clamp(52px, 8.5vw, 124px)',
@@ -100,77 +89,115 @@ export default function ProjectPage() {
           </h2>
         </div>
 
-        {/* Metadata row */}
+        {/* Metadata row — Category / Sub-category */}
         <div style={{
-          display: 'grid',
-          gridTemplateColumns: isMobile ? '1fr' : '180px 1fr',
-          gap: isMobile ? '24px 0' : '0 80px',
-          padding: '36px 0',
+          display: 'flex',
+          gap: isMobile ? 32 : 64,
+          flexWrap: 'wrap',
+          padding: '28px 0',
           borderTop: '0.5px solid rgba(255,255,255,0.08)',
-          borderBottom: '0.5px solid rgba(255,255,255,0.08)',
-          marginBottom: 84,
+          marginBottom: 48,
         }}>
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 24 }}>
-            <div>
-              <p style={label('Category')}>Category</p>
-              <p style={{ fontFamily: 'Manrope, sans-serif', fontSize: 15, fontWeight: 400, color: '#fff', margin: 0 }}>
-                {project.category}
-              </p>
-            </div>
-            <div>
-              <p style={label('Sub Category')}>Sub Category</p>
-              <p style={{ fontFamily: 'Manrope, sans-serif', fontSize: 15, fontWeight: 400, color: '#fff', margin: 0 }}>
-                {project.subCategory}
-              </p>
-            </div>
+          <div>
+            <p style={label('Category')}>Category</p>
+            <p style={{ fontFamily: 'Manrope, sans-serif', fontSize: 15, fontWeight: 400, color: '#fff', margin: 0 }}>
+              {project.category}
+            </p>
           </div>
           <div>
-            <p style={label(project.brand)}>{project.brand.toUpperCase()}</p>
-            <p style={{
-              fontFamily: 'Manrope, sans-serif',
-              fontSize: 'clamp(13px, 1.2vw, 16px)',
-              fontWeight: 300,
-              color: '#fff',
-              lineHeight: 1.8,
-              margin: 0,
-              maxWidth: 580,
-            }}>
-              {project.description}
+            <p style={label('Sub Category')}>Sub Category</p>
+            <p style={{ fontFamily: 'Manrope, sans-serif', fontSize: 15, fontWeight: 400, color: '#fff', margin: 0 }}>
+              {project.subCategory}
             </p>
           </div>
         </div>
 
-        {/* Q&A detail blocks */}
-        <div style={{ display: 'flex', flexDirection: 'column', gap: 68 }}>
-          {project.details.map((detail, i) => (
-            <div key={i}>
-              <h3 style={{
-                fontFamily: '"Playfair Display", serif',
-                fontSize: 'clamp(26px, 2.8vw, 40px)',
-                fontWeight: 400,
-                color: '#ffffff',
-                margin: '0 0 18px',
-                lineHeight: 1.15,
-              }}>
-                {detail.question}
-              </h3>
-              <p style={{
-                fontFamily: 'Manrope, sans-serif',
-                fontSize: 'clamp(13px, 1.15vw, 16px)',
-                fontWeight: 300,
-                color: '#fff',
-                lineHeight: 1.85,
-                margin: 0,
-                maxWidth: 660,
-              }}>
-                {detail.answer}
-              </p>
-            </div>
-          ))}
+        {/* ── Hero image — centered, ~86% wide, 16:9 ── */}
+        <div style={{ display: 'flex', justifyContent: 'center', marginBottom: 72 }}>
+          <div style={{ width: '100%', aspectRatio: '16/9', overflow: 'hidden', flexShrink: 0 }}>
+            <img
+              src={project.heroImage}
+              alt={project.title}
+              style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
+            />
+          </div>
         </div>
 
-        <div style={{ height: 120 }} />
+        {/* ── Google Slides embed ── */}
+        <div style={{ marginBottom: 80 }}>
+          <p style={{
+            fontFamily: 'Manrope, sans-serif', fontSize: 9, fontWeight: 500,
+            letterSpacing: '0.18em', textTransform: 'uppercase',
+            color: '#fff', margin: '0 0 20px',
+          }}>
+            Presentation
+          </p>
+
+          {project.slidesUrl ? (
+            <div style={{
+              position: 'relative',
+              width: '100%',
+              paddingBottom: '56.25%', // 16:9
+              background: '#0a0a0a',
+              borderRadius: 4,
+              overflow: 'hidden',
+            }}>
+              <iframe
+                src={project.slidesUrl}
+                style={{
+                  position: 'absolute', inset: 0,
+                  width: '100%', height: '100%',
+                  border: 'none',
+                }}
+                allowFullScreen
+                title={`${project.title} – Presentation`}
+              />
+            </div>
+          ) : (
+            /* Placeholder shown until a real URL is added */
+            <div style={{
+              width: '100%', paddingBottom: '56.25%',
+              position: 'relative',
+              background: 'rgba(255,255,255,0.03)',
+              border: '0.5px solid rgba(255,255,255,0.08)',
+              borderRadius: 4,
+            }}>
+              <div style={{
+                position: 'absolute', inset: 0,
+                display: 'flex', flexDirection: 'column',
+                alignItems: 'center', justifyContent: 'center', gap: 14,
+              }}>
+                {/* Google Slides icon */}
+                <svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <rect width="48" height="48" rx="4" fill="rgba(255,255,255,0.05)"/>
+                  <path d="M14 12h14l10 10v14a2 2 0 01-2 2H14a2 2 0 01-2-2V14a2 2 0 012-2z" fill="rgba(255,255,255,0.08)" stroke="rgba(255,255,255,0.2)" strokeWidth="1"/>
+                  <path d="M28 12v10h10" stroke="rgba(255,255,255,0.2)" strokeWidth="1" fill="none"/>
+                  <rect x="17" y="24" width="14" height="1.5" rx="0.75" fill="rgba(255,255,255,0.25)"/>
+                  <rect x="17" y="28" width="10" height="1.5" rx="0.75" fill="rgba(255,255,255,0.15)"/>
+                  <rect x="17" y="32" width="12" height="1.5" rx="0.75" fill="rgba(255,255,255,0.15)"/>
+                </svg>
+                <p style={{
+                  fontFamily: 'Manrope, sans-serif', fontSize: 11,
+                  fontWeight: 300, letterSpacing: '0.1em',
+                  color: 'rgba(255,255,255,0.3)', margin: 0, textAlign: 'center',
+                }}>
+                  Presentation slides coming soon
+                </p>
+                <p style={{
+                  fontFamily: 'Manrope, sans-serif', fontSize: 9,
+                  fontWeight: 400, letterSpacing: '0.12em', textTransform: 'uppercase',
+                  color: 'rgba(255,255,255,0.15)', margin: 0,
+                }}>
+                  Add your Google Slides URL in projects.ts
+                </p>
+              </div>
+            </div>
+          )}
+        </div>
+
+        <div style={{ height: 80 }} />
       </div>
     </div>
   )
 }
+
