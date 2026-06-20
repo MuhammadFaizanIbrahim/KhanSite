@@ -11,6 +11,7 @@ export interface Project {
   details: Array<{ question: string; answer: string }>
   /** Google Slides embed URL — paste the embed link from File → Share → Publish to web */
   slidesUrl?: string
+  heroVideo?: string  // optional video URL (mp4 or YouTube embed)
 }
 
 export const PROJECTS: Project[] = [
@@ -26,6 +27,7 @@ export const PROJECTS: Project[] = [
     year: '2025',
     description: 'A next-generation haptic interface glove that translates digital environments into precise tactile feedback — allowing surgeons, engineers, and designers to physically feel what exists only in code.',
     slidesUrl: 'https://docs.google.com/presentation/d/e/2PACX-1vQaZQFT55NvoemKwiL5-QhPG4s4aEfGc17uvdDOs3BWrnM5IFT1fB8N4RzuGRGuT4xVEG5Gw-dRY3OG/pubembed?start=true&loop=true&delayms=3000', // Google Slides
+    heroVideo: '/videos/hero.mp4',
     details: [
       {
         question: 'The problem we were solving',

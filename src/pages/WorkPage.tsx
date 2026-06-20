@@ -7,8 +7,8 @@ const ACCENT = '#22c98a'
 
 // Returns [minCols, maxCols, defaultCols] for a given viewport width
 function getColsRange(w: number): [number, number, number] {
-  if (w < 480)  return [1, 2, 2]
-  if (w < 768)  return [2, 3, 2]
+  if (w < 480) return [1, 2, 2]
+  if (w < 768) return [2, 3, 2]
   if (w < 1024) return [2, 4, 3]
   if (w < 1280) return [2, 5, 3]
   return [2, 6, 3]
@@ -76,28 +76,6 @@ function GridView({ projects, cols, onProjectClick }: { projects: Project[]; col
               onMouseEnter={e => { e.currentTarget.style.transform = 'scale(1.05)' }}
               onMouseLeave={e => { e.currentTarget.style.transform = 'scale(1)' }}
             />
-            {cols <= 4 && (
-              <span style={{
-                position: 'absolute', top: 8, right: 8,
-                fontFamily: 'Manrope, sans-serif',
-                fontSize: 8, letterSpacing: '0.1em',
-                color: 'rgba(255,255,255,0.7)',
-                background: 'rgba(0,0,0,0.55)',
-                padding: '2px 7px', borderRadius: 3,
-                backdropFilter: 'blur(6px)',
-              }}>{p.year}</span>
-            )}
-            {cols <= 4 && (
-              <span style={{
-                position: 'absolute', bottom: 8, left: 8,
-                fontFamily: 'Manrope, sans-serif',
-                fontSize: 7, letterSpacing: '0.12em', textTransform: 'uppercase',
-                color: 'rgba(255,255,255,0.45)',
-                background: 'rgba(0,0,0,0.55)',
-                padding: '2px 7px', borderRadius: 3,
-                backdropFilter: 'blur(6px)',
-              }}>{p.subCategory}</span>
-            )}
             {/* Hover play overlay */}
             <div
               style={{
@@ -121,7 +99,7 @@ function GridView({ projects, cols, onProjectClick }: { projects: Project[]; col
                 onMouseLeave={e => { e.currentTarget.style.opacity = '0' }}
               >
                 <svg width={cols >= 5 ? 9 : 12} height={cols >= 5 ? 10 : 14} viewBox="0 0 12 14" fill="white">
-                  <path d="M0 0l12 7-12 7V0z"/>
+                  <path d="M0 0l12 7-12 7V0z" />
                 </svg>
               </div>
             </div>
@@ -205,7 +183,7 @@ export default function WorkPage() {
         onMouseLeave={e => { e.currentTarget.style.opacity = '1' }}
       >
         <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round">
-          <path d="M9 6H3M5 4L3 6l2 2"/>
+          <path d="M9 6H3M5 4L3 6l2 2" />
         </svg>
         Back
       </button>
@@ -218,24 +196,24 @@ export default function WorkPage() {
           borderBottom: '0.5px solid rgba(255,255,255,0.07)',
           textAlign: 'center',
         }}>
-          <p style={{
+          {/* <p style={{
             fontFamily: 'Manrope, sans-serif', fontSize: 10, fontWeight: 500,
             letterSpacing: '0.22em', textTransform: 'uppercase',
             color: '#fff', marginBottom: 18,
-          }}>Selected Work</p>
+          }}>Selected Work</p> */}
           <h1 style={{
             fontFamily: '"Playfair Display", serif',
             fontSize: 'clamp(52px, 7vw, 88px)',
             fontWeight: 700, color: '#fff', lineHeight: 1,
             margin: '0 0 20px',
-          }}>Projects</h1>
+          }}>Concepts</h1>
           <p style={{
             fontFamily: 'Manrope, sans-serif',
             fontSize: 'clamp(13px, 1.3vw, 16px)',
             fontWeight: 300, fontStyle: 'italic',
             color: '#fff', letterSpacing: '0.02em',
           }}>
-            There's no value in anything until it's done!
+            Every great innovation starts with a concept.
           </p>
         </div>
 
@@ -329,7 +307,7 @@ export default function WorkPage() {
             letterSpacing: '0.14em', textTransform: 'uppercase',
             color: '#fff',
           }}>
-            {filtered.length} Project{filtered.length !== 1 ? 's' : ''}
+            {filtered.length} Concept{filtered.length !== 1 ? 's' : ''}
           </span>
         </div>
 
@@ -337,7 +315,7 @@ export default function WorkPage() {
         {filtered.length === 0 ? (
           <div style={{ textAlign: 'center', padding: '80px 0' }}>
             <p style={{ fontFamily: 'Manrope, sans-serif', fontSize: 13, color: '#fff', letterSpacing: '0.08em' }}>
-              No projects in this category yet.
+              No Concepts in this category yet.
             </p>
           </div>
         ) : (

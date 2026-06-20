@@ -6,11 +6,22 @@ import { PROJECTS } from '@/data/projects'
 const FEATURED_IDS = [1, 3, 5, 7]
 const FEATURED = PROJECTS.filter(p => FEATURED_IDS.includes(p.id))
 
-export default function ConceptsPage() {
+interface ConceptsPageProps {
+  isSection?: boolean
+  onClose?: () => void
+}
+
+export default function ConceptsPage({ isSection, onClose }: ConceptsPageProps) {
   const navigate = useNavigate()
   const { triggerPageOut } = usePageTransition()
 
-  const handleBack    = () => triggerPageOut(() => navigate('/'))
+  const handleBack = () => {
+    if (isSection && onClose) {
+      onClose()
+    } else {
+      triggerPageOut(() => navigate('/'))
+    }
+  }
   const handleViewAll = () => triggerPageOut(() => navigate('/work'))
 
   return (
@@ -36,7 +47,7 @@ export default function ConceptsPage() {
         onMouseLeave={e => (e.currentTarget.style.opacity = '1')}
       >
         <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round">
-          <path d="M9 6H3M5 4L3 6l2 2"/>
+          <path d="M9 6H3M5 4L3 6l2 2" />
         </svg>
         Back
       </button>
@@ -45,18 +56,18 @@ export default function ConceptsPage() {
 
         {/* ── Header ── */}
         <div style={{
-          paddingTop: 110, paddingBottom: 52,
+          paddingTop: 200, paddingBottom: 52,
           borderBottom: '0.5px solid rgba(255,255,255,0.07)',
           textAlign: 'center',
         }}>
-          <p style={{
+          {/* <p style={{
             fontFamily: 'Manrope, sans-serif', fontSize: 10, fontWeight: 500,
             letterSpacing: '0.22em', textTransform: 'uppercase',
             color: '#fff', marginBottom: 18,
-          }}>Selected Work</p>
+          }}>Selected Work</p> */}
           <h1 style={{
             fontFamily: '"Playfair Display", serif',
-            fontSize: 'clamp(52px, 7vw, 88px)',
+            fontSize: 'clamp(52px, 3.5vw, 88px)',
             fontWeight: 700, color: '#fff', lineHeight: 1,
             margin: '0 0 20px',
           }}>Featured Concepts</h1>
@@ -66,7 +77,7 @@ export default function ConceptsPage() {
             fontWeight: 300, fontStyle: 'italic',
             color: '#fff', letterSpacing: '0.02em',
           }}>
-            The greatest innovations begin as concepts.
+            Every great innovation starts with a concept.
           </p>
         </div>
 
@@ -105,26 +116,6 @@ export default function ConceptsPage() {
                     onMouseEnter={e => { e.currentTarget.style.transform = 'scale(1.05)' }}
                     onMouseLeave={e => { e.currentTarget.style.transform = 'scale(1)' }}
                   />
-                  {/* Year badge */}
-                  <span style={{
-                    position: 'absolute', top: 8, right: 8,
-                    fontFamily: 'Manrope, sans-serif',
-                    fontSize: 8, letterSpacing: '0.1em',
-                    color: 'rgba(255,255,255,0.7)',
-                    background: 'rgba(0,0,0,0.55)',
-                    padding: '2px 7px', borderRadius: 3,
-                    backdropFilter: 'blur(6px)',
-                  }}>{p.year}</span>
-                  {/* Category badge */}
-                  <span style={{
-                    position: 'absolute', bottom: 8, left: 8,
-                    fontFamily: 'Manrope, sans-serif',
-                    fontSize: 7, letterSpacing: '0.12em', textTransform: 'uppercase',
-                    color: 'rgba(255,255,255,0.45)',
-                    background: 'rgba(0,0,0,0.55)',
-                    padding: '2px 7px', borderRadius: 3,
-                    backdropFilter: 'blur(6px)',
-                  }}>{p.subCategory}</span>
 
                   {/* Hover play overlay */}
                   <div
@@ -148,7 +139,7 @@ export default function ConceptsPage() {
                       onMouseLeave={e => { e.currentTarget.style.opacity = '0' }}
                     >
                       <svg width="12" height="14" viewBox="0 0 12 14" fill="white">
-                        <path d="M0 0l12 7-12 7V0z"/>
+                        <path d="M0 0l12 7-12 7V0z" />
                       </svg>
                     </div>
                   </div>
@@ -189,13 +180,13 @@ export default function ConceptsPage() {
             }}
             onMouseEnter={e => {
               e.currentTarget.style.borderColor = 'rgba(255,255,255,0.5)'
-              e.currentTarget.style.background  = 'rgba(255,255,255,0.08)'
-              e.currentTarget.style.boxShadow   = '0 0 18px rgba(255,255,255,0.06)'
+              e.currentTarget.style.background = 'rgba(255,255,255,0.08)'
+              e.currentTarget.style.boxShadow = '0 0 18px rgba(255,255,255,0.06)'
             }}
             onMouseLeave={e => {
               e.currentTarget.style.borderColor = 'rgba(255,255,255,0.22)'
-              e.currentTarget.style.background  = 'rgba(255,255,255,0.04)'
-              e.currentTarget.style.boxShadow   = 'none'
+              e.currentTarget.style.background = 'rgba(255,255,255,0.04)'
+              e.currentTarget.style.boxShadow = 'none'
             }}
           >
             <span

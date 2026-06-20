@@ -8,6 +8,8 @@ interface SidebarProps {
   onDotClick: (idx: number) => void
   onPageTransition: (path: string) => void
   onDisableAuto: () => void
+  isConceptsActive?: boolean
+  isContactActive?: boolean
 }
 
 interface SidebarItem {
@@ -18,12 +20,12 @@ interface SidebarItem {
 
 const SIDEBAR_ITEMS: SidebarItem[] = [
   { label: 'Intro', idx: 0 },
-  { label: 'About', idx: 1 },
-  { label: 'Featured concepts', idx: -1, path: '/concepts' },
-  { label: 'Contact me', idx: -1, path: '/contact' },
+  { label: 'Concepts', idx: -1, path: '#featuredconcepts' },
+  { label: 'Process', idx: 1 },
+  { label: 'Contact', idx: -1, path: '#contact' },
 ]
 
-export default function Sidebar({ currentIdx, autoOn, onDotClick, onPageTransition, onDisableAuto }: SidebarProps) {
+export default function Sidebar({ currentIdx, autoOn, onDotClick, onPageTransition, onDisableAuto, isConceptsActive, isContactActive }: SidebarProps) {
   const { isMobile } = useBreakpoint()
 
   const renderDot = (isActive: boolean, isPassed: boolean) => {
@@ -73,8 +75,20 @@ export default function Sidebar({ currentIdx, autoOn, onDotClick, onPageTransiti
     >
       {SIDEBAR_ITEMS.map((item, i) => {
         const isLast = i === SIDEBAR_ITEMS.length - 1
-        const isActive = item.idx !== -1 ? currentIdx === item.idx : false
-        const isPassed = item.idx !== -1 ? currentIdx > item.idx : false
+        
+        let activeSeqIdx = 0
+        if (isContactActive) {
+          activeSeqIdx = 3
+        } else if (currentIdx === 1 && !isConceptsActive) {
+          activeSeqIdx = 2
+        } else if (isConceptsActive) {
+          activeSeqIdx = 1
+        } else {
+          activeSeqIdx = 0
+        }
+
+        const isActive = i === activeSeqIdx
+        const isPassed = i < activeSeqIdx
 
         return (
           <div key={item.label} style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start' }}>

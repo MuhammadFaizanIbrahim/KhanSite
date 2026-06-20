@@ -15,7 +15,7 @@ const label = (text: string) => ({
 
 export default function ProjectPage() {
   const { id } = useParams<{ id: string }>()
-  const navigate  = useNavigate()
+  const navigate = useNavigate()
   const { triggerPageOut } = usePageTransition()
   const { isMobile } = useBreakpoint()
 
@@ -55,7 +55,7 @@ export default function ProjectPage() {
         <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round">
           <path d="M9 6H3M5 4L3 6l2 2" />
         </svg>
-        Projects
+        All Concepts
       </button>
 
       {/* ── Content ── */}
@@ -90,13 +90,14 @@ export default function ProjectPage() {
         </div>
 
         {/* Metadata row — Category / Sub-category */}
+        {/* Metadata row */}
         <div style={{
           display: 'flex',
           gap: isMobile ? 32 : 64,
           flexWrap: 'wrap',
           padding: '28px 0',
           borderTop: '0.5px solid rgba(255,255,255,0.08)',
-          marginBottom: 48,
+          marginBottom: 24,
         }}>
           <div>
             <p style={label('Category')}>Category</p>
@@ -112,16 +113,60 @@ export default function ProjectPage() {
           </div>
         </div>
 
-        {/* ── Hero image — centered, ~86% wide, 16:9 ── */}
+        {/* Description */}
+        {project.description && (
+          <div style={{ marginBottom: 48, maxWidth: 720, borderTop: '0.5px solid rgba(255,255,255,0.08)', paddingTop: 28 }}>            <p style={{
+            fontFamily: 'Manrope, sans-serif', fontSize: 9, fontWeight: 500,
+            letterSpacing: '0.18em', textTransform: 'uppercase',
+            color: '#fff', margin: '0 0 16px',
+          }}>
+            Overview
+          </p>
+            <p style={{
+              fontFamily: 'Manrope, sans-serif',
+              fontSize: 'clamp(14px, 1.4vw, 17px)',
+              fontWeight: 300,
+              lineHeight: 1.8,
+              color: 'rgba(255,255,255,0.75)',
+              margin: 0,
+              letterSpacing: '0.01em',
+            }}>
+              {project.description}
+            </p>
+          </div>
+        )}
+
+        {/* Hero image or video */}
         <div style={{ display: 'flex', justifyContent: 'center', marginBottom: 72 }}>
-          <div style={{ width: '100%', aspectRatio: '16/9', overflow: 'hidden', flexShrink: 0 }}>
-            <img
-              src={project.heroImage}
-              alt={project.title}
-              style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
-            />
+          <div style={{ width: '95%', aspectRatio: '16/9', overflow: 'hidden', flexShrink: 0 }}>
+            {project.heroVideo ? (
+              project.heroVideo.includes('youtube') || project.heroVideo.includes('youtu.be') ? (
+                <iframe
+                  src={project.heroVideo}
+                  style={{ width: '100%', height: '100%', border: 'none', display: 'block' }}
+                  allowFullScreen
+                  title={project.title}
+                />
+              ) : (
+                <video
+                  src={project.heroVideo}
+                  style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
+                  controls
+                  autoPlay
+                  muted
+                  loop
+                />
+              )
+            ) : (
+              <img
+                src={project.heroImage}
+                alt={project.title}
+                style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
+              />
+            )}
           </div>
         </div>
+
 
         {/* ── Google Slides embed ── */}
         <div style={{ marginBottom: 80 }}>
@@ -169,12 +214,12 @@ export default function ProjectPage() {
               }}>
                 {/* Google Slides icon */}
                 <svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <rect width="48" height="48" rx="4" fill="rgba(255,255,255,0.05)"/>
-                  <path d="M14 12h14l10 10v14a2 2 0 01-2 2H14a2 2 0 01-2-2V14a2 2 0 012-2z" fill="rgba(255,255,255,0.08)" stroke="rgba(255,255,255,0.2)" strokeWidth="1"/>
-                  <path d="M28 12v10h10" stroke="rgba(255,255,255,0.2)" strokeWidth="1" fill="none"/>
-                  <rect x="17" y="24" width="14" height="1.5" rx="0.75" fill="rgba(255,255,255,0.25)"/>
-                  <rect x="17" y="28" width="10" height="1.5" rx="0.75" fill="rgba(255,255,255,0.15)"/>
-                  <rect x="17" y="32" width="12" height="1.5" rx="0.75" fill="rgba(255,255,255,0.15)"/>
+                  <rect width="48" height="48" rx="4" fill="rgba(255,255,255,0.05)" />
+                  <path d="M14 12h14l10 10v14a2 2 0 01-2 2H14a2 2 0 01-2-2V14a2 2 0 012-2z" fill="rgba(255,255,255,0.08)" stroke="rgba(255,255,255,0.2)" strokeWidth="1" />
+                  <path d="M28 12v10h10" stroke="rgba(255,255,255,0.2)" strokeWidth="1" fill="none" />
+                  <rect x="17" y="24" width="14" height="1.5" rx="0.75" fill="rgba(255,255,255,0.25)" />
+                  <rect x="17" y="28" width="10" height="1.5" rx="0.75" fill="rgba(255,255,255,0.15)" />
+                  <rect x="17" y="32" width="12" height="1.5" rx="0.75" fill="rgba(255,255,255,0.15)" />
                 </svg>
                 <p style={{
                   fontFamily: 'Manrope, sans-serif', fontSize: 11,

@@ -138,7 +138,7 @@ export default function Preloader({ onComplete }: PreloaderProps) {
 
       {/* ── "Khan" — per-letter blur materialise ── */}
       <div style={{ display: 'flex', alignItems: 'flex-end' }}>
-        {'Khan'.split('').map((ch, i) => (
+        {'KhanConcepts'.split('').map((ch, i) => (
           <span key={i} style={{
             fontFamily:    '"Playfair Display", serif',
             fontSize:      'clamp(64px, 10vw, 120px)',
@@ -156,7 +156,7 @@ export default function Preloader({ onComplete }: PreloaderProps) {
         ))}
       </div>
 
-      {/* ── "TheUnseen" — blur-in + letter-spacing expand ── */}
+      {/* ── "TheUnseen" — blur-in + letter-spacing expand ──
       <div style={{ marginTop: 6 }}>
         <span style={{
           fontFamily:    '"Manrope", sans-serif',
@@ -170,7 +170,7 @@ export default function Preloader({ onComplete }: PreloaderProps) {
           letterSpacing: subIn ? '0.14em' : '0em',
           transition:    'opacity 1s ease, filter 1s ease, letter-spacing 1.3s cubic-bezier(0.16,1,0.3,1)',
         }}>TheUnseen</span>
-      </div>
+      </div> */}
 
       {/* ── Tagline — blur fade ── */}
       <span style={{
@@ -185,7 +185,7 @@ export default function Preloader({ onComplete }: PreloaderProps) {
         opacity:       tagIn ? 1 : 0,
         filter:        tagIn ? 'blur(0px)' : 'blur(6px)',
         transition:    'opacity 1.1s ease, filter 1.1s ease',
-      }}>I innovate concepts that redefine industries.</span>
+      }}>BUILDING THE FUTURE THROUGH CONCEPT INNOVATION</span>
 
       {/* ── Progress bar — driven by real asset loading ── */}
       <div style={{

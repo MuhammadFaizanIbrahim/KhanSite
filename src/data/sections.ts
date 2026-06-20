@@ -37,11 +37,11 @@ export const SECTIONS: Section[] = [
     holdUntilVideoEnd: true,
   },
 
-  /* 1 ── ABOUT */
+  /* 1 ── PROCESS */
   {
     id: 1,
-    label: 'About',
-    nameMain: 'About',
+    label: 'Process',
+    nameMain: 'Process',
     nameSub: 'Khan',
     tagline: 'Category Architect.',
     categories: [

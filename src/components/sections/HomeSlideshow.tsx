@@ -6,6 +6,8 @@ import { useWebGL, MODE_SECTION, MODE_PAGE } from '@/hooks/useWebGL'
 import Navbar         from '@/components/layout/Navbar'
 import Sidebar        from '@/components/layout/Sidebar'
 import HeroVideo, { HeroVideoHandle } from '@/components/sections/HeroVideo'
+import ConceptsPage from '@/pages/ConceptsPage'
+import ContactPage from '@/pages/ContactPage'
 
 function nextSection(from: number, dir: 1 | -1): number {
   const total = SECTIONS.length
@@ -17,12 +19,23 @@ export default function HomeSlideshow() {
   const [cur, setCur]                 = useState(0)
   const [autoOn, setAutoOn]           = useState(true)
   const [transActive, setTransActive] = useState(false)
+  const [isConceptsOpen, setIsConceptsOpen] = useState(window.location.hash === '#featuredconcepts')
+  const [isContactOpen, setIsContactOpen]   = useState(window.location.hash === '#contact')
 
   const curRef  = useRef(0)
   const tStart  = useRef<number | null>(null)
   const rafT    = useRef(0)
   const toId    = useRef<ReturnType<typeof setTimeout> | null>(null)
   const heroRef = useRef<HeroVideoHandle>(null)
+
+  useEffect(() => {
+    const handleHashChange = () => {
+      setIsConceptsOpen(window.location.hash === '#featuredconcepts')
+      setIsContactOpen(window.location.hash === '#contact')
+    }
+    window.addEventListener('hashchange', handleHashChange)
+    return () => window.removeEventListener('hashchange', handleHashChange)
+  }, [])
 
   useEffect(() => { curRef.current = cur }, [cur])
 
@@ -44,10 +57,34 @@ export default function HomeSlideshow() {
 
   const handlePageTransition = useCallback((path: string) => {
     if (path === '/') return
+    if (path.startsWith('#')) {
+      const idx = nextSection(curRef.current, 1)
+      triggerTransition(idx, MODE_PAGE)
+      setTimeout(() => {
+        window.location.hash = path
+      }, 900)
+      return
+    }
     const idx = nextSection(curRef.current, 1)
     triggerTransition(idx, MODE_PAGE)
     setTimeout(() => navigate(path), 900)
   }, [triggerTransition, navigate])
+
+  const handleCloseConcepts = useCallback(() => {
+    const idx = curRef.current
+    triggerTransition(idx, MODE_PAGE)
+    setTimeout(() => {
+      window.location.hash = ''
+    }, 900)
+  }, [triggerTransition])
+
+  const handleCloseContact = useCallback(() => {
+    const idx = curRef.current
+    triggerTransition(idx, MODE_PAGE)
+    setTimeout(() => {
+      window.location.hash = ''
+    }, 900)
+  }, [triggerTransition])
 
   const goTo = useCallback((idx: number, mode = MODE_SECTION) => {
     if (idx === curRef.current) return
@@ -65,6 +102,31 @@ export default function HomeSlideshow() {
     }, dur)
   }, [triggerTransition, updateSkip])
 
+  const handleLogoClick = useCallback(() => {
+    const hasHash = !!window.location.hash
+    if (hasHash) {
+      triggerTransition(0, MODE_PAGE)
+      setTimeout(() => {
+        window.location.hash = ''
+        goTo(0)
+      }, 900)
+    } else {
+      goTo(0)
+    }
+  }, [goTo, triggerTransition])
+
+  const handleDotClick = useCallback((idx: number) => {
+    if (window.location.hash) {
+      triggerTransition(idx, MODE_PAGE)
+      setTimeout(() => {
+        window.location.hash = ''
+        goTo(idx)
+      }, 900)
+    } else {
+      goTo(idx)
+    }
+  }, [goTo, triggerTransition])
+
   const manualNav = useCallback((dir: number) => {
     if (autoOn) return
     goTo(nextSection(curRef.current, dir as 1 | -1))
@@ -80,8 +142,9 @@ export default function HomeSlideshow() {
   }, [])
 
   const restartTimer = useCallback((idx: number) => {
+    /* Auto scroll timer disabled
     stopTimer()
-    if (!autoOn) return
+    if (!autoOn || isConceptsOpen || isContactOpen) return
     const sec = SECTIONS[idx]
     if (sec?.holdUntilVideoEnd) return
     function tick(ts: number) {
@@ -93,13 +156,16 @@ export default function HomeSlideshow() {
     toId.current = setTimeout(() => {
       goTo(nextSection(curRef.current, 1), MODE_SECTION)
     }, SECTION_INTERVAL)
-  }, [autoOn, goTo, stopTimer])
+    */
+  }, [autoOn, goTo, stopTimer, isConceptsOpen, isContactOpen])
 
-  useEffect(() => { restartTimer(cur) }, [cur, autoOn, restartTimer])
+  // useEffect(() => { restartTimer(cur) }, [cur, autoOn, restartTimer])
 
   const handleVideoEnded = useCallback(() => {
+    /* Auto scroll on video end disabled
     if (!autoOn) return
     goTo(nextSection(curRef.current, 1), MODE_SECTION)
+    */
   }, [autoOn, goTo])
 
   // Keyboard + scroll + touch
@@ -123,15 +189,19 @@ export default function HomeSlideshow() {
       if (Math.abs(dy) > 45) manualNav(dy > 0 ? 1 : -1)
       tY = null
     }
+    /* Auto scroll / swipe event listeners disabled
     window.addEventListener('keydown',    onKey)
     window.addEventListener('wheel',      onWheel,      { passive: true })
     window.addEventListener('touchstart', onTouchStart, { passive: true })
     window.addEventListener('touchend',   onTouchEnd,   { passive: true })
+    */
     return () => {
+      /*
       window.removeEventListener('keydown',    onKey)
       window.removeEventListener('wheel',      onWheel)
       window.removeEventListener('touchstart', onTouchStart)
       window.removeEventListener('touchend',   onTouchEnd)
+      */
     }
   }, [autoOn, manualNav])
 
@@ -156,19 +226,30 @@ export default function HomeSlideshow() {
         autoOn={autoOn}
         onToggleAuto={() => setAutoOn(p => !p)}
         onPageTransition={handlePageTransition}
+        onLogoClick={handleLogoClick}
       />
       <Sidebar
         currentIdx={cur}
         autoOn={autoOn}
         onNav={manualNav}
-        onDotClick={(i) => goTo(i)}
+        onDotClick={handleDotClick}
         onPageTransition={handlePageTransition}
         onDisableAuto={() => setAutoOn(false)}
+        isConceptsActive={isConceptsOpen}
+        isContactActive={isContactOpen}
       />
 
+      {isConceptsOpen && (
+        <div style={{ position: 'fixed', inset: 0, zIndex: 10 }}>
+          <ConceptsPage isSection={true} onClose={handleCloseConcepts} />
+        </div>
+      )}
 
-
-
+      {isContactOpen && (
+        <div style={{ position: 'fixed', inset: 0, zIndex: 10 }}>
+          <ContactPage isSection={true} onClose={handleCloseContact} />
+        </div>
+      )}
     </>
   )
 }
