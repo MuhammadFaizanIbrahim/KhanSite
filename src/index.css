@@ -18,10 +18,26 @@
   .font-bastliga { font-family: 'BastligaOne', serif !important; }
   .font-title    { font-family: 'Playfair Display', serif; }
   .font-playfair { font-family: 'Playfair Display', serif; }
+  .font-cinzel   { font-family: 'Cinzel', serif; }
   .font-subtitle { font-family: 'Manrope', sans-serif; }
   .font-manrope  { font-family: 'Manrope', sans-serif; }
   .font-body     { font-family: 'Inter', sans-serif; }
   .font-inter    { font-family: 'Inter', sans-serif; }
+}
+
+/* ── Custom cursor — native OS cursor hidden in favor of <CustomCursor/>,
+   restored over text fields/iframes where a graphic cursor doesn't help ── */
+.custom-cursor-active,
+.custom-cursor-active * {
+  cursor: none !important;
+}
+.custom-cursor-active input,
+.custom-cursor-active textarea,
+.custom-cursor-active [contenteditable="true"] {
+  cursor: text !important;
+}
+.custom-cursor-active iframe {
+  cursor: auto !important;
 }
 
 /* ── WebGL canvas ── */

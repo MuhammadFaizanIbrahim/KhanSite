@@ -1,0 +1,741 @@
+{
+  "_instructions": "This file holds ALL the editable text on the KhanConcepts website. Each top-level key below is one section of the site — the '_section' note inside it tells you where that section appears. Only edit the plain text values; do not rename or remove any keys. Wrapping a phrase in **double asterisks** (e.g. **like this**) makes it show in gold on the site.",
+  "hero": {
+    "_section": "Homepage — Hero (the very first section visitors see, with the big background image and logo)",
+    "tagline": "Discovering Real-World Problems and Creating Innovative Concept Designs That Help Companies Create **Better Solutions**.",
+    "processWords": [
+      "Problem",
+      "Concept Design",
+      "Solution"
+    ],
+    "scrollCueLabel": "Scroll to Explore"
+  },
+  "what-is-khanconcepts": {
+    "_section": "Homepage — 'What Is KhanConcepts?' (second section, directly below the Hero)",
+    "eyebrow": "What Is",
+    "headingWhite": "Khan",
+    "headingGold": "Concepts?",
+    "paragraph1": "KhanConcepts **researches real-world problems** and creates innovative **Concept Designs** that help companies discover better solutions before investing time and resources in bringing them to life.",
+    "paragraph2": ""
+  },
+  "concept-innovation-space": {
+    "_section": "Homepage — 'Concept Innovation Space' (third section, below What Is KhanConcepts?)",
+    "headingWhite1": "Concept",
+    "headingGold": "Innovation",
+    "headingWhite2": "Space",
+    "items": [
+      {
+        "icon": "search",
+        "image": "/images/concepts/product-concepts.jpg",
+        "title": "Product Concepts",
+        "bullets": [
+          "AI Product Discovery & Comparison",
+          "AI Voice/Chat Assistant",
+          "Ads & Smart Offers",
+          "Account & Data Management",
+          "Virtual World & Experiences"
+        ]
+      },
+      {
+        "icon": "chip",
+        "image": "/images/concepts/hardware-concepts.jpg",
+        "title": "Hardware Concepts",
+        "bullets": [
+          "Healthcare & BioTech Devices",
+          "Smart Home & IoT Ecosystem",
+          "Cybersecurity & Digital Identity",
+          "Quantum & Advanced Processors",
+          "Mobility & Automotive Hardware",
+          "Gadgets, Devices & Accessories"
+        ]
+      },
+      {
+        "icon": "brain",
+        "image": "/images/concepts/technology-concepts.jpg",
+        "title": "Technology Concepts",
+        "bullets": [
+          "Operating Systems",
+          "AI Search & Research Systems",
+          "AI Automation & Workflows",
+          "Web / App Building Platforms",
+          "Digital Infrastructure",
+          "Software Ecosystems"
+        ]
+      },
+      {
+        "icon": "briefcase",
+        "image": "/images/concepts/business-concepts.jpg",
+        "title": "Business Concepts",
+        "bullets": [
+          "Retail Models",
+          "Hospitality Concepts",
+          "Education Businesses",
+          "Sports Businesses",
+          "Health Services"
+        ]
+      },
+      {
+        "icon": "car",
+        "image": "/images/concepts/mobility-concepts.jpg",
+        "title": "Mobility Concepts",
+        "bullets": [
+          "Online Car Platforms",
+          "Smart Mobility Services",
+          "Autonomous Technology",
+          "Connected Vehicle Ecosystems",
+          "Transport & Booking Platforms"
+        ]
+      },
+      {
+        "icon": "flask",
+        "image": "/images/concepts/research-engineering-invention-concepts.jpg",
+        "title": "Research, Engineering & Invention Concepts",
+        "bullets": [
+          "Scientific Research",
+          "Technology Invention",
+          "Systems Engineering",
+          "Experimental Platforms",
+          "Patentable Innovations"
+        ]
+      },
+      {
+        "icon": "globe",
+        "image": "/images/concepts/real-virtual-world-systems-concepts.jpg",
+        "title": "Real & Virtual World Systems Concepts",
+        "bullets": [
+          "Digital Societies",
+          "Governance Systems",
+          "Economic Systems",
+          "Education Systems",
+          "Civilization Frameworks"
+        ]
+      },
+      {
+        "icon": "gamepad",
+        "image": "/images/concepts/entertainment-concepts.jpg",
+        "title": "Entertainment Concepts",
+        "bullets": [
+          "Games",
+          "Movies & Series",
+          "Interactive Experiences",
+          "Virtual Entertainment",
+          "Creative Media Platforms"
+        ]
+      }
+    ]
+  },
+  "how-we-bring-concepts-to-reality": {
+    "_section": "Homepage — 'How We Bring Concepts to Reality' (fourth section, below Concept Innovation Space)",
+    "eyebrow": "How We Bring",
+    "headingWhite": "Concepts",
+    "headingGold": "to Reality",
+    "intro": "Every Public Concept begins as a researched innovation opportunity and evolves into a Company-Specific Full Concept designed around one company's goals, requirements, and long-term vision. Throughout the journey, KhanConcepts works closely with your team to help transform ideas into successful solutions.",
+    "roadmapImage": "/images/roadmap.png",
+    "steps": [
+      {
+        "icon": "search",
+        "title": "Explore Public Concepts",
+        "description": "Browse Public Concepts across multiple Concept Innovation Spaces to discover innovative concepts and find opportunities that match your company's goals and interests."
+      },
+      {
+        "icon": "lightbulb",
+        "title": "Initial Discovery Discussion",
+        "description": "Tell us about your company, your goals, your challenges, and what you're looking to build. We'll discuss whether the concept is the right fit for your company."
+      },
+      {
+        "icon": "person",
+        "title": "Company Meeting",
+        "description": "Review the Company-Ready Concept Design, see how the concept works, ask questions, and discuss how it could create value for your company."
+      },
+      {
+        "icon": "chart",
+        "title": "Concept Design Review",
+        "description": "Review the concept together, answer your questions, discuss your company's goals and requirements, and refine the concept until everyone agrees on the final direction."
+      },
+      {
+        "icon": "gear",
+        "title": "Detailed Concept Design",
+        "description": "Once the concept is approved, KhanConcepts creates the Detailed Concept Design based on the agreed direction, your company's goals, and your requirements."
+      },
+      {
+        "icon": "flag",
+        "title": "Company Decision",
+        "description": "Choose how you'd like to move forward.",
+        "options": [
+          {
+            "label": "Option A — Independent Path",
+            "text": "Acquire the Detailed Concept Design and bring the concept to reality using your own team or preferred partners."
+          },
+          {
+            "label": "Option B — Partnership Path",
+            "text": "Acquire the Detailed Concept Design and continue working with KhanConcepts throughout development to help keep the final solution aligned with the approved concept, your company's goals, and your long-term vision."
+          }
+        ]
+      }
+    ]
+  },
+  "featured-concepts": {
+    "_section": "Homepage — 'Featured Concepts' (fifth section, below Concept Innovation Space — a rotating carousel)",
+    "eyebrow": "Featured Concepts",
+    "headingWhite1": "Every",
+    "headingGold": "innovation",
+    "headingWhite2": "starts with a concept.",
+    "linkLabel": "Explore Concept",
+    "items": [
+      {
+        "image": "/images/featured/biolab-automation-suite.jpg",
+        "badge": "Improved Concept",
+        "badgeIcon": "trend",
+        "titleWhite": "BioLab",
+        "titleGold": "Automation Suite",
+        "tags": [
+          {
+            "icon": "flask",
+            "text": "Research & Engineering"
+          },
+          {
+            "icon": "tag",
+            "text": "Automation System"
+          }
+        ]
+      },
+      {
+        "image": "/images/featured/neometropolis-ai-city.jpg",
+        "badge": "New Concept",
+        "badgeIcon": "sparkle",
+        "titleWhite": "NeoMetropolis",
+        "titleGold": "AI City",
+        "tags": [
+          {
+            "icon": "globe",
+            "text": "Real & Virtual World Systems"
+          },
+          {
+            "icon": "tag",
+            "text": "Smart City Platform"
+          }
+        ]
+      },
+      {
+        "image": "/images/featured/cognitive-os.jpg",
+        "badge": "New Concept",
+        "badgeIcon": "sparkle",
+        "titleWhite": "Cognitive",
+        "titleGold": "OS 2.0",
+        "tags": [
+          {
+            "icon": "chip",
+            "text": "Technology Concepts"
+          },
+          {
+            "icon": "tag",
+            "text": "AI Operating System"
+          }
+        ]
+      },
+      {
+        "image": "/images/featured/ecodrive-sustain.jpg",
+        "badge": "New Concept",
+        "badgeIcon": "sparkle",
+        "titleWhite": "EcoDrive",
+        "titleGold": "Sustainable Mobility",
+        "tags": [
+          {
+            "icon": "car",
+            "text": "Mobility Concepts"
+          },
+          {
+            "icon": "tag",
+            "text": "Sustainable Transport"
+          }
+        ]
+      }
+    ]
+  },
+  "footer": {
+    "_section": "Homepage — Footer (final section, at the very bottom of the page)",
+    "headingLine1": "Every Great **Innovation** Starts",
+    "headingLine2": "With A **Concept**.",
+    "tagline": "CONCEPT INNOVATION",
+    "social": {
+      "linkedin": "https://www.linkedin.com/company/khanconcepts",
+      "x": "https://x.com/khanconcepts",
+      "youtube": "https://www.youtube.com/@khanconcepts",
+      "instagram": "https://www.instagram.com/khanconcepts"
+    }
+  },
+  "contact-page": {
+    "_section": "Contact Page (the /contact route, opened from the bottom nav's 'Contact' button)",
+    "eyebrow": "Contact",
+    "headingWhite": "Every Great Collaboration Starts With A",
+    "headingGold": "Conversation.",
+    "paragraph1": "Tell us about your company, your goals, the Concept Design you'd like to discuss, and any additional information that may help us prepare for the discussion.",
+    "paragraph2": "",
+    "altMethodsLabel": "Alternative Contact Methods",
+    "whatsapp": {
+      "label": "WhatsApp",
+      "description": "Chat with us instantly on WhatsApp",
+      "href": "https://wa.me/YOUR_NUMBER"
+    },
+    "email": {
+      "label": "Email",
+      "description": "Send us an email directly",
+      "href": "mailto:hello@khanconcepts.com"
+    },
+    "form": {
+      "eyebrow": "Discussion Request Form",
+      "companyLabel": "Company Name",
+      "companyPlaceholder": "[ Company Name ]",
+      "emailLabel": "Email",
+      "emailPlaceholder": "[ Email ]",
+      "dateLabel": "Preferred Date",
+      "datePlaceholder": "[ Preferred Date ]",
+      "timeLabel": "Preferred Time",
+      "timePlaceholder": "[ Preferred Time ]",
+      "detailsLabel": "Discussion Details",
+      "detailsPlaceholder": "Tell us about your company, your goals, the Concept Design you'd like to discuss, and anything you'd like us to know before the discussion.",
+      "submitLabel": "Schedule a Concept Discussion",
+      "requiredError": "This field is required",
+      "invalidEmailError": "Enter a valid email address",
+      "successTitle": "Thank You For Contacting KhanConcepts",
+      "successMessage": "You will get the response from KhanConcepts Asap!"
+    }
+  },
+  "concepts-page": {
+    "_section": "All Concepts page (/concepts) and every individual concept's detail page (/concepts/1, /concepts/2, ...) — the hero heading/tagline, the full Concept Space and Concept Type filter lists, and the master list of every concept card/detail page. 'spaces' and 'types' are the filter taxonomy — every concept's 'space'/'type' value must exactly match one entry from these two lists. Each entry in 'items' is one concept: 'status' must be either \"new\" or \"improved\", 'image' is the file path to its picture, 'overview' is 2-3 paragraphs shown on its detail page. 'video' is a video URL (e.g. a hosted .mp4 or a YouTube/Vimeo embed URL) shown on the Concept Presentation section of the detail page — leave empty to show a placeholder. 'slideEmbed' is an embeddable presentation URL (Google Slides 'Publish to web' embed link, PowerPoint Online embed link, or Canva 'Share > Embed' link) shown below the video — leave empty to show a placeholder. 'problems' and 'opportunities' are legacy bullet lists kept for reference but no longer displayed on the detail page.",
+    "headingWhite": "All",
+    "headingGold": "Concepts",
+    "tagline": "Every great innovation starts with a **concept**.",
+    "searchPlaceholder": "Search concepts...",
+    "spaces": [
+      "Product Concepts",
+      "Hardware Concepts",
+      "Technology Concepts",
+      "Business Concepts",
+      "Mobility Concepts",
+      "Research, Engineering & Invention Concepts",
+      "Real & Virtual World Systems Concepts",
+      "Entertainment Concepts"
+    ],
+    "types": [
+      "AI & Machine Learning",
+      "Automation & Robotics",
+      "Augmented Reality (AR)",
+      "Blockchain Systems",
+      "Clean Energy Solutions",
+      "Cloud Computing",
+      "Cybersecurity",
+      "Data Analytics",
+      "Decentralized Systems (Web3)",
+      "Digital Twins",
+      "Edge Computing",
+      "Future Materials",
+      "Genetic Engineering",
+      "Green Transportation",
+      "Human-Computer Interaction",
+      "IoT (Internet of Things)",
+      "Quantum Computing",
+      "Space Exploration",
+      "Sustainable Architecture",
+      "Virtual Reality (VR)"
+    ],
+    "items": [
+      {
+        "id": 1,
+        "title": "NeoMetropolis AI City",
+        "status": "new",
+        "space": "Real & Virtual World Systems Concepts",
+        "type": "Sustainable Architecture",
+        "tagline": "Smart City Platform",
+        "image": "/images/featured/neometropolis-ai-city.jpg",
+        "video": "",
+        "slideEmbed": "",
+        "description": "An AI-orchestrated smart city framework that unifies infrastructure, mobility, energy, and governance into a single adaptive system built for sustainable urban growth.",
+        "overview": [
+          "NeoMetropolis AI City is a civilization-scale urban operating system that coordinates transportation, energy, housing, and public services through one adaptive AI layer.",
+          "By modeling the city as a living system, the platform continuously rebalances resources — routing traffic, distributing power, and allocating services — in response to real-time demand instead of static planning.",
+          "The framework scales from a single smart district to an entire metropolitan region, giving city planners a foundation for resilient, sustainable growth."
+        ],
+        "problems": [
+          "Legacy city infrastructure is siloed, with transport, energy, and services operating independently.",
+          "Urban planning reacts to congestion and resource strain after it happens, not before.",
+          "Rapid population growth is outpacing the capacity of existing city systems.",
+          "Sustainability targets are hard to hit without real-time visibility into resource use.",
+          "Emergency response is slowed by fragmented city data systems.",
+          "Citizens lack a single, unified way to interact with city services."
+        ],
+        "opportunities": [
+          "Unify transportation, energy, and public services under one adaptive AI layer.",
+          "Reduce congestion and emissions through real-time resource routing.",
+          "Give planners predictive tools instead of reactive dashboards.",
+          "Improve emergency response with unified, real-time city data.",
+          "Create a scalable template usable across cities of any size.",
+          "Strengthen long-term sustainability and resilience planning."
+        ]
+      },
+      {
+        "id": 2,
+        "title": "BioLab Automation Suite",
+        "status": "improved",
+        "space": "Research, Engineering & Invention Concepts",
+        "type": "Automation & Robotics",
+        "tagline": "Automation System",
+        "image": "/images/featured/biolab-automation-suite.jpg",
+        "video": "",
+        "slideEmbed": "",
+        "description": "A robotics-driven laboratory automation suite that runs high-precision research workflows around the clock, freeing scientists from repetitive manual experimentation.",
+        "overview": [
+          "BioLab Automation Suite coordinates robotic arms, sensors, and analysis software into one closed-loop research pipeline — from sample prep to data capture.",
+          "The system executes experiment protocols with sub-millimeter precision and repeats them continuously, removing the variability of manual handling.",
+          "Researchers design an experiment once; the suite runs it at scale, logs every result, and flags anomalies for human review."
+        ],
+        "problems": [
+          "Manual lab work is slow, repetitive, and prone to human error.",
+          "Research throughput is capped by the number of hours scientists can physically work.",
+          "Experiment results vary depending on who performs the manual steps.",
+          "Valuable researcher time is spent on repetitive tasks instead of analysis.",
+          "Labs lack a consistent, automatic record of every experimental run.",
+          "Scaling research output usually just means hiring more lab staff."
+        ],
+        "opportunities": [
+          "Run research protocols continuously, without staffing constraints.",
+          "Improve experiment consistency with robotic precision.",
+          "Free researchers to focus on analysis and discovery, not repetition.",
+          "Capture a complete, automatic log of every experimental run.",
+          "Scale research throughput without scaling headcount.",
+          "Flag anomalies automatically for faster human review."
+        ]
+      },
+      {
+        "id": 3,
+        "title": "Cognitive OS 2.0",
+        "status": "new",
+        "space": "Technology Concepts",
+        "type": "AI & Machine Learning",
+        "tagline": "AI Operating System",
+        "image": "/images/featured/cognitive-os.jpg",
+        "video": "",
+        "slideEmbed": "",
+        "description": "An operating system built around a native AI layer that understands intent across every app, automating complex, multi-step tasks on a user's behalf.",
+        "overview": [
+          "Cognitive OS 2.0 treats AI as a first-class layer of the operating system rather than a bolt-on assistant, giving it visibility across every installed application.",
+          "Users describe an outcome in plain language; the OS plans the steps, coordinates the relevant apps, and executes the task end-to-end.",
+          "The system is designed to hand off complex, multi-step work entirely — from research to booking to file organization — while keeping the user in control at every checkpoint."
+        ],
+        "problems": [
+          "Today's AI assistants are siloed inside single apps and can't act across a device.",
+          "Users still perform most multi-step digital tasks manually, one app at a time.",
+          "Switching between apps to complete one task wastes time and attention.",
+          "Existing automation tools require technical setup most users can't do.",
+          "Privacy and control are often unclear when AI assistants act on a user's behalf.",
+          "Device settings and personalization rarely adapt automatically to how someone works."
+        ],
+        "opportunities": [
+          "Let AI act across every app instead of being confined to one.",
+          "Turn multi-step digital chores into a single plain-language request.",
+          "Reduce the time users spend switching between apps manually.",
+          "Make automation accessible without any technical setup.",
+          "Keep the user in control with clear checkpoints and permissions.",
+          "Let the OS adapt to each person's workflow automatically."
+        ]
+      },
+      {
+        "id": 4,
+        "title": "EcoDrive Sustainable Mobility",
+        "status": "new",
+        "space": "Mobility Concepts",
+        "type": "Green Transportation",
+        "tagline": "Sustainable Transport",
+        "image": "/images/featured/ecodrive-sustain.jpg",
+        "video": "",
+        "slideEmbed": "",
+        "description": "A unified electric mobility platform that combines vehicle sharing, smart charging, and route optimization to cut urban transport emissions at scale.",
+        "overview": [
+          "EcoDrive brings electric vehicle sharing, smart charging infrastructure, and AI-optimized routing into a single sustainable mobility platform.",
+          "The platform predicts demand across a city and repositions vehicles and charging capacity ahead of time, keeping the network efficient without idle assets.",
+          "Cities and fleet operators get one system for reducing emissions, cutting operating costs, and giving riders a seamless electric-first transport option."
+        ],
+        "problems": [
+          "Urban transport remains a major source of carbon emissions.",
+          "EV charging infrastructure is fragmented and hard to plan around.",
+          "Fleet operators struggle to balance vehicle supply with real demand.",
+          "Riders lack a single, reliable electric alternative to private cars.",
+          "Idle vehicles and underused chargers waste capital and energy.",
+          "Cities lack real-time visibility into transport emissions data."
+        ],
+        "opportunities": [
+          "Cut urban transport emissions with an electric-first shared fleet.",
+          "Predict demand and pre-position vehicles and charging capacity.",
+          "Give riders one seamless app for sustainable transport.",
+          "Lower fleet operating costs through smarter utilization.",
+          "Provide cities with real-time transport emissions data.",
+          "Build a template that scales across cities and regions."
+        ]
+      },
+      {
+        "id": 5,
+        "title": "Product Discovery Engine",
+        "status": "new",
+        "space": "Product Concepts",
+        "type": "Data Analytics",
+        "tagline": "AI Product Discovery",
+        "image": "/images/concepts/product-concepts.jpg",
+        "video": "",
+        "slideEmbed": "",
+        "description": "An AI-powered discovery and comparison engine that finds the best products in any category and explains their real strengths, weaknesses, and value.",
+        "overview": [
+          "Product Discovery Engine indexes products across every category and continuously scores them on features, strengths, weaknesses, and price relative to true competitors.",
+          "Instead of ranked ads, shoppers get a plain-language comparison and an AI voice or chat assistant that can walk them through any platform's instructions or demo on request.",
+          "The engine is built to support any product vertical — from electronics to services — with the same consistent, transparent comparison model."
+        ],
+        "problems": [
+          "Shoppers can't easily compare a product's real strengths and weaknesses across brands.",
+          "Search results and marketplaces are dominated by paid placement, not merit.",
+          "Understanding how to actually use a new platform often has no clear guide.",
+          "Comparing similar products across categories takes hours of manual research.",
+          "Discounts and offers are scattered across platforms with no central view.",
+          "Most comparison tools stop at price and ignore feature depth."
+        ],
+        "opportunities": [
+          "Give shoppers transparent, ranked comparisons based on merit, not ads.",
+          "Pair every product with an AI voice/chat guide and live demo.",
+          "Surface real strengths, weaknesses, and fit for a shopper's needs.",
+          "Centralize offers and discounts across every product category.",
+          "Cut research time from hours to a single conversation.",
+          "Apply the same trusted model across any product vertical."
+        ]
+      },
+      {
+        "id": 6,
+        "title": "NeuroLink Wearable Hub",
+        "status": "improved",
+        "space": "Hardware Concepts",
+        "type": "IoT (Internet of Things)",
+        "tagline": "Smart Wearable System",
+        "image": "/images/concepts/hardware-concepts.jpg",
+        "video": "",
+        "slideEmbed": "",
+        "description": "A unified wearable ecosystem that connects watches, earbuds, and health sensors into one adaptive hub built around a single personal data account.",
+        "overview": [
+          "NeuroLink Wearable Hub links a family of wearable devices — watch, earbuds, health sensors — into one coordinated system instead of separate, disconnected gadgets.",
+          "All device data flows into a single personal account, similar in spirit to an iCloud or Google account, giving users one place for backup, security, and cross-device continuity.",
+          "The hub is designed to extend to future wearables automatically, so new devices join the same ecosystem without new setup friction."
+        ],
+        "problems": [
+          "Wearable devices from the same ecosystem often still feel disconnected.",
+          "Health and usage data is scattered across separate apps and accounts.",
+          "Setting up a new wearable device is repetitive and time-consuming.",
+          "Users have no single place to manage backup and security for all devices.",
+          "Battery and connectivity issues are handled inconsistently across devices.",
+          "Cross-device handoff (e.g. call to earbuds to watch) is often unreliable."
+        ],
+        "opportunities": [
+          "Unify every wearable device under one connected hub.",
+          "Centralize personal data with one account for backup and security.",
+          "Make new device setup instant by joining the existing ecosystem.",
+          "Enable seamless handoff between watch, earbuds, and sensors.",
+          "Give users one dashboard for battery, health, and connectivity.",
+          "Build a foundation that scales to future wearable categories."
+        ]
+      },
+      {
+        "id": 7,
+        "title": "Quantum Cloud Framework",
+        "status": "new",
+        "space": "Technology Concepts",
+        "type": "Quantum Computing",
+        "tagline": "Cloud Infrastructure",
+        "image": "/images/concepts/technology-concepts.jpg",
+        "video": "",
+        "slideEmbed": "",
+        "description": "A cloud infrastructure layer built to run on quantum and fast-processor hardware, giving developers a migration path before quantum computing reaches the mainstream.",
+        "overview": [
+          "Quantum Cloud Framework provides a cloud infrastructure layer designed from the ground up for quantum and next-generation processor hardware.",
+          "Developers get a familiar cloud interface while the framework handles the underlying complexity of quantum-safe execution and hybrid classical-quantum workloads.",
+          "The framework is built so existing cloud workloads can migrate incrementally, rather than requiring a disruptive rebuild once quantum hardware becomes mainstream."
+        ],
+        "problems": [
+          "Most cloud infrastructure isn't designed for quantum or post-classical hardware.",
+          "Quantum-capable computers threaten to break current encryption standards.",
+          "Developers have no simple on-ramp to quantum-ready infrastructure today.",
+          "Migrating existing workloads to new hardware paradigms is disruptive.",
+          "Hybrid classical-quantum workloads are difficult to orchestrate manually.",
+          "Enterprises lack a clear timeline for when to start preparing."
+        ],
+        "opportunities": [
+          "Give developers a familiar cloud interface over quantum-ready hardware.",
+          "Provide a quantum-safe migration path before disruption hits.",
+          "Support hybrid classical-quantum workloads out of the box.",
+          "Let enterprises migrate incrementally instead of rebuilding from scratch.",
+          "Position early adopters ahead of the quantum computing transition.",
+          "Turn quantum readiness into a competitive advantage rather than a risk."
+        ]
+      },
+      {
+        "id": 8,
+        "title": "RetailX Experience Model",
+        "status": "improved",
+        "space": "Business Concepts",
+        "type": "Human-Computer Interaction",
+        "tagline": "Retail Innovation",
+        "image": "/images/concepts/business-concepts.jpg",
+        "video": "",
+        "slideEmbed": "",
+        "description": "A next-generation retail experience model that blends physical stores, AI-guided shopping, and try-on technology into one seamless customer journey.",
+        "overview": [
+          "RetailX Experience Model reimagines the retail floor as an interactive system, combining AI product guidance, virtual try-on, and instant checkout into one journey.",
+          "Shoppers get AI assistance to compare products, see discounts, and try items virtually before committing to a purchase — in-store or online.",
+          "The model is designed to extend across formats, from flagship stores to pop-up retail, without rebuilding the experience each time."
+        ],
+        "problems": [
+          "In-store and online retail experiences still feel disconnected.",
+          "Shoppers can't easily compare products or discounts while browsing in-store.",
+          "Trying products before buying is slow, especially across formats like apparel.",
+          "Retailers struggle to bring digital personalization into physical stores.",
+          "Checkout friction causes cart abandonment in both channels.",
+          "Expanding a retail concept to new formats usually means starting over."
+        ],
+        "opportunities": [
+          "Unify in-store and online shopping into one seamless journey.",
+          "Bring AI product guidance and comparison onto the retail floor.",
+          "Let shoppers virtually try products before purchasing.",
+          "Personalize the physical store experience like an online one.",
+          "Reduce checkout friction with faster, AI-assisted flows.",
+          "Reuse one experience model across flagship, pop-up, and outlet formats."
+        ]
+      },
+      {
+        "id": 9,
+        "title": "Autonomous Transit Grid",
+        "status": "new",
+        "space": "Mobility Concepts",
+        "type": "Edge Computing",
+        "tagline": "Smart Mobility Network",
+        "image": "/images/concepts/mobility-concepts.jpg",
+        "video": "",
+        "slideEmbed": "",
+        "description": "An edge-computing transit network that lets autonomous vehicles make split-second routing decisions locally, without waiting on a distant central server.",
+        "overview": [
+          "Autonomous Transit Grid pushes routing and safety decisions to edge compute nodes distributed across a transit network, instead of a single central cloud.",
+          "Vehicles and intersections communicate directly with nearby edge nodes, cutting the latency that autonomous systems can't afford when reacting to real-world conditions.",
+          "The network is built to scale city by city, adding edge capacity as autonomous vehicle density grows."
+        ],
+        "problems": [
+          "Centralized cloud routing introduces latency autonomous vehicles can't afford.",
+          "Real-time safety decisions can't depend on a distant server responding in time.",
+          "Transit networks lack the local compute to react to sudden conditions.",
+          "Scaling autonomous fleets strains centralized infrastructure quickly.",
+          "A single point of failure can disrupt an entire transit network.",
+          "Cities have no standard framework for autonomous-ready infrastructure."
+        ],
+        "opportunities": [
+          "Cut decision latency with distributed edge compute nodes.",
+          "Let vehicles and intersections react locally in real time.",
+          "Scale autonomous capacity city by city without central bottlenecks.",
+          "Remove single points of failure from transit infrastructure.",
+          "Give cities a standard framework for autonomous-ready networks.",
+          "Improve safety margins for autonomous vehicles at scale."
+        ]
+      },
+      {
+        "id": 10,
+        "title": "Synthetic Materials Lab",
+        "status": "new",
+        "space": "Research, Engineering & Invention Concepts",
+        "type": "Future Materials",
+        "tagline": "Materials Research Platform",
+        "image": "/images/concepts/research-engineering-invention-concepts.jpg",
+        "video": "",
+        "slideEmbed": "",
+        "description": "A computational materials research platform that simulates and screens novel synthetic materials before a single physical sample is produced.",
+        "overview": [
+          "Synthetic Materials Lab combines simulation, machine learning, and lab automation to screen thousands of candidate material formulations computationally.",
+          "Only the most promising candidates move to physical synthesis, cutting the time and cost of traditional trial-and-error materials research.",
+          "The platform is designed for industries — from aerospace to energy storage — that depend on discovering better materials faster than competitors."
+        ],
+        "problems": [
+          "Traditional materials research relies on slow, expensive trial and error.",
+          "Testing every candidate formulation physically is cost-prohibitive at scale.",
+          "Promising materials can take years to move from lab to production.",
+          "Research teams lack computational tools to screen candidates upfront.",
+          "Industries depending on new materials are bottlenecked by lab throughput.",
+          "Valuable formulations are often discovered by accident, not systematically."
+        ],
+        "opportunities": [
+          "Screen thousands of material candidates computationally before synthesis.",
+          "Cut the time and cost of traditional trial-and-error research.",
+          "Move only the most promising candidates to physical testing.",
+          "Give research teams a systematic discovery process, not chance.",
+          "Accelerate materials breakthroughs for aerospace, energy, and beyond.",
+          "Build a reusable platform across many materials research programs."
+        ]
+      },
+      {
+        "id": 11,
+        "title": "Digital Civic Framework",
+        "status": "improved",
+        "space": "Real & Virtual World Systems Concepts",
+        "type": "Decentralized Systems (Web3)",
+        "tagline": "Governance System",
+        "image": "/images/concepts/real-virtual-world-systems-concepts.jpg",
+        "video": "",
+        "slideEmbed": "",
+        "description": "A decentralized civic governance framework that lets citizens propose, deliberate, and ratify local policy with the precision of legal language.",
+        "overview": [
+          "Digital Civic Framework gives citizens a direct, decentralized channel to propose and deliberate on local policy, removing the logistical bottlenecks of traditional governance.",
+          "Proposals are drafted in plain language, while an AI legislative layer simultaneously generates binding legal text visible to every participant in real time.",
+          "The framework is designed to scale from a single district to national governance, with every decision recorded transparently on a shared civic ledger."
+        ],
+        "problems": [
+          "Citizens have few direct, meaningful channels to shape local policy.",
+          "Traditional legislative processes move too slowly for modern needs.",
+          "Legal language is inaccessible to most citizens who want to participate.",
+          "Governance systems lack transparent, tamper-proof record-keeping.",
+          "Digital identity and voting systems remain fragmented and insecure.",
+          "Trust in institutions erodes without visible, verifiable decision-making."
+        ],
+        "opportunities": [
+          "Give citizens a direct channel to propose and ratify local policy.",
+          "Translate plain-language proposals into binding legal text instantly.",
+          "Record every civic decision on a transparent, shared ledger.",
+          "Rebuild institutional trust through visible, verifiable governance.",
+          "Scale participatory governance from a district to a nation.",
+          "Secure digital identity and voting within one civic framework."
+        ]
+      },
+      {
+        "id": 12,
+        "title": "ImmersiVerse Experience",
+        "status": "new",
+        "space": "Entertainment Concepts",
+        "type": "Virtual Reality (VR)",
+        "tagline": "Immersive Entertainment",
+        "image": "/images/concepts/entertainment-concepts.jpg",
+        "video": "",
+        "slideEmbed": "",
+        "description": "A shared virtual-reality entertainment world where players, creators, and audiences meet, compete, and build experiences together in real time.",
+        "overview": [
+          "ImmersiVerse Experience is a persistent virtual world combining social spaces, competitive play, and creator tools into one connected VR entertainment platform.",
+          "Players can meet, talk, and compete in real time, while creators build and monetize original experiences directly inside the same shared world.",
+          "The platform is designed around fair, skill-based competition rather than chance, with virtual economies that keep value inside the ecosystem."
+        ],
+        "problems": [
+          "VR entertainment platforms are often isolated experiences, not shared worlds.",
+          "Creators have limited tools to build and monetize inside virtual spaces.",
+          "Competitive gaming is frequently undermined by pay-to-win mechanics.",
+          "Social presence in VR still feels disconnected from real interaction.",
+          "Virtual economies are fragmented across incompatible platforms.",
+          "Anti-cheat and fairness systems lag behind traditional gaming platforms."
+        ],
+        "opportunities": [
+          "Unite social, competitive, and creator experiences in one VR world.",
+          "Give creators native tools to build and monetize original content.",
+          "Base competition on skill, with strong anti-cheat protections.",
+          "Make social presence in VR feel genuinely connected.",
+          "Keep a consistent virtual economy across the whole platform.",
+          "Set a new fairness and trust standard for VR entertainment."
+        ]
+      }
+    ]
+  }
+}

@@ -1,90 +1,33 @@
+import { useNavigate, useLocation } from 'react-router-dom'
+import { usePageTransition } from '@/contexts/TransitionContext'
 import { useBreakpoint } from '@/hooks/useBreakpoint'
 
-interface NavbarProps {
-  autoOn: boolean
-  onToggleAuto: () => void
-  onPageTransition: (path: string) => void
-  onLogoClick?: () => void
-}
-
-const FONT_SIZE = 'clamp(28px, 3.5vw, 48px)'
-const FONT_FAMILY = '"Playfair Display", serif'
-
-function Logo({ onClick }: { onClick?: () => void }) {
-  return (
-    <span
-      // className="logo-glow"
-      onClick={onClick}
-      style={{
-        fontFamily: FONT_FAMILY,
-        fontSize: FONT_SIZE,
-        fontWeight: 700,
-        letterSpacing: '0.02em',
-        lineHeight: 1,
-        userSelect: 'none',
-        display: 'block',
-        color: '#fff',
-        cursor: onClick ? 'pointer' : 'default',
-      }}
-    >
-      KhanConcepts
-    </span>
-  )
-}
-
-export default function Navbar({ autoOn, onToggleAuto, onLogoClick }: NavbarProps) {
+export default function Navbar() {
   const { isMobile } = useBreakpoint()
+  const navigate = useNavigate()
+  const location  = useLocation()
+  const { triggerPageOut } = usePageTransition()
 
-  /*
-  const toggleButton = (
-    <button
-      onClick={onToggleAuto}
-      className="flex items-center gap-2 border border-white/12 rounded-full px-3.5 py-1.5 transition-colors duration-200"
-      style={{ background: 'rgba(255,255,255,0.07)' }}
-      onMouseEnter={e => (e.currentTarget.style.background = 'rgba(255,255,255,0.13)')}
-      onMouseLeave={e => (e.currentTarget.style.background = 'rgba(255,255,255,0.07)')}
-    >
-      <span className="relative inline-block rounded-full transition-colors duration-200"
-        style={{ width: 28, height: 16, background: autoOn ? '#22c98a' : 'rgba(255,255,255,0.18)' }}>
-        <span className="absolute top-0.5 rounded-full bg-white shadow transition-all duration-200"
-          style={{ width: 12, height: 12, left: autoOn ? 14 : 2 }} />
-      </span>
-      <span style={{
-        fontFamily: 'Manrope,sans-serif', fontSize: 10, fontWeight: 500,
-        letterSpacing: '0.08em', textTransform: 'uppercase',
-        color: '#fff',
-      }}>{autoOn ? 'Auto' : 'Manual'}</span>
-    </button>
-  )
-  */
-
-  if (isMobile) {
-    return (
-      <nav className="fixed top-0 left-0 right-0 z-30 pointer-events-none fade-in" style={{ padding: '16px 16px 0' }}>
-        <div style={{ display: 'flex', justifyContent: 'center', pointerEvents: 'auto' }}>
-          <Logo onClick={onLogoClick} />
-        </div>
-        {/*
-        <div style={{ display: 'flex', justifyContent: 'flex-end', marginTop: 14, pointerEvents: 'auto' }}>
-          {toggleButton}
-        </div>
-        */}
-      </nav>
-    )
+  const handleLogoClick = () => {
+    if (location.pathname === '/') window.scrollTo({ top: 0, behavior: 'smooth' })
+    else triggerPageOut(() => navigate('/'))
   }
 
   return (
-    <nav className="fixed top-0 left-0 right-0 z-30 flex items-start justify-between px-12 py-7 fade-in pointer-events-none">
-      <div className="w-28" />
-      <div className="flex-1 flex justify-center pointer-events-auto">
-        <Logo onClick={onLogoClick} />
-      </div>
-      {/*
-      <div className="w-28 flex justify-end pointer-events-auto" style={{ marginTop: 72 }}>
-        {toggleButton}
-      </div>
-      */}
-      <div className="w-28" />
+    <nav className="fixed top-0 left-0 right-0 z-30 flex items-center justify-center fade-in pointer-events-none"
+      style={{ padding: isMobile ? '16px 16px 0' : '24px 24px 0' }}
+    >
+      <img
+        src="/images/logo/logo.png"
+        alt="KhanConcepts"
+        onClick={handleLogoClick}
+        style={{
+          width: isMobile ? 'clamp(84px, 24vw, 120px)' : 'clamp(110px, 10vw, 168px)',
+          height: 'auto',
+          cursor: 'pointer',
+          pointerEvents: 'auto',
+        }}
+      />
     </nav>
   )
 }

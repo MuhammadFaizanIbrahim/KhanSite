@@ -1,7 +1,10 @@
+import { useRef } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
 import { usePageTransition } from '@/contexts/TransitionContext'
 import { PROJECTS } from '@/data/projects'
 import { useBreakpoint } from '@/hooks/useBreakpoint'
+import { useLenis } from '@/hooks/useLenis'
+import Footer from '@/components/sections/Footer'
 
 const label = (text: string) => ({
   fontFamily: 'Manrope, sans-serif' as const,
@@ -18,6 +21,8 @@ export default function ProjectPage() {
   const navigate = useNavigate()
   const { triggerPageOut } = usePageTransition()
   const { isMobile } = useBreakpoint()
+  const scrollRef = useRef<HTMLDivElement>(null)
+  useLenis(scrollRef)
 
   const project = PROJECTS.find(p => p.id === Number(id))
   const handleBack = () => triggerPageOut(() => navigate('/work'))
@@ -34,6 +39,7 @@ export default function ProjectPage() {
 
   return (
     <div
+      ref={scrollRef}
       className="fade-in"
       style={{ position: 'fixed', inset: 0, background: '#040609', overflowY: 'auto', overflowX: 'hidden' }}
     >
@@ -242,6 +248,8 @@ export default function ProjectPage() {
 
         <div style={{ height: 80 }} />
       </div>
+
+      <Footer />
     </div>
   )
 }

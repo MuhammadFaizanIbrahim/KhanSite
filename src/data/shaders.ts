@@ -16,6 +16,13 @@ uniform float uP;
 uniform float uT;
 uniform float uAR;
 uniform float uMode;
+uniform float uImgAR;
+
+// Fit uB's image into the canvas like CSS background-size:cover — crops instead of stretching
+vec2 coverUV(vec2 uv, float canvasAR, float imgAR){
+  vec2 ratio = vec2(min(canvasAR/imgAR,1.0), min(imgAR/canvasAR,1.0));
+  return vec2(uv.x*ratio.x+(1.0-ratio.x)*0.5, uv.y*ratio.y+(1.0-ratio.y)*0.5);
+}
 
 float hash(vec2 p){ return fract(sin(dot(p,vec2(127.1,311.7)))*43758.5453); }
 float hash3(vec2 p){ return fract(sin(dot(p,vec2(269.5,183.3)))*85734.3); }
@@ -54,7 +61,12 @@ vec4 sectionDissolve(){
   float angularNoise2=fbm2(vec2(cos(ang*2.3)*1.8,sin(ang*2.3)*1.8))*0.18;
   float threshold=normDist+noiseOffset+angularNoise-angularNoise2;
   float mixF=smoothstep(threshold+0.10,threshold-0.10,uP);
-  return mix(texture2D(uA,uv),texture2D(uB,uv),mixF);
+  vec4 col=mix(texture2D(uA,uv),texture2D(uB,coverUV(uv,uAR,uImgAR)),mixF);
+  // Faint white glow along the dissolve boundary — keeps the noise edge readable
+  // against an otherwise dark-on-dark crossfade.
+  float edge=1.0-abs(mixF*2.0-1.0);
+  col.rgb+=vec3(1.0)*edge*edge*0.16;
+  return col;
 }
 
 /* PAGE: glass lens morph */

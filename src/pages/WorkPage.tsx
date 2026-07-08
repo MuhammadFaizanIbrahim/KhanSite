@@ -1,7 +1,9 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { usePageTransition } from '@/contexts/TransitionContext'
+import { useLenis } from '@/hooks/useLenis'
 import { PROJECTS, CATEGORIES, SUB_CATS, type Project } from '@/data/projects'
+import Footer from '@/components/sections/Footer'
 
 const ACCENT = '#22c98a'
 
@@ -54,7 +56,7 @@ function GridView({ projects, cols, onProjectClick }: { projects: Project[]; col
       gap,
     }}>
       {projects.map(p => (
-        <div key={p.id} style={{ cursor: 'pointer' }} onClick={() => onProjectClick(p.id)}>
+        <div key={p.id} data-cursor="select" style={{ cursor: 'pointer' }} onClick={() => onProjectClick(p.id)}>
           <div style={{
             position: 'relative',
             paddingBottom: '62.5%',
@@ -125,6 +127,8 @@ function GridView({ projects, cols, onProjectClick }: { projects: Project[]; col
 export default function WorkPage() {
   const navigate = useNavigate()
   const { triggerPageOut } = usePageTransition()
+  const scrollRef = useRef<HTMLDivElement>(null)
+  useLenis(scrollRef)
   const [activeCat, setActiveCat] = useState('All')
   const [activeSubCat, setActiveSubCat] = useState('All')
 
@@ -165,6 +169,7 @@ export default function WorkPage() {
 
   return (
     <div
+      ref={scrollRef}
       className="fade-in"
       style={{ position: 'fixed', inset: 0, background: '#000', overflowY: 'auto', overflowX: 'hidden' }}
     >
@@ -322,6 +327,8 @@ export default function WorkPage() {
           <GridView projects={filtered} cols={cols} onProjectClick={handleProjectClick} />
         )}
       </div>
+
+      <Footer />
     </div>
   )
 }

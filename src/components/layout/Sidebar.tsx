@@ -1,127 +1,143 @@
-import { SECTIONS } from '@/data/sections'
+import { useEffect, useState } from 'react'
 import { useBreakpoint } from '@/hooks/useBreakpoint'
-
-interface SidebarProps {
-  currentIdx: number
-  autoOn: boolean
-  onNav: (dir: number) => void
-  onDotClick: (idx: number) => void
-  onPageTransition: (path: string) => void
-  onDisableAuto: () => void
-  isConceptsActive?: boolean
-  isContactActive?: boolean
-}
+import { smoothScrollTo } from '@/hooks/useLenis'
 
 interface SidebarItem {
   label: string
-  idx: number
-  path?: string
+  id: string
 }
 
+// IDs are anchors for sections that will be built next — items simply no-op
+// until a matching #id exists in the DOM, so this list needs no future changes.
 const SIDEBAR_ITEMS: SidebarItem[] = [
-  { label: 'Intro', idx: 0 },
-  { label: 'Concepts', idx: -1, path: '#featuredconcepts' },
-  { label: 'Process', idx: 1 },
-  { label: 'Contact', idx: -1, path: '#contact' },
+  { label: 'Intro',                             id: 'hero' },
+  { label: 'What Is KhanConcepts?',            id: 'what-is-khanconcepts' },
+  { label: 'Concept Design Industries',         id: 'concept-innovation-space' },
+  { label: 'Concept to Solution Process', id: 'how-we-bring-concepts-to-reality' },
+  { label: 'Featured Concepts',                id: 'featured-concepts' },
 ]
 
-export default function Sidebar({ currentIdx, autoOn, onDotClick, onPageTransition, onDisableAuto, isConceptsActive, isContactActive }: SidebarProps) {
+export default function Sidebar() {
   const { isMobile } = useBreakpoint()
+  const [active, setActive]   = useState(SIDEBAR_ITEMS[0].id)
+  const [hovered, setHovered] = useState<string | null>(null)
 
-  const renderDot = (isActive: boolean, isPassed: boolean) => {
-    const size = isMobile ? 7 : 9
-    return (
-      <div style={{ position: 'relative', width: size, height: size, flexShrink: 0 }}>
-        {isActive && (
-          <>
-            <div style={{
-              position: 'absolute', inset: -5, borderRadius: '50%',
-              background: 'rgba(255,255,255,0.07)',
-              animation: 'sidebarGlow 2.4s ease-in-out infinite',
-            }} />
-            <div style={{
-              position: 'absolute', inset: -2, borderRadius: '50%',
-              background: 'rgba(255,255,255,0.14)',
-            }} />
-          </>
-        )}
-        <div style={{
-          position: 'absolute', inset: 0, borderRadius: '50%',
-          background: isActive ? '#fff' : isPassed ? 'rgba(255,255,255,0.38)' : 'transparent',
-          border: isActive ? 'none' : `1px solid ${isPassed ? 'rgba(255,255,255,0.32)' : 'rgba(255,255,255,0.18)'}`,
-          boxShadow: isActive ? '0 0 8px 2px rgba(255,255,255,0.45), 0 0 20px 4px rgba(255,255,255,0.1)' : 'none',
-          transition: 'all 0.4s ease',
-        }} />
-      </div>
+  // Scrollspy — whichever section sits in the middle band of the viewport is "active".
+  // Sections that don't exist yet are simply skipped; this needs no updates later.
+  useEffect(() => {
+    const els = SIDEBAR_ITEMS
+      .map(item => document.getElementById(item.id))
+      .filter((el): el is HTMLElement => !!el)
+    if (!els.length) return
+
+    const io = new IntersectionObserver(
+      entries => {
+        const visible = entries.filter(e => e.isIntersecting)
+        if (visible.length) setActive(visible[0].target.id)
+      },
+      { rootMargin: '-40% 0px -55% 0px', threshold: 0 }
     )
+    els.forEach(el => io.observe(el))
+    return () => io.disconnect()
+  }, [])
+
+  const handleClick = (id: string) => {
+    const el = document.getElementById(id)
+    if (el) smoothScrollTo(el)
   }
 
-  const renderLine = (isPassed: boolean, height = 36) => (
-    <div style={{
-      width: 1,
-      height: isMobile ? Math.round(height * 0.6) : height,
-      marginTop: 3, marginBottom: 3,
-      background: isPassed
-        ? 'linear-gradient(to bottom, rgba(100,130,255,0.6), rgba(70,100,210,0.3))'
-        : 'rgba(255,255,255,0.07)',
-      transition: 'background 0.5s ease',
-    }} />
-  )
+  // Side nav is desktop-only — too cramped alongside the bottom pill nav on mobile
+  if (isMobile) return null
+
+  const dotSize = 13
 
   return (
     <div
       className="fixed z-30 flex flex-col items-start fade-in"
-      style={{ left: isMobile ? 12 : 36, top: '50%', transform: 'translateY(-50%)' }}
+      style={{ left: 46, top: '50%', transform: 'translateY(-50%)' }}
     >
       {SIDEBAR_ITEMS.map((item, i) => {
-        const isLast = i === SIDEBAR_ITEMS.length - 1
-        
-        let activeSeqIdx = 0
-        if (isContactActive) {
-          activeSeqIdx = 3
-        } else if (currentIdx === 1 && !isConceptsActive) {
-          activeSeqIdx = 2
-        } else if (isConceptsActive) {
-          activeSeqIdx = 1
-        } else {
-          activeSeqIdx = 0
-        }
-
-        const isActive = i === activeSeqIdx
-        const isPassed = i < activeSeqIdx
+        const isLast     = i === SIDEBAR_ITEMS.length - 1
+        const isActive   = item.id === active
+        const isHovered  = item.id === hovered
+        const expanded   = isActive || isHovered
 
         return (
-          <div key={item.label} style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start' }}>
+          <div key={item.id} style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start' }}>
             <div
-              style={{ display: 'flex', alignItems: 'center', gap: isMobile ? 8 : 14, cursor: 'pointer' }}
-              onClick={() => {
-                if (item.path) {
-                  onPageTransition(item.path)
-                } else {
-                  if (autoOn) onDisableAuto()
-                  onDotClick(item.idx)
-                }
-              }}
+              style={{ display: 'flex', alignItems: 'center', cursor: 'pointer' }}
+              onMouseEnter={() => setHovered(item.id)}
+              onMouseLeave={() => setHovered(null)}
+              onClick={() => handleClick(item.id)}
             >
-              {renderDot(isActive, isPassed)}
+              {/* Dot */}
+              <div style={{ position: 'relative', width: dotSize, height: dotSize, flexShrink: 0 }}>
+                {isActive && (
+                  <>
+                    <div style={{
+                      position: 'absolute', inset: -6, borderRadius: '50%',
+                      background: 'rgba(212,175,55,0.16)',
+                      animation: 'sidebarGlow 2.4s ease-in-out infinite',
+                    }} />
+                    <div style={{
+                      position: 'absolute', inset: -2, borderRadius: '50%',
+                      background: 'rgba(212,175,55,0.28)',
+                    }} />
+                  </>
+                )}
+                <div style={{
+                  position: 'absolute', inset: 0, borderRadius: '50%',
+                  background: isActive ? '#D4AF37' : 'transparent',
+                  border: isActive ? 'none' : `1px solid ${isHovered ? 'rgba(212,175,55,0.7)' : 'rgba(255,255,255,0.28)'}`,
+                  boxShadow: isActive ? '0 0 8px 2px rgba(212,175,55,0.55), 0 0 20px 4px rgba(212,175,55,0.18)' : 'none',
+                  transition: 'all 0.35s ease',
+                }} />
+              </div>
 
-              <span style={{
-                fontFamily: "'Inter', sans-serif",
-                fontSize: isMobile ? 11 : 14,
-                fontWeight: isActive ? 500 : 300,
-                letterSpacing: '0.05em',
-                color: isActive
-                  ? 'rgba(255,255,255,0.92)'
-                  : isPassed ? 'rgba(255,255,255,0.3)' : 'rgba(255,255,255,0.2)',
-                transition: 'color 0.4s ease',
-                whiteSpace: 'nowrap',
+              {/* Tick (collapsed) → Label (expanded on hover / active) */}
+              <div style={{
+                marginLeft: 16,
+                overflow: 'hidden',
+                maxWidth: expanded ? 340 : 18,
+                transition: 'max-width 0.35s cubic-bezier(0.4,0,0.2,1)',
+                display: 'flex', alignItems: 'center',
               }}>
-                {item.label}
-              </span>
+                {expanded ? (
+                  <span style={{
+                    fontFamily: "'Inter', sans-serif",
+                    fontSize: 16,
+                    fontWeight: isActive ? 600 : 400,
+                    letterSpacing: '0.04em',
+                    whiteSpace: 'nowrap',
+                    color: isActive ? '#D4AF37' : 'rgba(255,255,255,0.85)',
+                    transition: 'color 0.3s ease',
+                    // Solid backing so the label reads as a floating UI element
+                    // rather than bleeding transparently over whatever section content
+                    // happens to sit underneath the (viewport-fixed) sidebar.
+                    background: 'rgba(6,6,8,0.88)',
+                    backdropFilter: 'blur(6px)',
+                    WebkitBackdropFilter: 'blur(6px)',
+                    border: '1px solid rgba(212,175,55,0.2)',
+                    borderRadius: 6,
+                    padding: '4px 10px',
+                  }}>{item.label}</span>
+                ) : (
+                  <span style={{ width: 18, height: 1, background: 'rgba(255,255,255,0.25)', display: 'block' }} />
+                )}
+              </div>
             </div>
+
             {!isLast && (
-              <div style={{ marginLeft: isMobile ? 3 : 4 }}>
-                {renderLine(isPassed, 52)}
+              <div style={{ marginLeft: (dotSize - 1) / 2 }}>
+                <div style={{
+                  width: 1,
+                  height: 48,
+                  marginTop: 4, marginBottom: 4,
+                  background: isActive
+                    ? 'linear-gradient(to bottom, rgba(212,175,55,0.55), rgba(212,175,55,0.05))'
+                    : 'rgba(255,255,255,0.08)',
+                  transition: 'background 0.4s ease',
+                }} />
               </div>
             )}
           </div>
