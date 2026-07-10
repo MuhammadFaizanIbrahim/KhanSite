@@ -233,7 +233,7 @@ export default function Hero() {
           </div>
           {/* Real scroll cue — anchored independently near the bottom of the section */}
           <div style={{
-            position: 'absolute', left: '50%', bottom: 24, transform: 'translateX(-50%)',
+            position: 'absolute', bottom: 44, transform: 'translateX(-50%)',
             ...fadeStyle(step >= STEP_SCROLL),
           }}>
             <ScrollCue label={content.scrollCueLabel} />
