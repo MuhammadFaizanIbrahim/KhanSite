@@ -173,31 +173,26 @@ export default function WorkPage() {
       className="fade-in"
       style={{ position: 'fixed', inset: 0, background: '#000', overflowY: 'auto', overflowX: 'hidden' }}
     >
-      {/* ── Back button ── */}
-      <button
-        onClick={handleBack}
-        style={{
-          position: 'fixed', top: 20, left: isMobile ? 16 : 48, zIndex: 50,
-          display: 'flex', alignItems: 'center', gap: 8,
-          fontFamily: 'Manrope, sans-serif', fontSize: 10, fontWeight: 500,
-          letterSpacing: '0.14em', textTransform: 'uppercase',
-          color: '#fff', background: 'none', border: 'none',
-          cursor: 'pointer', transition: 'opacity 0.2s',
-        }}
-        onMouseEnter={e => { e.currentTarget.style.opacity = '0.6' }}
-        onMouseLeave={e => { e.currentTarget.style.opacity = '1' }}
-      >
-        <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round">
-          <path d="M9 6H3M5 4L3 6l2 2" />
-        </svg>
-        Back
-      </button>
+      {/* ── Back, on a line beneath the universal site logo ── */}
+      <div style={{ padding: isMobile ? '90px 16px 0' : '120px 48px 0' }}>
+        <button
+          onClick={handleBack}
+          style={{
+            display: 'flex', alignItems: 'center', gap: 8, background: 'none', border: 'none', cursor: 'pointer', padding: 0,
+          }}
+        >
+          <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="#D4AF37" strokeWidth="1.5" strokeLinecap="round">
+            <path d="M9 6H3M5 4L3 6l2 2" />
+          </svg>
+          <span style={{ fontFamily: 'Manrope, sans-serif', fontSize: 11, fontWeight: 600, letterSpacing: '0.14em', textTransform: 'uppercase', color: '#D4AF37' }}>Back to Home</span>
+        </button>
+      </div>
 
       <div style={{ maxWidth: 1360, margin: '0 auto', padding: isMobile ? '0 16px 64px' : '0 48px 100px' }}>
 
         {/* ── Header ── */}
         <div style={{
-          paddingTop: isMobile ? 64 : 110, paddingBottom: isMobile ? 32 : 52,
+          paddingTop: isMobile ? 20 : 24, paddingBottom: isMobile ? 32 : 52,
           borderBottom: '0.5px solid rgba(255,255,255,0.07)',
           textAlign: 'center',
         }}>

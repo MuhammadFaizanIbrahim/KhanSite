@@ -5,6 +5,7 @@ import { useBreakpoint } from '@/hooks/useBreakpoint'
 import { useLenis } from '@/hooks/useLenis'
 import { useContent } from '@/hooks/useContent'
 import { RichText } from '@/utils/richText'
+import { slugify } from '@/utils/slug'
 import Footer from '@/components/sections/Footer'
 import type { Concept, ConceptSpace, ConceptType } from '@/data/concepts'
 
@@ -12,58 +13,6 @@ const GOLD = '#D4AF37'
 const ICON_STROKE = 1.6
 const PAGE_SIZE = 8
 
-const SPACE_ICONS: Record<ConceptSpace, JSX.Element> = {
-  'Product Concepts': (
-    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke={GOLD} strokeWidth={ICON_STROKE} strokeLinecap="round" strokeLinejoin="round">
-      <circle cx="11" cy="11" r="7" /><path d="m21 21-4.3-4.3" />
-    </svg>
-  ),
-  'Hardware Concepts': (
-    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke={GOLD} strokeWidth={ICON_STROKE} strokeLinecap="round" strokeLinejoin="round">
-      <rect x="6" y="6" width="12" height="12" rx="1.5" /><path d="M9 2v3M15 2v3M9 19v3M15 19v3M2 9h3M2 15h3M19 9h3M19 15h3" />
-    </svg>
-  ),
-  'Technology Concepts': (
-    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke={GOLD} strokeWidth={ICON_STROKE} strokeLinecap="round" strokeLinejoin="round">
-      <path d="M9 3a3 3 0 0 0-3 3 3 3 0 0 0-2 5 3 3 0 0 0 2 5 3 3 0 0 0 3 3V3Z" />
-      <path d="M15 3a3 3 0 0 1 3 3 3 3 0 0 1 2 5 3 3 0 0 1-2 5 3 3 0 0 1-3 3V3Z" />
-    </svg>
-  ),
-  'Business Concepts': (
-    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke={GOLD} strokeWidth={ICON_STROKE} strokeLinecap="round" strokeLinejoin="round">
-      <rect x="2" y="7" width="20" height="14" rx="2" /><path d="M8 7V5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" />
-    </svg>
-  ),
-  'Mobility Concepts': (
-    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke={GOLD} strokeWidth={ICON_STROKE} strokeLinecap="round" strokeLinejoin="round">
-      <path d="M3 13l1.5-4.5A2 2 0 0 1 6.4 7h11.2a2 2 0 0 1 1.9 1.5L21 13" />
-      <rect x="2" y="13" width="20" height="5" rx="1.5" /><circle cx="7" cy="18.5" r="1.5" /><circle cx="17" cy="18.5" r="1.5" />
-    </svg>
-  ),
-  'Research, Engineering & Invention Concepts': (
-    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke={GOLD} strokeWidth={ICON_STROKE} strokeLinecap="round" strokeLinejoin="round">
-      <path d="M9 2h6M10 2v6.5L4.5 19a2 2 0 0 0 1.8 3h11.4a2 2 0 0 0 1.8-3L14 8.5V2" />
-    </svg>
-  ),
-  'Real & Virtual World Systems Concepts': (
-    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke={GOLD} strokeWidth={ICON_STROKE} strokeLinecap="round" strokeLinejoin="round">
-      <circle cx="12" cy="12" r="9" /><path d="M3 12h18M12 3a15 15 0 0 1 0 18 15 15 0 0 1 0-18Z" />
-    </svg>
-  ),
-  'Entertainment Concepts': (
-    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke={GOLD} strokeWidth={ICON_STROKE} strokeLinecap="round" strokeLinejoin="round">
-      <path d="M6 11h4M8 9v4" /><circle cx="16.5" cy="10.5" r="0.9" fill={GOLD} /><circle cx="18.5" cy="12.5" r="0.9" fill={GOLD} />
-      <rect x="2" y="7" width="20" height="11" rx="5.5" />
-    </svg>
-  ),
-}
-
-const TagIcon = (
-  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke={GOLD} strokeWidth={ICON_STROKE} strokeLinecap="round" strokeLinejoin="round">
-    <path d="M20.6 12.3 12.3 20.6a2 2 0 0 1-2.8 0l-7-7a2 2 0 0 1 0-2.8L10.7 2.5A2 2 0 0 1 12 2H19a2 2 0 0 1 2 2v7a2 2 0 0 1-.4 1.3Z" />
-    <circle cx="15.5" cy="7.5" r="1.4" fill={GOLD} stroke="none" />
-  </svg>
-)
 const SparkleIcon = (
   <svg width="13" height="13" viewBox="0 0 24 24" fill={GOLD}>
     <path d="M12 2l2.2 6.8L21 11l-6.8 2.2L12 20l-2.2-6.8L3 11l6.8-2.2L12 2Z" />
@@ -212,25 +161,27 @@ function ConceptCard({ concept, isMobile, delay, inView, onOpen }: { concept: Co
   )
 
   const content = (
-    <div style={{ padding: isMobile ? '10px 4px' : '14px 16px 16px' }}>
+    <div style={{ flex: 1, display: 'flex', flexDirection: 'column', padding: isMobile ? '10px 4px' : '14px 16px 16px' }}>
       <h3 style={{
-        display: 'flex', alignItems: 'center', gap: 6,
-        fontFamily: "'Playfair Display', serif", fontWeight: 600,
+        fontFamily: "'Playfair Display', serif", fontWeight: 600, lineHeight: 1.3,
         fontSize: isMobile ? 15 : 'clamp(15px, 1.3vw, 18px)', color: '#F2F2F2', margin: '0 0 8px',
-      }}>{concept.title}{SparkleIcon}</h3>
+        minHeight: '2.6em',
+      }}>{concept.title}</h3>
       <div style={{ display: 'flex', flexDirection: 'column', gap: 5 }}>
-        <span style={{ display: 'flex', alignItems: 'center', gap: 7 }}>
-          {SPACE_ICONS[concept.space]}
-          <span style={{ fontFamily: "'Inter', sans-serif", fontSize: 11.5, color: 'rgba(237,237,237,0.75)' }}>{concept.space.replace(' Concepts', '')}</span>
+        <span style={{ fontFamily: "'Inter', sans-serif", fontSize: 11.5, lineHeight: 1.4, color: 'rgba(237,237,237,0.75)', minHeight: '1.4em' }}>
+          {concept.space.replace(' Concepts', '')}
         </span>
-        <span style={{ display: 'flex', alignItems: 'center', gap: 7 }}>
-          {TagIcon}
-          <span style={{ fontFamily: "'Inter', sans-serif", fontSize: 11.5, color: 'rgba(237,237,237,0.75)' }}>{concept.tagline}</span>
+        <span style={{ fontFamily: "'Inter', sans-serif", fontSize: 11.5, lineHeight: 1.4, color: 'rgba(237,237,237,0.75)', minHeight: '1.4em' }}>
+          {concept.tagline}
         </span>
       </div>
       <button
         onClick={e => { e.stopPropagation(); onOpen() }}
-        style={{ display: 'flex', alignItems: 'center', gap: 6, marginTop: 12, background: 'none', border: 'none', padding: 0, cursor: 'pointer' }}
+        style={{
+          display: 'flex', alignItems: 'center', gap: 6, marginTop: 'auto',
+          paddingTop: 12, paddingBottom: 0, paddingLeft: 0, paddingRight: 0,
+          background: 'none', border: 'none', cursor: 'pointer',
+        }}
       >
         <span style={{ fontFamily: "'Inter', sans-serif", fontSize: 12, fontWeight: 500, color: GOLD }}>Explore Concept</span>
         <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke={GOLD} strokeWidth={2} strokeLinecap="round" strokeLinejoin="round">
@@ -244,6 +195,7 @@ function ConceptCard({ concept, isMobile, delay, inView, onOpen }: { concept: Co
     border: '1px solid rgba(212,175,55,0.3)', borderRadius: 12, overflow: 'hidden',
     background: 'rgba(10,10,13,0.6)',
     cursor: 'pointer',
+    height: '100%', display: 'flex', flexDirection: 'column',
     opacity: inView ? 1 : 0,
     transform: inView ? 'translateY(0)' : 'translateY(18px)',
     transition: `opacity 1.3s ease ${delay}ms, transform 1.3s cubic-bezier(0.16,1,0.3,1) ${delay}ms`,
@@ -251,16 +203,16 @@ function ConceptCard({ concept, isMobile, delay, inView, onOpen }: { concept: Co
 
   if (isMobile) {
     return (
-      <div data-cursor="select" onClick={onOpen} style={{ ...wrapperStyle, display: 'flex', alignItems: 'stretch' }}>
+      <div data-cursor="select" onClick={onOpen} style={{ ...wrapperStyle, flexDirection: 'row', alignItems: 'stretch' }}>
         <div style={{ position: 'relative', width: '38%', flexShrink: 0 }}>{image}{badge}</div>
-        <div style={{ flex: 1, minWidth: 0 }}>{content}</div>
+        {content}
       </div>
     )
   }
 
   return (
     <div data-cursor="select" onClick={onOpen} style={wrapperStyle}>
-      <div style={{ position: 'relative', aspectRatio: '4 / 3' }}>{image}{badge}</div>
+      <div style={{ position: 'relative', flexShrink: 0, height: 'clamp(150px, 14vw, 200px)' }}>{image}{badge}</div>
       {content}
     </div>
   )
@@ -273,7 +225,7 @@ function useInView<T extends HTMLElement>() {
     const el = ref.current
     if (!el) return
     const io = new IntersectionObserver(
-      ([entry]) => { if (entry.isIntersecting) { setInView(true); io.disconnect() } },
+      ([entry]) => setInView(entry.isIntersecting),
       { threshold: 0.05 }
     )
     io.observe(el)
@@ -396,8 +348,8 @@ export default function ConceptsPage() {
         <RadioRow label="Improved Concepts" count={statusCounts.improved} active={status === 'improved'} onClick={() => setStatus('improved')} />
       </FilterGroup>
 
-      <FilterGroup title="Concept Space">
-        <RadioRow label="All Spaces" count={spaceCounts.all} active={space === 'all'} onClick={() => setSpace('all')} />
+      <FilterGroup title="Industry">
+        <RadioRow label="All" count={spaceCounts.all} active={space === 'all'} onClick={() => setSpace('all')} />
         {CONCEPT_SPACES.map(s => (
           <RadioRow key={s} label={s} count={spaceCounts[s]} active={space === s} onClick={() => setSpace(s)} />
         ))}
@@ -433,7 +385,8 @@ export default function ConceptsPage() {
     </div>
   )
 
-  const bg = "url('/images/all%20concepts%20bg%20desktop.png')"
+  // Background image disabled in favor of a solid black background — uncomment to restore.
+  // const bg = "url('/images/all%20concepts%20bg%20desktop.png')"
 
   return (
     <div
@@ -441,32 +394,28 @@ export default function ConceptsPage() {
       className="fade-in"
       style={{ position: 'fixed', inset: 0, background: '#000', overflowY: 'auto', overflowX: 'hidden' }}
     >
-      <button
-        onClick={() => triggerPageOut(() => navigate('/'))}
-        style={{
-          position: 'fixed', top: 20, left: isMobile ? 16 : 48, zIndex: 50,
-          display: 'flex', alignItems: 'center', gap: 8,
-          fontFamily: "'Inter', sans-serif", fontSize: 10, fontWeight: 500,
-          letterSpacing: '0.14em', textTransform: 'uppercase',
-          color: '#fff', background: 'none', border: 'none',
-          cursor: 'pointer', transition: 'opacity 0.2s',
-        }}
-        onMouseEnter={e => (e.currentTarget.style.opacity = '0.6')}
-        onMouseLeave={e => (e.currentTarget.style.opacity = '1')}
-      >
-        <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round">
-          <path d="M9 6H3M5 4L3 6l2 2" />
-        </svg>
-        Back
-      </button>
+      {/* ── Back, on a line beneath the universal site logo ── */}
+      <div style={{ padding: isMobile ? '90px 16px 0' : '120px 40px 0' }}>
+        <button
+          onClick={() => triggerPageOut(() => navigate('/'))}
+          style={{
+            display: 'flex', alignItems: 'center', gap: 8, background: 'none', border: 'none', cursor: 'pointer', padding: 0,
+          }}
+        >
+          <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke={GOLD} strokeWidth="1.5" strokeLinecap="round">
+            <path d="M9 6H3M5 4L3 6l2 2" />
+          </svg>
+          <span style={{ fontFamily: "'Inter', sans-serif", fontSize: 11, fontWeight: 600, letterSpacing: '0.14em', textTransform: 'uppercase', color: GOLD }}>Back to Home</span>
+        </button>
+      </div>
 
       {/* ── Hero banner ── */}
       <div style={{
         position: 'relative', width: '100%',
-        backgroundImage: bg, backgroundSize: 'cover',
-        backgroundPosition: isMobile ? 'top center' : 'center',
+        // backgroundImage: bg, backgroundSize: 'cover',
+        // backgroundPosition: isMobile ? 'top center' : 'center',
         backgroundColor: '#000',
-        padding: isMobile ? '90px 20px 40px' : '150px 40px 60px',
+        padding: isMobile ? '20px 20px 40px' : '30px 40px 60px',
         textAlign: 'center',
       }}>
         <h1 style={{
@@ -474,18 +423,18 @@ export default function ConceptsPage() {
           fontSize: isMobile ? 'clamp(36px, 13vw, 48px)' : 'clamp(48px, 5.5vw, 80px)',
           margin: 0, lineHeight: 1.05,
         }}>
-          <span style={{ color: '#F2F2F2' }}>{pageContent.headingWhite} </span>
+          {/* <span style={{ color: '#F2F2F2' }}>{pageContent.headingWhite} </span> */}
           <span style={{ color: GOLD }}>{pageContent.headingGold}</span>
         </h1>
         <div style={{ display: 'flex', justifyContent: 'center', margin: isMobile ? '14px 0' : '20px 0' }}>
           <div style={{ width: isMobile ? 90 : 160, height: 1, background: 'linear-gradient(to right, transparent, rgba(212,175,55,0.7), transparent)' }} />
         </div>
-        <p style={{
+        {/* <p style={{
           fontFamily: "'Cinzel', serif", fontSize: isMobile ? 10 : 13, letterSpacing: '0.2em',
           textTransform: 'uppercase', color: 'rgba(237,237,237,0.85)', margin: '0 0 28px',
         }}>
           <RichText text={pageContent.tagline} goldColor={GOLD} />
-        </p>
+        </p> */}
 
         <div style={{ maxWidth: 640, margin: '0 auto' }}>
           <div style={{ position: 'relative' }}>
@@ -602,7 +551,7 @@ export default function ConceptsPage() {
                 {visible.map((c, i) => (
                   <ConceptCard
                     key={c.id} concept={c} isMobile={isMobile} delay={(i % PAGE_SIZE) * 60} inView={gridInView}
-                    onOpen={() => triggerPageOut(() => navigate(`/concepts/${c.id}`))}
+                    onOpen={() => triggerPageOut(() => navigate(`/concepts/${slugify(c.title)}`))}
                   />
                 ))}
               </div>

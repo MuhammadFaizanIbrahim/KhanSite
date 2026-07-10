@@ -98,11 +98,6 @@ const PencilIcon = (
     <path d="M12 20h9" /><path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4Z" />
   </svg>
 )
-const BackArrowIcon = (
-  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round">
-    <path d="M19 12H5M11 6l-6 6 6 6" />
-  </svg>
-)
 const ArrowIcon = (
   <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke={GOLD} strokeWidth={2} strokeLinecap="round" strokeLinejoin="round">
     <path d="M5 12h14M13 6l6 6-6 6" />
@@ -169,7 +164,8 @@ export default function ContactPage() {
     e.target.style.borderColor = hasError ? ERROR_COLOR : 'rgba(212,175,55,0.35)'
   }
 
-  const bg = isMobile ? "url('/images/contact%20bg%20mobile.png')" : "url('/images/contact%20bg%20desktop.png')"
+  // Background image disabled in favor of a solid black background — uncomment to restore.
+  // const bg = isMobile ? "url('/images/contact%20bg%20mobile.png')" : "url('/images/contact%20bg%20desktop.png')"
 
   const HeadingBlock = (
     <div>
@@ -178,8 +174,8 @@ export default function ContactPage() {
           fontFamily: "'Cinzel', serif", fontSize: isMobile ? 11 : 13, fontWeight: 600,
           letterSpacing: '0.3em', color: GOLD, textTransform: 'uppercase',
         }}>{content.eyebrow}</span>
-        <div style={{ width: isMobile ? 60 : 90, height: 1, background: 'rgba(212,175,55,0.5)' }} />
-        <SparkleIcon size={12} />
+        {/* <div style={{ width: isMobile ? 60 : 90, height: 1, background: 'rgba(212,175,55,0.5)' }} />
+        <SparkleIcon size={12} /> */}
       </div>
 
       <h1 style={{
@@ -430,32 +426,30 @@ export default function ContactPage() {
     <div style={{
       position: 'fixed', inset: 0, zIndex: 10,
       background: '#000',
-      backgroundImage: bg,
-      backgroundSize: 'cover',
-      backgroundPosition: isMobile ? 'top center' : 'center',
+      // backgroundImage: bg,
+      // backgroundSize: 'cover',
+      // backgroundPosition: isMobile ? 'top center' : 'center',
       overflow: 'hidden',
     }}>
-      <button
-        onClick={() => triggerPageOut(() => navigate('/'))}
-        aria-label="Back"
-        style={{
-          position: 'fixed', top: isMobile ? 18 : 28, left: isMobile ? 18 : 36, zIndex: 20,
-          width: 44, height: 44, borderRadius: '50%',
-          border: '1px solid rgba(255,255,255,0.4)',
-          background: 'rgba(10,10,13,0.45)', backdropFilter: 'blur(6px)',
-          display: 'flex', alignItems: 'center', justifyContent: 'center',
-          cursor: 'pointer', transition: 'opacity 0.2s',
-        }}
-        onMouseEnter={e => (e.currentTarget.style.opacity = '0.7')}
-        onMouseLeave={e => (e.currentTarget.style.opacity = '1')}
-      >
-        {BackArrowIcon}
-      </button>
-
       <div ref={scrollRef} style={{ position: 'absolute', inset: 0, overflowY: 'auto' }}>
+        {/* ── Back, on a line beneath the universal site logo ── */}
+        <div style={{ padding: isMobile ? '90px 16px 0' : '120px 40px 0' }}>
+          <button
+            onClick={() => triggerPageOut(() => navigate('/'))}
+            style={{
+              display: 'flex', alignItems: 'center', gap: 8, background: 'none', border: 'none', cursor: 'pointer', padding: 0,
+            }}
+          >
+            <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke={GOLD} strokeWidth="1.5" strokeLinecap="round">
+              <path d="M9 6H3M5 4L3 6l2 2" />
+            </svg>
+            <span style={{ fontFamily: "'Inter', sans-serif", fontSize: 11, fontWeight: 600, letterSpacing: '0.14em', textTransform: 'uppercase', color: GOLD }}>Back to Home</span>
+          </button>
+        </div>
+
         <div style={{
           maxWidth: stacked ? 640 : 1500, margin: '0 auto',
-          padding: isMobile ? '92px 20px 60px' : stacked ? '110px 40px 70px' : '130px 60px 100px',
+          padding: isMobile ? '20px 20px 60px' : stacked ? '20px 40px 70px' : '20px 60px 100px',
           display: stacked ? 'block' : 'flex',
           gap: stacked ? 0 : 100,
           alignItems: 'flex-start',

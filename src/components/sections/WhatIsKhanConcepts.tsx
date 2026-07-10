@@ -3,8 +3,9 @@ import { useBreakpoint } from '@/hooks/useBreakpoint'
 import { useContent } from '@/hooks/useContent'
 import { RichText } from '@/utils/richText'
 
-const BG_DESKTOP = "url('/images/hero%20bg%20desktop.png')"
-const BG_MOBILE  = "url('/images/hero%20bg%20mobile.png')"
+// Background image disabled in favor of a solid black background — uncomment to restore.
+// const BG_DESKTOP = "url('/images/hero%20bg%20desktop.png')"
+// const BG_MOBILE  = "url('/images/hero%20bg%20mobile.png')"
 
 // Sequential reveal: eyebrow → heading → divider → paragraph 1 → paragraph 2
 const STEP_EYEBROW    = 1
@@ -53,7 +54,8 @@ function GlowDivider({ axis, length, style }: { axis: 'horizontal' | 'vertical';
   )
 }
 
-// Fires the section's reveal sequence once it scrolls into view
+// Fires the section's reveal sequence every time it scrolls into view — and
+// again on every re-entry after having scrolled away, so it always replays.
 function useInView<T extends HTMLElement>() {
   const ref = useRef<T>(null)
   const [inView, setInView] = useState(false)
@@ -61,7 +63,7 @@ function useInView<T extends HTMLElement>() {
     const el = ref.current
     if (!el) return
     const io = new IntersectionObserver(
-      ([entry]) => { if (entry.isIntersecting) { setInView(true); io.disconnect() } },
+      ([entry]) => setInView(entry.isIntersecting),
       { threshold: 0.15 }
     )
     io.observe(el)
@@ -73,7 +75,7 @@ function useInView<T extends HTMLElement>() {
 function useRevealSteps(active: boolean) {
   const [step, setStep] = useState(0)
   useEffect(() => {
-    if (!active) return
+    if (!active) { setStep(0); return }
     const timers = Object.entries(STEP_DELAYS_MS).map(([s, ms]) =>
       setTimeout(() => setStep(Number(s)), ms)
     )
@@ -103,9 +105,9 @@ export default function WhatIsKhanConcepts() {
         position: 'relative',
         minHeight: '100vh',
         width: '100%',
-        backgroundImage: isMobile ? BG_MOBILE : BG_DESKTOP,
-        backgroundSize: 'cover',
-        backgroundPosition: 'center',
+        // backgroundImage: isMobile ? BG_MOBILE : BG_DESKTOP,
+        // backgroundSize: 'cover',
+        // backgroundPosition: 'center',
         backgroundColor: '#000',
         display: 'flex',
         flexDirection: 'column',
@@ -120,7 +122,7 @@ export default function WhatIsKhanConcepts() {
         {/* ── Eyebrow ── */}
         <span style={{
           fontFamily: "'Cinzel', serif",
-          fontSize: isMobile ? 11 : 13,
+          fontSize: isMobile ? 11 : 18,
           fontWeight: 500,
           letterSpacing: '0.4em',
           textTransform: 'uppercase',

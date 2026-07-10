@@ -62,10 +62,10 @@ vec4 sectionDissolve(){
   float threshold=normDist+noiseOffset+angularNoise-angularNoise2;
   float mixF=smoothstep(threshold+0.10,threshold-0.10,uP);
   vec4 col=mix(texture2D(uA,uv),texture2D(uB,coverUV(uv,uAR,uImgAR)),mixF);
-  // Faint white glow along the dissolve boundary — keeps the noise edge readable
-  // against an otherwise dark-on-dark crossfade.
+  // Faint gold glow along the dissolve boundary — keeps the noise edge readable
+  // against an otherwise dark-on-dark crossfade, and matches the site's gold theme.
   float edge=1.0-abs(mixF*2.0-1.0);
-  col.rgb+=vec3(1.0)*edge*edge*0.16;
+  col.rgb+=vec3(0.831,0.686,0.216)*edge*edge*0.22;
   return col;
 }
 

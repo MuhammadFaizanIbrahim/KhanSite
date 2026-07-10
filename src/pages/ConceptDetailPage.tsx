@@ -4,6 +4,8 @@ import { usePageTransition } from '@/contexts/TransitionContext'
 import { useBreakpoint } from '@/hooks/useBreakpoint'
 import { useLenis } from '@/hooks/useLenis'
 import { useContent } from '@/hooks/useContent'
+import { slugify } from '@/utils/slug'
+import { getVideoEmbed, getPresentationEmbed } from '@/utils/embed'
 import Footer from '@/components/sections/Footer'
 import type { Concept } from '@/data/concepts'
 
@@ -54,18 +56,6 @@ const FilmIcon = (
     <path d="M3 9h18M8 4v5M16 4v5" />
   </svg>
 )
-function OrbitGraphic() {
-  return (
-    <svg viewBox="0 0 200 200" width="100%" height="100%" style={{ opacity: 0.55 }}>
-      {[90, 70, 50, 30].map(r => (
-        <circle key={r} cx="100" cy="100" r={r} fill="none" stroke="rgba(212,175,55,0.35)" strokeDasharray="2 4" />
-      ))}
-      <circle cx="100" cy="100" r="3" fill={GOLD} />
-      <path d="M100 10v20M100 170v20M10 100h20M170 100h20" stroke="rgba(212,175,55,0.4)" strokeWidth="1" />
-    </svg>
-  )
-}
-
 function useInView<T extends HTMLElement>() {
   const ref = useRef<T>(null)
   const [inView, setInView] = useState(false)
@@ -73,7 +63,7 @@ function useInView<T extends HTMLElement>() {
     const el = ref.current
     if (!el) return
     const io = new IntersectionObserver(
-      ([entry]) => { if (entry.isIntersecting) { setInView(true); io.disconnect() } },
+      ([entry]) => setInView(entry.isIntersecting),
       { threshold: 0.08 }
     )
     io.observe(el)
@@ -119,7 +109,7 @@ function PlaceholderPane({ label }: { label: string }) {
 }
 
 export default function ConceptDetailPage() {
-  const { id } = useParams<{ id: string }>()
+  const { slug } = useParams<{ slug: string }>()
   const navigate = useNavigate()
   const { triggerPageOut } = usePageTransition()
   const { isMobile } = useBreakpoint()
@@ -129,8 +119,20 @@ export default function ConceptDetailPage() {
   const [copied, setCopied] = useState(false)
   const [ref, inView] = useInView<HTMLDivElement>()
   const pageContent = useContent('concepts-page')
+  const shareRef = useRef<HTMLDivElement>(null)
 
-  const concept = (pageContent.items as Concept[]).find(c => c.id === Number(id))
+  // Clicking anywhere outside the share menu closes it (covers the click-to-open
+  // case — the hover-to-open case is already handled by onMouseLeave below).
+  useEffect(() => {
+    if (!shareOpen) return
+    const handleClick = (e: MouseEvent) => {
+      if (shareRef.current && !shareRef.current.contains(e.target as Node)) setShareOpen(false)
+    }
+    document.addEventListener('mousedown', handleClick)
+    return () => document.removeEventListener('mousedown', handleClick)
+  }, [shareOpen])
+
+  const concept = (pageContent.items as Concept[]).find(c => slugify(c.title) === slug)
 
   const shareUrl = typeof window !== 'undefined' ? window.location.href : ''
   const copyLink = async () => {
@@ -150,24 +152,34 @@ export default function ConceptDetailPage() {
     )
   }
 
-  const titleWords = concept.title.split(' ')
-  const lastWord = titleWords.pop()
-  const titleLead = titleWords.join(' ')
+  const videoEmbed = concept.video ? getVideoEmbed(concept.video) : null
 
   return (
     <div ref={scrollRef} className="fade-in" style={{ position: 'fixed', inset: 0, background: '#000', overflowY: 'auto', overflowX: 'hidden' }}>
 
       <div style={{ position: 'relative', zIndex: 2 }}>
 
-      {/* ── Header — just the Share button; the universal site Navbar (logo)
-          and CenterNav (bottom pill) already render on this page like every
-          other page, so no need to duplicate them here. ── */}
+      {/* ── Back + Share, on one line beneath the universal site logo ── */}
       <div style={{
-        position: 'sticky', top: 0, zIndex: 25,
-        display: 'flex', justifyContent: 'flex-end',
-        padding: isMobile ? '16px 16px 0' : '20px 40px 0',
+        display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+        padding: isMobile ? '90px 16px 0' : '120px 40px 0',
       }}>
-        <div style={{ position: 'relative' }}>
+        <button
+          onClick={() => triggerPageOut(() => navigate('/concepts'))}
+          style={{
+            display: 'flex', alignItems: 'center', gap: 8, background: 'none', border: 'none', cursor: 'pointer', padding: 0,
+          }}
+        >
+          <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke={GOLD} strokeWidth="1.6" strokeLinecap="round"><path d="M9 6H3M5 4L3 6l2 2" /></svg>
+          <span style={{ fontFamily: "'Inter', sans-serif", fontSize: 11, fontWeight: 600, letterSpacing: '0.14em', textTransform: 'uppercase', color: GOLD }}>Back to Concepts</span>
+        </button>
+
+        <div
+          ref={shareRef}
+          style={{ position: 'relative', paddingBottom: 8 }}
+          onMouseEnter={() => setShareOpen(true)}
+          onMouseLeave={() => setShareOpen(false)}
+        >
           <button
             onClick={() => setShareOpen(o => !o)}
             style={{
@@ -182,7 +194,7 @@ export default function ConceptDetailPage() {
 
           {shareOpen && (
             <div style={{
-              position: 'absolute', top: 'calc(100% + 8px)', right: 0, width: 180, zIndex: 40,
+              position: 'absolute', top: '100%', right: 0, width: 180, zIndex: 40,
               border: `1px solid ${GOLD}`, borderRadius: 10, background: 'rgba(6,6,8,0.96)', backdropFilter: 'blur(10px)',
               overflow: 'hidden',
             }}>
@@ -202,41 +214,15 @@ export default function ConceptDetailPage() {
 
       <div ref={ref} style={{ maxWidth: 1360, margin: '0 auto', padding: isMobile ? '16px 16px 60px' : '20px 40px 90px' }}>
 
-        {/* ── Back link ── */}
-        <button
-          onClick={() => triggerPageOut(() => navigate('/concepts'))}
-          style={{
-            display: 'flex', alignItems: 'center', gap: 8, background: 'none', border: 'none', cursor: 'pointer',
-            padding: '10px 0', marginBottom: isMobile ? 8 : 16,
-          }}
-        >
-          <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke={GOLD} strokeWidth="1.6" strokeLinecap="round"><path d="M9 6H3M5 4L3 6l2 2" /></svg>
-          <span style={{ fontFamily: "'Inter', sans-serif", fontSize: 11, fontWeight: 600, letterSpacing: '0.14em', textTransform: 'uppercase', color: GOLD }}>Back to All Concepts</span>
-        </button>
-
         {/* ── Concept Name — the page background is the concept's own image ── */}
         <div style={{ maxWidth: isMobile ? '100%' : 640, marginBottom: isMobile ? 8 : 0 }}>
           <h1 style={{
             fontFamily: "'Playfair Display', serif", fontWeight: 700, textTransform: 'uppercase',
             fontSize: isMobile ? 'clamp(26px, 8.5vw, 34px)' : 'clamp(38px, 5vw, 60px)',
-            lineHeight: 1.06, margin: isMobile ? 0 : '0 0 20px',
+            lineHeight: 1.06, margin: isMobile ? 0 : '0 0 20px', color: GOLD,
           }}>
-            <span style={{ color: '#F2F2F2' }}>{titleLead} </span>
-            <span style={{ color: GOLD }}>{lastWord}</span>
+            {concept.title}
           </h1>
-          {!isMobile && (
-            <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 22 }}>
-              <div style={{ width: 90, height: 1, background: 'rgba(212,175,55,0.6)' }} />
-              <span style={{ width: 5, height: 5, borderRadius: '50%', background: GOLD }} />
-              <div style={{ width: 20, height: 1, background: 'rgba(212,175,55,0.6)' }} />
-            </div>
-          )}
-          <p style={{
-            fontFamily: "'Inter', sans-serif", fontSize: isMobile ? 13 : 14.5, lineHeight: 1.65,
-            color: 'rgba(237,237,237,0.85)', margin: isMobile ? '10px 0 0' : 0,
-          }}>
-            {concept.description}
-          </p>
         </div>
 
         {/* ── Meta row ── */}
@@ -248,8 +234,8 @@ export default function ConceptDetailPage() {
           margin: isMobile ? '22px 0 26px' : '34px 0 40px',
         }}>
           {[
-            { label: 'Concept Status', value: concept.status === 'new' ? 'Initial Concept' : 'Improved Concept' },
-            { label: 'Concept Space', value: concept.space },
+            { label: 'Concept Status', value: concept.status === 'new' ? 'New' : 'Improved' },
+            { label: 'Industry', value: concept.space },
             { label: 'Concept Type', value: concept.type },
           ].map((m, i) => (
             <div
@@ -272,13 +258,10 @@ export default function ConceptDetailPage() {
           transition: 'opacity 1.4s ease, transform 1.4s cubic-bezier(0.16,1,0.3,1)', marginBottom: isMobile ? 16 : 22,
         }}>
           <InfoBox icon={DocumentIcon} title="Concept Overview" isMobile={isMobile}>
-            <div style={{ display: 'flex', gap: 28, alignItems: 'center' }}>
-              <div style={{ flex: 1, display: 'flex', flexDirection: 'column', gap: 12 }}>
-                {concept.overview.map((p, i) => (
-                  <p key={i} style={{ margin: 0, fontFamily: "'Inter', sans-serif", fontSize: isMobile ? 12.5 : 13.5, lineHeight: 1.65, color: 'rgba(237,237,237,0.85)' }}>{p}</p>
-                ))}
-              </div>
-              {!isMobile && <div style={{ width: 160, height: 160, flexShrink: 0 }}><OrbitGraphic /></div>}
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+              {concept.overview.map((p, i) => (
+                <p key={i} style={{ margin: 0, fontFamily: "'Inter', sans-serif", fontSize: isMobile ? 12.5 : 13.5, lineHeight: 1.65, color: 'rgba(237,237,237,0.85)' }}>{p}</p>
+              ))}
             </div>
           </InfoBox>
         </div>
@@ -294,10 +277,10 @@ export default function ConceptDetailPage() {
                 position: 'relative', width: '100%', aspectRatio: '16 / 9', borderRadius: 10, overflow: 'hidden',
                 background: '#000', border: '1px solid rgba(212,175,55,0.25)',
               }}>
-                {concept.video ? (
-                  <video controls poster={concept.image} src={concept.video} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                {concept.slideEmbed ? (
+                  <iframe src={getPresentationEmbed(concept.slideEmbed)} title="Concept Presentation Slides" allowFullScreen style={{ width: '100%', height: '100%', border: 'none' }} />
                 ) : (
-                  <PlaceholderPane label="Video coming soon" />
+                  <PlaceholderPane label="Presentation coming soon" />
                 )}
               </div>
 
@@ -305,10 +288,14 @@ export default function ConceptDetailPage() {
                 position: 'relative', width: '100%', aspectRatio: '16 / 9', borderRadius: 10, overflow: 'hidden',
                 background: '#000', border: '1px solid rgba(212,175,55,0.25)',
               }}>
-                {concept.slideEmbed ? (
-                  <iframe src={concept.slideEmbed} title="Concept Presentation Slides" allowFullScreen style={{ width: '100%', height: '100%', border: 'none' }} />
+                {videoEmbed ? (
+                  videoEmbed.kind === 'iframe' ? (
+                    <iframe src={videoEmbed.src} title="Concept Video" allowFullScreen style={{ width: '100%', height: '100%', border: 'none' }} />
+                  ) : (
+                    <video controls poster={concept.image} src={videoEmbed.src} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                  )
                 ) : (
-                  <PlaceholderPane label="Presentation coming soon" />
+                  <PlaceholderPane label="Video coming soon" />
                 )}
               </div>
             </div>

@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import { useBreakpoint } from '@/hooks/useBreakpoint'
 import { useContent } from '@/hooks/useContent'
+import { RichText } from '@/utils/richText'
 
 const ICON_STROKE = 1.6
 const GOLD = '#D4AF37'
@@ -114,7 +115,7 @@ function ConceptCard({ item, delay, inView, isMobile }: { item: ConceptItem; del
           <span style={{
             fontFamily: "'Playfair Display', serif",
             fontSize: isMobile ? 14.5 : 'clamp(17px, 1.7vw, 21px)',
-            fontWeight: 600, color: '#F2F2F2', lineHeight: 1.25,
+            fontWeight: 600, color: GOLD, lineHeight: 1.25,
           }}>{item.title}</span>
         </div>
 
@@ -149,7 +150,7 @@ function useInView<T extends HTMLElement>() {
     const el = ref.current
     if (!el) return
     const io = new IntersectionObserver(
-      ([entry]) => { if (entry.isIntersecting) { setInView(true); io.disconnect() } },
+      ([entry]) => setInView(entry.isIntersecting),
       { threshold: 0.1 }
     )
     io.observe(el)
@@ -190,7 +191,12 @@ export default function ConceptInnovationSpace() {
           <div style={{ display: 'flex', justifyContent: 'center', marginTop: isMobile ? 10 : 16 }}>
             <div style={{ width: isMobile ? 120 : 220, height: 1, background: 'linear-gradient(to right, transparent, rgba(212,175,55,0.6), transparent)' }} />
           </div>
+          <p style={{
+            fontFamily: "'Inter', sans-serif", fontSize: isMobile ? 13 : 14.5, lineHeight: 1.7,
+            color: 'rgba(237,237,237,0.8)', maxWidth: 720, margin: '22px auto 0',
+          }}><RichText text={content.intro} /></p>
         </div>
+
 
         {/* ── Grid: 2 columns mobile, 4 columns desktop ── */}
         <div className="grid grid-cols-2 md:grid-cols-4" style={{ gap: isMobile ? 10 : 22 }}>

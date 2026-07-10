@@ -1,11 +1,12 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { useBreakpoint } from '@/hooks/useBreakpoint'
 import { smoothScrollTo } from '@/hooks/useLenis'
 import { useContent } from '@/hooks/useContent'
 import { RichText } from '@/utils/richText'
 
-const BG_DESKTOP = "url('/images/hero%20bg%20desktop.png')"
-const BG_MOBILE  = "url('/images/hero%20bg%20mobile.png')"
+// Background image disabled in favor of a solid black background — uncomment to restore.
+// const BG_DESKTOP = "url('/images/hero%20bg%20desktop.png')"
+// const BG_MOBILE  = "url('/images/hero%20bg%20mobile.png')"
 
 // Sequential reveal steps: tagline → Opportunity → → → Concept → → → Reality → divider → scroll cue
 const STEP_TAGLINE = 1
@@ -28,29 +29,50 @@ const STEP_DELAYS_MS: Record<number, number> = {
   [STEP_SCROLL]:  2050,
 }
 
-function useRevealSteps() {
+// Fires once the section scrolls into view, and again every time it re-enters
+// after having scrolled away — so the reveal sequence replays on every visit.
+function useInView<T extends HTMLElement>() {
+  const ref = useRef<T>(null)
+  const [inView, setInView] = useState(false)
+  useEffect(() => {
+    const el = ref.current
+    if (!el) return
+    const io = new IntersectionObserver(
+      ([entry]) => setInView(entry.isIntersecting),
+      { threshold: 0.15 }
+    )
+    io.observe(el)
+    return () => io.disconnect()
+  }, [])
+  return [ref, inView] as const
+}
+
+function useRevealSteps(active: boolean) {
   const [step, setStep] = useState(0)
   useEffect(() => {
-    // Hero mounts underneath the preloader/page-transition cover, well before it's
-    // actually visible — starting the reveal sequence on mount would finish it before
-    // the dissolve even clears. Wait for the transition canvas to signal it's done.
-    // (No timed fallback here — the preloader's own asset loading is highly variable,
-    // anywhere from ~3s to much longer, so a fixed-delay fallback would race ahead of
-    // the real event and start the sequence too early. PageTransitionCanvas guarantees
-    // this event fires on every code path, including when WebGL is unavailable.)
-    let timers: ReturnType<typeof setTimeout>[] = []
-    const start = () => {
-      timers = Object.entries(STEP_DELAYS_MS).map(([s, ms]) =>
-        setTimeout(() => setStep(Number(s)), ms)
-      )
-    }
-    window.addEventListener('transition:done', start, { once: true })
-    return () => {
-      window.removeEventListener('transition:done', start)
-      timers.forEach(clearTimeout)
-    }
-  }, [])
+    if (!active) { setStep(0); return }
+    const timers = Object.entries(STEP_DELAYS_MS).map(([s, ms]) =>
+      setTimeout(() => setStep(Number(s)), ms)
+    )
+    return () => timers.forEach(clearTimeout)
+  }, [active])
   return step
+}
+
+// Hero mounts underneath the preloader/page-transition cover, well before it's
+// actually visible on the very first load — starting the reveal sequence as
+// soon as it's "in view" would finish it before the dissolve even clears. So
+// the very first run additionally waits for the transition canvas to signal
+// it's done; every subsequent re-entry into view (scrolling back up to Hero)
+// no longer needs to wait for that, since the app has already loaded.
+function useReadyForReveal() {
+  const [ready, setReady] = useState(false)
+  useEffect(() => {
+    const markReady = () => setReady(true)
+    window.addEventListener('transition:done', markReady, { once: true })
+    return () => window.removeEventListener('transition:done', markReady)
+  }, [])
+  return ready
 }
 
 function fadeStyle(active: boolean, distance = 10): React.CSSProperties {
@@ -112,20 +134,23 @@ function ScrollCue({ label }: { label: string }) {
 
 export default function Hero() {
   const { isMobile } = useBreakpoint()
-  const step = useRevealSteps()
+  const [ref, inView] = useInView<HTMLElement>()
+  const ready = useReadyForReveal()
+  const step = useRevealSteps(ready && inView)
   const content = useContent('hero')
   const [wordOpp = '', wordConcept = '', wordReality = ''] = content.processWords
 
   return (
     <section
       id="hero"
+      ref={ref}
       style={{
         position: 'relative',
         minHeight: '100vh',
         width: '100%',
-        backgroundImage: isMobile ? BG_MOBILE : BG_DESKTOP,
-        backgroundSize: 'cover',
-        backgroundPosition: 'center',
+        // backgroundImage: isMobile ? BG_MOBILE : BG_DESKTOP,
+        // backgroundSize: 'cover',
+        // backgroundPosition: 'center',
         backgroundColor: '#000',
         display: 'flex',
         flexDirection: 'column',
@@ -198,10 +223,27 @@ export default function Hero() {
         }} />
       </div>
 
-      {/* ── Scroll cue — placed further down from the divider ── */}
-      <div style={{ marginTop: isMobile ? 56 : 76, ...fadeStyle(step >= STEP_SCROLL) }}>
-        <ScrollCue label={content.scrollCueLabel} />
-      </div>
+      {isMobile ? (
+        <>
+          {/* Invisible spacer — keeps the tagline/divider block above centered
+              exactly as before; moving the real scroll cue (below) further down
+              must not shift any of that upper content. */}
+          <div style={{ marginTop: 56, visibility: 'hidden' }} aria-hidden>
+            <ScrollCue label={content.scrollCueLabel} />
+          </div>
+          {/* Real scroll cue — anchored independently near the bottom of the section */}
+          <div style={{
+            position: 'absolute', left: '50%', bottom: 24, transform: 'translateX(-50%)',
+            ...fadeStyle(step >= STEP_SCROLL),
+          }}>
+            <ScrollCue label={content.scrollCueLabel} />
+          </div>
+        </>
+      ) : (
+        <div style={{ marginTop: 76, ...fadeStyle(step >= STEP_SCROLL) }}>
+          <ScrollCue label={content.scrollCueLabel} />
+        </div>
+      )}
     </section>
   )
 }

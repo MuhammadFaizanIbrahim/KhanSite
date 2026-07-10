@@ -19,36 +19,6 @@ const BADGE_ICONS: Record<string, JSX.Element> = {
   ),
 }
 
-const TAG_ICONS: Record<string, JSX.Element> = {
-  flask: (
-    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke={GOLD} strokeWidth={ICON_STROKE} strokeLinecap="round" strokeLinejoin="round">
-      <path d="M9 2h6M10 2v6.5L4.5 19a2 2 0 0 0 1.8 3h11.4a2 2 0 0 0 1.8-3L14 8.5V2" />
-    </svg>
-  ),
-  globe: (
-    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke={GOLD} strokeWidth={ICON_STROKE} strokeLinecap="round" strokeLinejoin="round">
-      <circle cx="12" cy="12" r="9" /><path d="M3 12h18M12 3a15 15 0 0 1 0 18 15 15 0 0 1 0-18Z" />
-    </svg>
-  ),
-  chip: (
-    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke={GOLD} strokeWidth={ICON_STROKE} strokeLinecap="round" strokeLinejoin="round">
-      <rect x="6" y="6" width="12" height="12" rx="1.5" /><path d="M9 2v3M15 2v3M9 19v3M15 19v3M2 9h3M2 15h3M19 9h3M19 15h3" />
-    </svg>
-  ),
-  car: (
-    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke={GOLD} strokeWidth={ICON_STROKE} strokeLinecap="round" strokeLinejoin="round">
-      <path d="M3 13l1.5-4.5A2 2 0 0 1 6.4 7h11.2a2 2 0 0 1 1.9 1.5L21 13" />
-      <rect x="2" y="13" width="20" height="5" rx="1.5" /><circle cx="7" cy="18.5" r="1.5" /><circle cx="17" cy="18.5" r="1.5" />
-    </svg>
-  ),
-  tag: (
-    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke={GOLD} strokeWidth={ICON_STROKE} strokeLinecap="round" strokeLinejoin="round">
-      <path d="M20.6 12.3 12.3 20.6a2 2 0 0 1-2.8 0l-7-7a2 2 0 0 1 0-2.8L10.7 2.5A2 2 0 0 1 12 2H19a2 2 0 0 1 2 2v7a2 2 0 0 1-.4 1.3Z" />
-      <circle cx="15.5" cy="7.5" r="1.4" fill={GOLD} />
-    </svg>
-  ),
-}
-
 interface FeaturedTag { icon: string; text: string }
 interface FeaturedItem {
   image: string
@@ -120,15 +90,9 @@ function FeaturedCard({ item, cardWidth, isActive }: { item: FeaturedItem; cardW
           <span style={{ color: GOLD }}>{item.titleGold}</span>
         </h3>
 
-        <div style={{ display: 'flex', alignItems: 'center', flexWrap: 'wrap', gap: 8, marginTop: 12 }}>
-          {item.tags.map((tag, i) => (
-            <span key={tag.text} style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-              {i > 0 && <span style={{ width: 1, height: 13, background: 'rgba(255,255,255,0.25)' }} />}
-              <span style={{ display: 'flex', alignItems: 'center', gap: 5 }}>
-                {TAG_ICONS[tag.icon] ?? TAG_ICONS.tag}
-                <span style={{ fontFamily: "'Inter', sans-serif", fontSize: 12.5, color: 'rgba(237,237,237,0.78)', whiteSpace: 'nowrap' }}>{tag.text}</span>
-              </span>
-            </span>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 4, marginTop: 12 }}>
+          {item.tags.map(tag => (
+            <span key={tag.text} style={{ fontFamily: "'Inter', sans-serif", fontSize: 12.5, color: 'rgba(237,237,237,0.78)' }}>{tag.text}</span>
           ))}
         </div>
 
@@ -152,7 +116,7 @@ function useInView<T extends HTMLElement>() {
     const el = ref.current
     if (!el) return
     const io = new IntersectionObserver(
-      ([entry]) => { if (entry.isIntersecting) { setInView(true); io.disconnect() } },
+      ([entry]) => setInView(entry.isIntersecting),
       { threshold: 0.1 }
     )
     io.observe(el)
@@ -164,13 +128,13 @@ function useInView<T extends HTMLElement>() {
 function GlowRing({ isMobile }: { isMobile: boolean }) {
   return (
     <div style={{
-      position: 'absolute', left: '50%', bottom: isMobile ? -6 : -18,
+      position: 'absolute', left: '50%', bottom: isMobile ? 20 : 34,
       transform: 'translateX(-50%)', width: '94%', maxWidth: 1100,
-      height: isMobile ? 46 : 100, pointerEvents: 'none',
+      height: isMobile ? 32 : 64, pointerEvents: 'none',
     }}>
-      <svg width="100%" height="100%" viewBox="0 0 1000 140" preserveAspectRatio="none">
-        <ellipse cx="500" cy="70" rx="480" ry="50" fill="none" stroke="rgba(212,175,55,0.22)" strokeWidth="20" style={{ filter: 'blur(9px)' }} />
-        <ellipse cx="500" cy="70" rx="480" ry="50" fill="none" stroke="rgba(212,175,55,0.55)" strokeWidth="1.5" />
+      <svg width="100%" height="100%" viewBox="0 0 1000 100" preserveAspectRatio="none">
+        <ellipse cx="500" cy="50" rx="480" ry="34" fill="none" stroke="rgba(212,175,55,0.22)" strokeWidth="16" style={{ filter: 'blur(8px)' }} />
+        <ellipse cx="500" cy="50" rx="480" ry="34" fill="none" stroke="rgba(212,175,55,0.55)" strokeWidth="1.5" />
       </svg>
     </div>
   )
@@ -196,6 +160,9 @@ export default function FeaturedConcepts() {
 
   const stageHeight = cardWidth * 0.75 + (isMobile ? 168 + 46 : 208 + 60)
   const cardsTopOffset = isMobile ? -10 : -18
+  // Distance from center to place the arrows just past the visible side cards,
+  // instead of pinned to the far edges of the whole section.
+  const arrowInset = cardWidth * 1.35 + 40
 
   const onTouchStart = (e: React.TouchEvent) => { touchX.current = e.touches[0].clientX }
   const onTouchEnd = (e: React.TouchEvent) => {
@@ -255,7 +222,7 @@ export default function FeaturedConcepts() {
                 aria-label="Previous concept"
                 onClick={prev}
                 style={{
-                  position: 'absolute', left: 'clamp(8px, 3vw, 40px)', top: '38%', transform: 'translateY(-50%)', zIndex: 10,
+                  position: 'absolute', left: `calc(50% - ${arrowInset}px)`, top: '38%', transform: 'translateY(-50%)', zIndex: 10,
                   width: 42, height: 42, borderRadius: '50%', background: 'rgba(10,10,13,0.7)',
                   border: '1px solid rgba(212,175,55,0.45)', display: 'flex', alignItems: 'center', justifyContent: 'center',
                   cursor: 'pointer',
@@ -265,7 +232,7 @@ export default function FeaturedConcepts() {
                 aria-label="Next concept"
                 onClick={next}
                 style={{
-                  position: 'absolute', right: 'clamp(8px, 3vw, 40px)', top: '38%', transform: 'translateY(-50%)', zIndex: 10,
+                  position: 'absolute', right: `calc(50% - ${arrowInset}px)`, top: '38%', transform: 'translateY(-50%)', zIndex: 10,
                   width: 42, height: 42, borderRadius: '50%', background: 'rgba(10,10,13,0.7)',
                   border: '1px solid rgba(212,175,55,0.45)', display: 'flex', alignItems: 'center', justifyContent: 'center',
                   cursor: 'pointer',

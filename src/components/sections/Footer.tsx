@@ -36,7 +36,7 @@ function useInView<T extends HTMLElement>() {
     const el = ref.current
     if (!el) return
     const io = new IntersectionObserver(
-      ([entry]) => { if (entry.isIntersecting) { setInView(true); io.disconnect() } },
+      ([entry]) => setInView(entry.isIntersecting),
       { threshold: 0.1 }
     )
     io.observe(el)
@@ -66,20 +66,21 @@ export default function Footer() {
   const content = useContent('footer')
   const [ref, inView] = useInView<HTMLDivElement>()
 
-  const bg = isMobile ? "url('/images/footer%20bg%20mobile.png')" : "url('/images/footer%20bg%20desktop.png')"
+  // Background image disabled in favor of a solid black background — uncomment to restore.
+  // const bg = isMobile ? "url('/images/footer%20bg%20mobile.png')" : "url('/images/footer%20bg%20desktop.png')"
 
   return (
-    <footer style={{
+    <footer id="footer" style={{
       position: 'relative', width: '100%', overflow: 'hidden',
       minHeight: '100vh',
       display: 'flex', alignItems: isMobile ? 'stretch' : 'center', justifyContent: 'center',
-      backgroundImage: bg,
-      backgroundSize: 'cover',
-      backgroundPosition: 'center',
+      // backgroundImage: bg,
+      // backgroundSize: 'cover',
+      // backgroundPosition: 'center',
       backgroundColor: '#000',
       padding: isMobile ? '130px 20px 50px' : '100px 40px 70px',
     }}>
-      {/* Dark overlay so the logo, text and icons stay legible over the busy background */}
+      {/* Dark overlay so the logo, text and icons stay legible over the busy background — harmless no-op now that the background is solid black, kept so it's ready if the image is restored */}
       <div style={{ position: 'absolute', inset: 0, background: 'rgba(0,0,0,0.5)', zIndex: 1 }} />
 
       <div
@@ -176,6 +177,11 @@ export default function Footer() {
               </a>
             ))}
           </div>
+
+          <span style={{
+            fontFamily: "'Inter', sans-serif", fontSize: isMobile ? 11 : 12,
+            color: GOLD, marginTop: isMobile ? 24 : 34,
+          }}>{content.copyright}</span>
         </div>
       </div>
     </footer>

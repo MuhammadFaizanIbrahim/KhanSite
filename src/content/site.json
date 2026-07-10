@@ -2,7 +2,7 @@
   "_instructions": "This file holds ALL the editable text on the KhanConcepts website. Each top-level key below is one section of the site — the '_section' note inside it tells you where that section appears. Only edit the plain text values; do not rename or remove any keys. Wrapping a phrase in **double asterisks** (e.g. **like this**) makes it show in gold on the site.",
   "hero": {
     "_section": "Homepage — Hero (the very first section visitors see, with the big background image and logo)",
-    "tagline": "Discovering Real-World Problems and Creating Innovative Concept Designs That Help Companies Create **Better Solutions**.",
+    "tagline": "Discovering **Real-World Problems** and Creating **Innovative Concept Designs** That Help Companies Create **Better Solutions**",
     "processWords": [
       "Problem",
       "Concept Design",
@@ -15,19 +15,20 @@
     "eyebrow": "What Is",
     "headingWhite": "Khan",
     "headingGold": "Concepts?",
-    "paragraph1": "KhanConcepts **researches real-world problems** and creates innovative **Concept Designs** that help companies discover better solutions before investing time and resources in bringing them to life.",
+    "paragraph1": "KhanConcepts **researches real-world problems** and creates **innovative Concept Designs** that help companies discover **better solutions** before **investing time** and resources in **bringing them to life**",
     "paragraph2": ""
   },
   "concept-innovation-space": {
     "_section": "Homepage — 'Concept Innovation Space' (third section, below What Is KhanConcepts?)",
     "headingWhite1": "Concept",
-    "headingGold": "Innovation",
-    "headingWhite2": "Space",
+    "headingGold": "Design",
+    "headingWhite2": "Industries",
+    "intro": "Explore **innovative Concept Designs** across multiple **industries**, each focused on researching **real-world problems** and creating **better solutions**",
     "items": [
       {
         "icon": "search",
         "image": "/images/concepts/product-concepts.jpg",
-        "title": "Product Concepts",
+        "title": "Product",
         "bullets": [
           "AI Product Discovery & Comparison",
           "AI Voice/Chat Assistant",
@@ -39,7 +40,7 @@
       {
         "icon": "chip",
         "image": "/images/concepts/hardware-concepts.jpg",
-        "title": "Hardware Concepts",
+        "title": "Hardware",
         "bullets": [
           "Healthcare & BioTech Devices",
           "Smart Home & IoT Ecosystem",
@@ -52,7 +53,7 @@
       {
         "icon": "brain",
         "image": "/images/concepts/technology-concepts.jpg",
-        "title": "Technology Concepts",
+        "title": "Technology",
         "bullets": [
           "Operating Systems",
           "AI Search & Research Systems",
@@ -65,7 +66,7 @@
       {
         "icon": "briefcase",
         "image": "/images/concepts/business-concepts.jpg",
-        "title": "Business Concepts",
+        "title": "Business",
         "bullets": [
           "Retail Models",
           "Hospitality Concepts",
@@ -77,7 +78,7 @@
       {
         "icon": "car",
         "image": "/images/concepts/mobility-concepts.jpg",
-        "title": "Mobility Concepts",
+        "title": "Mobility",
         "bullets": [
           "Online Car Platforms",
           "Smart Mobility Services",
@@ -89,7 +90,7 @@
       {
         "icon": "flask",
         "image": "/images/concepts/research-engineering-invention-concepts.jpg",
-        "title": "Research, Engineering & Invention Concepts",
+        "title": "Research, Engineering & Invention",
         "bullets": [
           "Scientific Research",
           "Technology Invention",
@@ -101,7 +102,7 @@
       {
         "icon": "globe",
         "image": "/images/concepts/real-virtual-world-systems-concepts.jpg",
-        "title": "Real & Virtual World Systems Concepts",
+        "title": "Real & Virtual World Systems",
         "bullets": [
           "Digital Societies",
           "Governance Systems",
@@ -113,7 +114,7 @@
       {
         "icon": "gamepad",
         "image": "/images/concepts/entertainment-concepts.jpg",
-        "title": "Entertainment Concepts",
+        "title": "Entertainment",
         "bullets": [
           "Games",
           "Movies & Series",
@@ -125,52 +126,30 @@
     ]
   },
   "how-we-bring-concepts-to-reality": {
-    "_section": "Homepage — 'How We Bring Concepts to Reality' (fourth section, below Concept Innovation Space)",
-    "eyebrow": "How We Bring",
-    "headingWhite": "Concepts",
-    "headingGold": "to Reality",
-    "intro": "Every Public Concept begins as a researched innovation opportunity and evolves into a Company-Specific Full Concept designed around one company's goals, requirements, and long-term vision. Throughout the journey, KhanConcepts works closely with your team to help transform ideas into successful solutions.",
-    "roadmapImage": "/images/roadmap.png",
+    "_section": "Homepage — 'Concept to Solution Process' (fourth section, below Concept Innovation Space) — a vertical 4-step timeline. Each step's 'icon' must be one of: search, chat, document, handshake.",
+    "eyebrow": "Concept to Solution",
+    "headingWhite": "",
+    "headingGold": "Process",
     "steps": [
       {
         "icon": "search",
-        "title": "Explore Public Concepts",
-        "description": "Browse Public Concepts across multiple Concept Innovation Spaces to discover innovative concepts and find opportunities that match your company's goals and interests."
+        "title": "Explore Concepts",
+        "description": "Browse Concept Designs across multiple industries and discover the ones that align with your company's goals and interests."
       },
       {
-        "icon": "lightbulb",
-        "title": "Initial Discovery Discussion",
-        "description": "Tell us about your company, your goals, your challenges, and what you're looking to build. We'll discuss whether the concept is the right fit for your company."
+        "icon": "chat",
+        "title": "Concept Discussion",
+        "description": "Schedule a Concept Discussion to explore the Concept Design, discuss your company's goals, challenges, and requirements, and determine whether it's the right fit."
       },
       {
-        "icon": "person",
-        "title": "Company Meeting",
-        "description": "Review the Company-Ready Concept Design, see how the concept works, ask questions, and discuss how it could create value for your company."
-      },
-      {
-        "icon": "chart",
-        "title": "Concept Design Review",
-        "description": "Review the concept together, answer your questions, discuss your company's goals and requirements, and refine the concept until everyone agrees on the final direction."
-      },
-      {
-        "icon": "gear",
+        "icon": "document",
         "title": "Detailed Concept Design",
-        "description": "Once the concept is approved, KhanConcepts creates the Detailed Concept Design based on the agreed direction, your company's goals, and your requirements."
+        "description": "Once you decide to move forward, KhanConcepts creates a Detailed Concept Design tailored to your company's goals and requirements."
       },
       {
-        "icon": "flag",
-        "title": "Company Decision",
-        "description": "Choose how you'd like to move forward.",
-        "options": [
-          {
-            "label": "Option A — Independent Path",
-            "text": "Acquire the Detailed Concept Design and bring the concept to reality using your own team or preferred partners."
-          },
-          {
-            "label": "Option B — Partnership Path",
-            "text": "Acquire the Detailed Concept Design and continue working with KhanConcepts throughout development to help keep the final solution aligned with the approved concept, your company's goals, and your long-term vision."
-          }
-        ]
+        "icon": "handshake",
+        "title": "Partnership",
+        "description": "Continue working with KhanConcepts as your Concept Design becomes a real-world solution."
       }
     ]
   },
@@ -262,7 +241,8 @@
       "x": "https://x.com/khanconcepts",
       "youtube": "https://www.youtube.com/@khanconcepts",
       "instagram": "https://www.instagram.com/khanconcepts"
-    }
+    },
+    "copyright": "© 2026 KhanConcepts"
   },
   "contact-page": {
     "_section": "Contact Page (the /contact route, opened from the bottom nav's 'Contact' button)",
@@ -271,7 +251,7 @@
     "headingGold": "Conversation.",
     "paragraph1": "Tell us about your company, your goals, the Concept Design you'd like to discuss, and any additional information that may help us prepare for the discussion.",
     "paragraph2": "",
-    "altMethodsLabel": "Alternative Contact Methods",
+    "altMethodsLabel": "Direct Contact Methods",
     "whatsapp": {
       "label": "WhatsApp",
       "description": "Chat with us instantly on WhatsApp",
@@ -302,20 +282,20 @@
     }
   },
   "concepts-page": {
-    "_section": "All Concepts page (/concepts) and every individual concept's detail page (/concepts/1, /concepts/2, ...) — the hero heading/tagline, the full Concept Space and Concept Type filter lists, and the master list of every concept card/detail page. 'spaces' and 'types' are the filter taxonomy — every concept's 'space'/'type' value must exactly match one entry from these two lists. Each entry in 'items' is one concept: 'status' must be either \"new\" or \"improved\", 'image' is the file path to its picture, 'overview' is 2-3 paragraphs shown on its detail page. 'video' is a video URL (e.g. a hosted .mp4 or a YouTube/Vimeo embed URL) shown on the Concept Presentation section of the detail page — leave empty to show a placeholder. 'slideEmbed' is an embeddable presentation URL (Google Slides 'Publish to web' embed link, PowerPoint Online embed link, or Canva 'Share > Embed' link) shown below the video — leave empty to show a placeholder. 'problems' and 'opportunities' are legacy bullet lists kept for reference but no longer displayed on the detail page.",
+    "_section": "All Concepts page (/concepts) and every individual concept's detail page (/concepts/1, /concepts/2, ...) — the hero heading/tagline, the full Concept Space and Concept Type filter lists, and the master list of every concept card/detail page. 'spaces' and 'types' are the filter taxonomy — every concept's 'space'/'type' value must exactly match one entry from these two lists. Each entry in 'items' is one concept: 'status' must be either \"new\" or \"improved\", 'image' is the file path to its picture, 'overview' is 2-3 paragraphs shown on its detail page. 'video' is shown on the Concept Presentation section of the detail page — paste any regular YouTube or Vimeo link, or a direct hosted video file (.mp4 etc.); leave empty to show a placeholder. 'slideEmbed' is shown above the video — paste any regular Google Slides, Google Drive, or Canva share link (just the normal link you'd copy to share it, not a special embed code); leave empty to show a placeholder. 'problems' and 'opportunities' are legacy bullet lists kept for reference but no longer displayed on the detail page.",
     "headingWhite": "All",
     "headingGold": "Concepts",
     "tagline": "Every great innovation starts with a **concept**.",
     "searchPlaceholder": "Search concepts...",
     "spaces": [
-      "Product Concepts",
-      "Hardware Concepts",
-      "Technology Concepts",
-      "Business Concepts",
-      "Mobility Concepts",
-      "Research, Engineering & Invention Concepts",
-      "Real & Virtual World Systems Concepts",
-      "Entertainment Concepts"
+      "Product",
+      "Hardware",
+      "Technology",
+      "Business",
+      "Mobility",
+      "Research, Engineering & Invention",
+      "Real & Virtual World Systems",
+      "Entertainment"
     ],
     "types": [
       "AI & Machine Learning",
