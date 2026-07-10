@@ -185,8 +185,8 @@ export default function ContactPage() {
         fontSize: isMobile ? 'clamp(24px, 8vw, 32px)' : 'clamp(30px, 3vw, 42px)',
         lineHeight: 1.15, margin: 0,
       }}>
-        <div style={{ color: '#F2F2F2' }}>{content.headingWhite}</div>
-        <div style={{ color: GOLD }}>{content.headingGold}</div>
+        <span style={{ color: '#F2F2F2' }}>{content.headingWhite} </span>
+        <span style={{ color: GOLD }}>{content.headingGold}</span>
       </h1>
 
       <div style={{ display: 'flex', alignItems: 'center', gap: 10, margin: isMobile ? '16px 0 20px' : '22px 0 26px' }}>

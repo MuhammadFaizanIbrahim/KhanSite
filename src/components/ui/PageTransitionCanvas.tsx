@@ -2,7 +2,7 @@ import { useRef, useEffect, useImperativeHandle, forwardRef } from 'react'
 import { VERTEX_SHADER, FRAGMENT_SHADER } from '@/data/shaders'
 
 export interface PageTransitionHandle {
-  play: (onMidpoint: () => void, texture?: 'hero' | 'preloader') => void
+  play: (onMidpoint: () => void) => void
 }
 
 const PageTransitionCanvas = forwardRef<PageTransitionHandle>(
@@ -17,13 +17,6 @@ const PageTransitionCanvas = forwardRef<PageTransitionHandle>(
     const uMode_      = useRef<WebGLUniformLocation | null>(null)
     const uImgAR_     = useRef<WebGLUniformLocation | null>(null)
     const texDark     = useRef<WebGLTexture | null>(null)
-    const texHeroD    = useRef<WebGLTexture | null>(null)
-    const texHeroM    = useRef<WebGLTexture | null>(null)
-    const texPreload  = useRef<WebGLTexture | null>(null)
-    const arHeroD     = useRef(16 / 9)
-    const arHeroM     = useRef(9 / 16)
-    const arPreload   = useRef(16 / 9)
-    const texChoice   = useRef<'hero' | 'preloader'>('hero')
     const rafRef      = useRef(0)
     const fadeTimer   = useRef<ReturnType<typeof setTimeout> | null>(null)
 
@@ -76,33 +69,6 @@ const PageTransitionCanvas = forwardRef<PageTransitionHandle>(
       gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR)
       texDark.current = t
 
-      // Dissolve target images — the dissolve reveals/hides these instead of flat color.
-      // Each starts as the same 1×1 dark pixel, upgraded in place once the image decodes.
-      const loadImageTex = (url: string, arRef: { current: number }) => {
-        const tex = gl.createTexture()!
-        gl.bindTexture(gl.TEXTURE_2D, tex)
-        gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, 1, 1, 0, gl.RGBA, gl.UNSIGNED_BYTE,
-          new Uint8Array([4, 6, 10, 255]))
-        gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE)
-        gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE)
-        gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR)
-        gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR)
-
-        const img = new Image()
-        img.onload = () => {
-          arRef.current = img.naturalWidth / img.naturalHeight
-          gl.bindTexture(gl.TEXTURE_2D, tex)
-          gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, true)
-          gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, img)
-          gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, false)
-        }
-        img.src = url
-        return tex
-      }
-      texHeroD.current   = loadImageTex('/images/hero%20bg%20desktop.png', arHeroD)
-      texHeroM.current   = loadImageTex('/images/hero%20bg%20mobile.png',  arHeroM)
-      texPreload.current = loadImageTex('/images/preloader%20bg.png',      arPreload)
-
       // Start transparent
       gl.clearColor(0, 0, 0, 0)
       gl.clear(gl.COLOR_BUFFER_BIT)
@@ -111,11 +77,10 @@ const PageTransitionCanvas = forwardRef<PageTransitionHandle>(
     }, [])
 
     useImperativeHandle(ref, () => ({
-      play(onMidpoint: () => void, texture: 'hero' | 'preloader' = 'hero') {
+      play(onMidpoint: () => void) {
         const gl     = glRef.current
         const canvas = canvasRef.current
         if (!gl || !canvas) { onMidpoint(); window.dispatchEvent(new Event('transition:done')); return }
-        texChoice.current = texture
 
         // Cancel any in-progress fade/animation
         if (fadeTimer.current) { clearTimeout(fadeTimer.current); fadeTimer.current = null }
@@ -171,29 +136,21 @@ const PageTransitionCanvas = forwardRef<PageTransitionHandle>(
           gl.clearColor(0, 0, 0, 1)
           gl.clear(gl.COLOR_BUFFER_BIT)
 
-          const isMobile = window.innerWidth < 640
-          let texB: WebGLTexture | null
-          let imgAR: number
-          if (texChoice.current === 'preloader') {
-            texB  = texPreload.current
-            imgAR = arPreload.current
-          } else {
-            texB  = isMobile ? texHeroM.current : texHeroD.current
-            imgAR = isMobile ? arHeroM.current  : arHeroD.current
-          }
-
+          // Both texture units sample the same flat dark color — the dissolve
+          // reveals/hides a noise-textured overlay rather than cross-fading into
+          // a background photo underneath it.
           gl.activeTexture(gl.TEXTURE0)
           gl.bindTexture(gl.TEXTURE_2D, texDark.current)
           gl.uniform1i(uA_.current, 0)
 
           gl.activeTexture(gl.TEXTURE1)
-          gl.bindTexture(gl.TEXTURE_2D, texB)
+          gl.bindTexture(gl.TEXTURE_2D, texDark.current)
           gl.uniform1i(uB_.current, 1)
 
           gl.uniform1f(uP_.current,    p)
           gl.uniform1f(uT_.current,    glTime)
           gl.uniform1f(uAR_.current,   ar)
-          gl.uniform1f(uImgAR_.current, imgAR)
+          gl.uniform1f(uImgAR_.current, ar)
           gl.uniform1f(uMode_.current, 0) // sectionDissolve — organic noise dissolve
 
           gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4)
