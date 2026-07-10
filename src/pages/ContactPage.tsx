@@ -173,7 +173,9 @@ export default function ContactPage() {
         <span style={{
           fontFamily: "'Cinzel', serif", fontSize: isMobile ? 11 : 13, fontWeight: 600,
           letterSpacing: '0.3em', color: GOLD, textTransform: 'uppercase',
-        }}>{content.eyebrow}</span>
+        }}>
+          {/* {content.eyebrow} */}
+          </span>
         {/* <div style={{ width: isMobile ? 60 : 90, height: 1, background: 'rgba(212,175,55,0.5)' }} />
         <SparkleIcon size={12} /> */}
       </div>
