@@ -2,31 +2,20 @@ import { useEffect, useRef, useState } from 'react'
 import { useBreakpoint } from '@/hooks/useBreakpoint'
 import { useContent } from '@/hooks/useContent'
 import { RichText } from '@/utils/richText'
+import StarDivider from '@/components/ui/StarDivider'
+import BackgroundMedia from '@/components/ui/BackgroundMedia'
+import { FaLinkedinIn } from 'react-icons/fa6'
+import { SiX, SiYoutube, SiInstagram } from 'react-icons/si'
 
 const GOLD = '#D4AF37'
 
+// Brand/social icons come from dedicated logo icon sets (Simple Icons /
+// FontAwesome) since generic UI icon sets like Material don't include them.
 const SOCIAL_ICONS: Record<string, JSX.Element> = {
-  linkedin: (
-    <span style={{ fontFamily: "'Inter', sans-serif", fontSize: 15, fontWeight: 700, color: GOLD, lineHeight: 1 }}>in</span>
-  ),
-  x: (
-    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke={GOLD} strokeWidth={2} strokeLinecap="round">
-      <path d="M4 4l16 16M20 4L4 20" />
-    </svg>
-  ),
-  youtube: (
-    <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
-      <rect x="2" y="5" width="20" height="14" rx="4" stroke={GOLD} strokeWidth={1.6} />
-      <path d="M10.5 9.5v5l4.5-2.5-4.5-2.5Z" fill={GOLD} />
-    </svg>
-  ),
-  instagram: (
-    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke={GOLD} strokeWidth={1.6}>
-      <rect x="3" y="3" width="18" height="18" rx="5" />
-      <circle cx="12" cy="12" r="4.2" />
-      <circle cx="17.2" cy="6.8" r="1.1" fill={GOLD} stroke="none" />
-    </svg>
-  ),
+  linkedin: <FaLinkedinIn size={15} color={GOLD} />,
+  x: <SiX size={14} color={GOLD} />,
+  youtube: <SiYoutube size={17} color={GOLD} />,
+  instagram: <SiInstagram size={15} color={GOLD} />,
 }
 
 function useInView<T extends HTMLElement>() {
@@ -45,42 +34,22 @@ function useInView<T extends HTMLElement>() {
   return [ref, inView] as const
 }
 
-function GlowDivider({ width }: { width: number }) {
-  return (
-    <div style={{ position: 'relative', width, height: 1 }}>
-      <div style={{
-        position: 'absolute', inset: 0,
-        background: 'linear-gradient(to right, transparent, rgba(212,175,55,0.75), transparent)',
-      }} />
-      <div style={{
-        position: 'absolute', left: '50%', top: '50%', transform: 'translate(-50%, -50%)',
-        width: 6, height: 6, borderRadius: '50%',
-        background: GOLD, boxShadow: '0 0 12px 3px rgba(212,175,55,0.85)',
-      }} />
-    </div>
-  )
-}
-
 export default function Footer() {
   const { isMobile } = useBreakpoint()
   const content = useContent('footer')
   const [ref, inView] = useInView<HTMLDivElement>()
 
-  // Background image disabled in favor of a solid black background — uncomment to restore.
-  // const bg = isMobile ? "url('/images/footer%20bg%20mobile.png')" : "url('/images/footer%20bg%20desktop.png')"
-
   return (
     <footer id="footer" style={{
       position: 'relative', width: '100%', overflow: 'hidden',
-      minHeight: '100vh',
+      minHeight: isMobile ? '80vh' : '100vh',
       display: 'flex', alignItems: isMobile ? 'stretch' : 'center', justifyContent: 'center',
-      // backgroundImage: bg,
-      // backgroundSize: 'cover',
-      // backgroundPosition: 'center',
       backgroundColor: '#000',
-      padding: isMobile ? '130px 20px 50px' : '100px 40px 70px',
+      padding: isMobile ? '60px 20px 50px' : '100px 40px 70px',
     }}>
-      {/* Dark overlay so the logo, text and icons stay legible over the busy background — harmless no-op now that the background is solid black, kept so it's ready if the image is restored */}
+      <BackgroundMedia background={content.background} />
+
+      {/* Dark overlay so the logo, text and icons stay legible over an image/video background — harmless no-op when the background is plain black */}
       <div style={{ position: 'absolute', inset: 0, background: 'rgba(0,0,0,0.5)', zIndex: 1 }} />
 
       <div
@@ -97,7 +66,7 @@ export default function Footer() {
       >
         {/* Top group — dividers around the heading */}
         <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-          <GlowDivider width={isMobile ? 140 : 220} />
+          <StarDivider lineWidth={isMobile ? 70 : 110} />
 
           <h2 style={{
             fontFamily: "'Playfair Display', serif", fontWeight: 500,
@@ -110,7 +79,7 @@ export default function Footer() {
           </h2>
 
           <div style={{ marginBottom: isMobile ? 0 : 64 }}>
-            <GlowDivider width={isMobile ? 140 : 220} />
+            <StarDivider lineWidth={isMobile ? 70 : 110} />
           </div>
         </div>
 
@@ -180,7 +149,7 @@ export default function Footer() {
 
           <span style={{
             fontFamily: "'Inter', sans-serif", fontSize: isMobile ? 11 : 12,
-            color: GOLD, marginTop: isMobile ? 24 : 34,
+            color: GOLD, marginTop: isMobile ? 10 : 16,
           }}>{content.copyright}</span>
         </div>
       </div>

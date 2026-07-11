@@ -1,7 +1,20 @@
 {
   "_instructions": "This file holds ALL the editable text on the KhanConcepts website. Each top-level key below is one section of the site — the '_section' note inside it tells you where that section appears. Only edit the plain text values; do not rename or remove any keys. Wrapping a phrase in **double asterisks** (e.g. **like this**) makes it show in gold on the site.",
+  "preloader": {
+    "_section": "Preloader — the loading screen shown once before the site reveals. 'background.type' controls this section's background — set it to \"none\" for a plain black background, \"image\" to show background.image, or \"video\" to show background.video (a looping muted video file).",
+    "background": {
+      "type": "image",
+      "image": "/images/preloader%20bg.png",
+      "video": ""
+    }
+  },
   "hero": {
-    "_section": "Homepage — Hero (the very first section visitors see, with the big background image and logo)",
+    "_section": "Homepage — Hero (the very first section visitors see, with the big background image and logo) — 'background.type' controls this section's background — set it to \"none\" for a plain black background, \"image\" to show background.image, or \"video\" to show background.video (a looping muted video file).",
+    "background": {
+      "type": "none",
+      "image": "/images/hero%20bg%20desktop.png",
+      "video": ""
+    },
     "tagline": "Discovering **Real-World Problems** and Creating **Innovative Concept Designs** That Help Companies Create **Better Solutions**",
     "processWords": [
       "Problem",
@@ -11,7 +24,12 @@
     "scrollCueLabel": "Scroll to Explore"
   },
   "what-is-khanconcepts": {
-    "_section": "Homepage — 'What Is KhanConcepts?' (second section, directly below the Hero)",
+    "_section": "Homepage — 'What Is KhanConcepts?' (second section, directly below the Hero) — 'background.type' controls this section's background — set it to \"none\" for a plain black background, \"image\" to show background.image, or \"video\" to show background.video (a looping muted video file).",
+    "background": {
+      "type": "none",
+      "image": "/images/hero%20bg%20desktop.png",
+      "video": ""
+    },
     "eyebrow": "What Is",
     "headingWhite": "Khan",
     "headingGold": "Concepts?",
@@ -19,7 +37,12 @@
     "paragraph2": ""
   },
   "concept-innovation-space": {
-    "_section": "Homepage — 'Concept Innovation Space' (third section, below What Is KhanConcepts?)",
+    "_section": "Homepage — 'Concept Innovation Space' (third section, below What Is KhanConcepts?) — 'background.type' controls this section's background — set it to \"none\" for a plain black background, \"image\" to show background.image, or \"video\" to show background.video (a looping muted video file).",
+    "background": {
+      "type": "none",
+      "image": "",
+      "video": ""
+    },
     "headingWhite1": "Concept",
     "headingGold": "Design",
     "headingWhite2": "Industries",
@@ -126,7 +149,12 @@
     ]
   },
   "how-we-bring-concepts-to-reality": {
-    "_section": "Homepage — 'Concept to Solution Process' (fourth section, below Concept Innovation Space) — a vertical 4-step timeline. Each step's 'icon' must be one of: search, chat, document, handshake.",
+    "_section": "Homepage — 'Concept to Solution Process' (fourth section, below Concept Innovation Space) — a vertical 4-step timeline. Each step's 'icon' must be one of: search, chat, document, handshake. 'background.type' controls this section's background — set it to \"none\" for a plain black background, \"image\" to show background.image, or \"video\" to show background.video (a looping muted video file).",
+    "background": {
+      "type": "none",
+      "image": "",
+      "video": ""
+    },
     "eyebrow": "Concept to Solution",
     "headingWhite": "",
     "headingGold": "Process",
@@ -154,11 +182,14 @@
     ]
   },
   "featured-concepts": {
-    "_section": "Homepage — 'Featured Concepts' (fifth section, below Concept Innovation Space — a rotating carousel)",
-    "eyebrow": "Featured Concepts",
-    "headingWhite1": "Every",
-    "headingGold": "innovation",
-    "headingWhite2": "starts with a concept.",
+    "_section": "Homepage — 'Featured Concepts' (fifth section, below Concept Innovation Space — a rotating carousel). The heading is just 'Featured Concepts' itself, split white/gold. 'background.type' controls this section's background — set it to \"none\" for a plain black background, \"image\" to show background.image, or \"video\" to show background.video (a looping muted video file).",
+    "background": {
+      "type": "none",
+      "image": "",
+      "video": ""
+    },
+    "headingWhite": "Featured",
+    "headingGold": "Concepts",
     "linkLabel": "Explore Concept",
     "items": [
       {
@@ -232,9 +263,14 @@
     ]
   },
   "footer": {
-    "_section": "Homepage — Footer (final section, at the very bottom of the page)",
+    "_section": "Homepage — Footer (final section, at the very bottom of the page) — 'background.type' controls this section's background — set it to \"none\" for a plain black background, \"image\" to show background.image, or \"video\" to show background.video (a looping muted video file).",
+    "background": {
+      "type": "none",
+      "image": "/images/footer%20bg%20desktop.png",
+      "video": ""
+    },
     "headingLine1": "Every Great **Innovation** Starts",
-    "headingLine2": "With A **Concept**.",
+    "headingLine2": "With A **Concept**",
     "tagline": "CONCEPT INNOVATION",
     "social": {
       "linkedin": "https://www.linkedin.com/company/khanconcepts",

@@ -1,4 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
+import { useContent } from '@/hooks/useContent'
+import BackgroundMedia from '@/components/ui/BackgroundMedia'
 
 interface PreloaderProps { onComplete: () => void }
 
@@ -15,6 +17,7 @@ const HARD_TIMEOUT  = 28000
 const FONT_TIMEOUT  = 4000
 
 export default function Preloader({ onComplete }: PreloaderProps) {
+  const content = useContent('preloader')
   const [pct, setPct]         = useState(0)
   const [khanIn, setKhanIn]   = useState(false)
   const [subIn, setSubIn]     = useState(false)
@@ -154,14 +157,12 @@ export default function Preloader({ onComplete }: PreloaderProps) {
   return (
     <div style={{
       position: 'fixed', inset: 0, zIndex: 50,
-      backgroundImage: "url('/images/preloader%20bg.png')",
-      backgroundSize: 'cover',
-      backgroundPosition: 'center',
       backgroundColor: '#000',
       display: 'flex', flexDirection: 'column',
       alignItems: 'center', justifyContent: 'center',
       overflow: 'hidden',
     }}>
+      <BackgroundMedia background={content.background} />
 
       {/* ── Centered content stack ── */}
       <div style={{ position: 'relative', zIndex: 2, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>

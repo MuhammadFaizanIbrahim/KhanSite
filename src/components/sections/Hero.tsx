@@ -3,6 +3,9 @@ import { useBreakpoint } from '@/hooks/useBreakpoint'
 import { smoothScrollTo } from '@/hooks/useLenis'
 import { useContent } from '@/hooks/useContent'
 import { RichText } from '@/utils/richText'
+import StarDivider from '@/components/ui/StarDivider'
+import BackgroundMedia from '@/components/ui/BackgroundMedia'
+import { MdKeyboardArrowDown } from 'react-icons/md'
 
 // Background image disabled in favor of a solid black background — uncomment to restore.
 // const BG_DESKTOP = "url('/images/hero%20bg%20desktop.png')"
@@ -117,9 +120,7 @@ function ScrollCue({ label }: { label: string }) {
 
       <div style={{ width: 1, height: 44, background: 'linear-gradient(to bottom, rgba(212,175,55,0.55), transparent)' }} />
 
-      <svg width="14" height="8" viewBox="0 0 14 8" fill="none">
-        <path d="M1 1l6 6 6-6" stroke="#D4AF37" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" />
-      </svg>
+      <MdKeyboardArrowDown size={16} color="#D4AF37" />
 
       <style>{`
         @keyframes heroScrollDot {
@@ -146,20 +147,24 @@ export default function Hero() {
       ref={ref}
       style={{
         position: 'relative',
-        minHeight: '100vh',
+        minHeight: isMobile ? '80vh' : '100vh',
         width: '100%',
-        // backgroundImage: isMobile ? BG_MOBILE : BG_DESKTOP,
-        // backgroundSize: 'cover',
-        // backgroundPosition: 'center',
         backgroundColor: '#000',
+        overflow: 'hidden',
+      }}
+    >
+      <BackgroundMedia background={content.background} />
+
+      <div style={{
+        position: 'relative', zIndex: 1,
+        width: '100%', minHeight: isMobile ? '80vh' : '100vh',
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
         justifyContent: 'center',
-        padding: isMobile ? '140px 24px 140px' : '180px 32px 160px',
-        overflow: 'hidden',
-      }}
-    >
+        padding: isMobile ? '120px 24px 60px' : '180px 32px 160px',
+        boxSizing: 'border-box',
+      }}>
       {/* ── Tagline ── */}
       <p style={{
         fontFamily: "'Playfair Display', serif",
@@ -205,45 +210,16 @@ export default function Hero() {
         }}>{wordReality}</span>
       </div>
 
-      {/* ── Divider with glow ── */}
-      <div style={{
-        position: 'relative', marginTop: isMobile ? 24 : 32, width: isMobile ? 160 : 220, height: 1,
-        ...fadeStyle(step >= STEP_DIVIDER, 0),
-      }}>
-        <div style={{
-          position: 'absolute', inset: 0,
-          background: 'linear-gradient(to right, transparent, rgba(212,175,55,0.6), transparent)',
-        }} />
-        <div style={{
-          position: 'absolute', left: '50%', top: '50%',
-          width: 6, height: 6, borderRadius: '50%',
-          background: '#D4AF37',
-          boxShadow: '0 0 10px 3px rgba(212,175,55,0.7)',
-          transform: 'translate(-50%, -50%)',
-        }} />
-      </div>
+      {/* ── Divider ── */}
+      <StarDivider
+        lineWidth={isMobile ? 80 : 110}
+        style={{ marginTop: isMobile ? 24 : 32, ...fadeStyle(step >= STEP_DIVIDER, 0) }}
+      />
 
-      {isMobile ? (
-        <>
-          {/* Invisible spacer — keeps the tagline/divider block above centered
-              exactly as before; moving the real scroll cue (below) further down
-              must not shift any of that upper content. */}
-          <div style={{ marginTop: 56, visibility: 'hidden' }} aria-hidden>
-            <ScrollCue label={content.scrollCueLabel} />
-          </div>
-          {/* Real scroll cue — anchored independently near the bottom of the section */}
-          <div style={{
-            position: 'absolute', bottom: 44, transform: 'translateX(-50%)',
-            ...fadeStyle(step >= STEP_SCROLL),
-          }}>
-            <ScrollCue label={content.scrollCueLabel} />
-          </div>
-        </>
-      ) : (
-        <div style={{ marginTop: 76, ...fadeStyle(step >= STEP_SCROLL) }}>
-          <ScrollCue label={content.scrollCueLabel} />
-        </div>
-      )}
+      <div style={{ marginTop: isMobile ? 32 : 76, ...fadeStyle(step >= STEP_SCROLL) }}>
+        <ScrollCue label={content.scrollCueLabel} />
+      </div>
+      </div>
     </section>
   )
 }

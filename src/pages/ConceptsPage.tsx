@@ -6,45 +6,27 @@ import { useLenis } from '@/hooks/useLenis'
 import { useContent } from '@/hooks/useContent'
 import { RichText } from '@/utils/richText'
 import { slugify } from '@/utils/slug'
+import StarDivider from '@/components/ui/StarDivider'
 import Footer from '@/components/sections/Footer'
 import type { Concept, ConceptSpace, ConceptType } from '@/data/concepts'
+import {
+  MdOutlineAutoAwesome, MdTrendingUp, MdOutlineSearch, MdRefresh,
+  MdKeyboardArrowDown, MdOutlineTune, MdArrowForward, MdArrowBack, MdChevronRight, MdCheck,
+} from 'react-icons/md'
 
 const GOLD = '#D4AF37'
-const ICON_STROKE = 1.6
 const PAGE_SIZE = 8
 
-const SparkleIcon = (
-  <svg width="13" height="13" viewBox="0 0 24 24" fill={GOLD}>
-    <path d="M12 2l2.2 6.8L21 11l-6.8 2.2L12 20l-2.2-6.8L3 11l6.8-2.2L12 2Z" />
-  </svg>
-)
-const TrendIcon = (
-  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke={GOLD} strokeWidth={ICON_STROKE} strokeLinecap="round" strokeLinejoin="round">
-    <path d="M3 17l6-6 4 4 8-8" /><path d="M15 6h6v6" />
-  </svg>
-)
-const SearchIcon = (
-  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.5)" strokeWidth={ICON_STROKE} strokeLinecap="round" strokeLinejoin="round">
-    <circle cx="11" cy="11" r="7" /><path d="m21 21-4.3-4.3" />
-  </svg>
-)
-const RefreshIcon = (
-  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke={GOLD} strokeWidth={ICON_STROKE} strokeLinecap="round" strokeLinejoin="round">
-    <path d="M20 11A8 8 0 1 0 18.5 16" /><path d="M20 5v6h-6" />
-  </svg>
-)
+const SparkleIcon = <MdOutlineAutoAwesome size={13} color={GOLD} />
+const TrendIcon = <MdTrendingUp size={12} color={GOLD} />
+const SearchIcon = <MdOutlineSearch size={16} color="rgba(255,255,255,0.5)" />
+const RefreshIcon = <MdRefresh size={13} color={GOLD} />
 const ChevronIcon = ({ open }: { open: boolean }) => (
-  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke={GOLD} strokeWidth={2} strokeLinecap="round" strokeLinejoin="round"
-    style={{ transform: open ? 'rotate(180deg)' : 'rotate(0deg)', transition: 'transform 0.25s ease' }}>
-    <path d="M6 9l6 6 6-6" />
-  </svg>
+  <div style={{ display: 'flex', transform: open ? 'rotate(180deg)' : 'rotate(0deg)', transition: 'transform 0.25s ease' }}>
+    <MdKeyboardArrowDown size={15} color={GOLD} />
+  </div>
 )
-const SlidersIcon = (
-  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke={GOLD} strokeWidth={ICON_STROKE} strokeLinecap="round" strokeLinejoin="round">
-    <path d="M4 6h10M18 6h2M4 18h2M10 18h10M4 12h16" />
-    <circle cx="16" cy="6" r="2" fill="#0A0A0D" /><circle cx="6" cy="18" r="2" fill="#0A0A0D" />
-  </svg>
-)
+const SlidersIcon = <MdOutlineTune size={15} color={GOLD} />
 
 function RadioRow({ label, count, active, onClick }: { label: string; count: number; active: boolean; onClick: () => void }) {
   return (
@@ -90,11 +72,7 @@ function CheckRow({ label, count, active, onClick }: { label: string; count: num
           background: active ? GOLD : 'transparent',
           display: 'flex', alignItems: 'center', justifyContent: 'center',
         }}>
-          {active && (
-            <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="#0A0A0D" strokeWidth={3} strokeLinecap="round" strokeLinejoin="round">
-              <path d="M5 12l5 5L20 7" />
-            </svg>
-          )}
+          {active && <MdCheck size={11} color="#0A0A0D" />}
         </span>
         <span style={{
           fontFamily: "'Inter', sans-serif", fontSize: 12.5,
@@ -184,9 +162,7 @@ function ConceptCard({ concept, isMobile, delay, inView, onOpen }: { concept: Co
         }}
       >
         <span style={{ fontFamily: "'Inter', sans-serif", fontSize: 12, fontWeight: 500, color: GOLD }}>Explore Concept</span>
-        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke={GOLD} strokeWidth={2} strokeLinecap="round" strokeLinejoin="round">
-          <path d="M5 12h14M13 6l6 6-6 6" />
-        </svg>
+        <MdArrowForward size={13} color={GOLD} />
       </button>
     </div>
   )
@@ -204,7 +180,7 @@ function ConceptCard({ concept, isMobile, delay, inView, onOpen }: { concept: Co
   if (isMobile) {
     return (
       <div data-cursor="select" onClick={onOpen} style={{ ...wrapperStyle, flexDirection: 'row', alignItems: 'stretch' }}>
-        <div style={{ position: 'relative', width: '38%', flexShrink: 0 }}>{image}{badge}</div>
+        <div style={{ position: 'relative', width: '38%', flexShrink: 0, height: 140 }}>{image}{badge}</div>
         {content}
       </div>
     )
@@ -402,10 +378,8 @@ export default function ConceptsPage() {
             display: 'flex', alignItems: 'center', gap: 8, background: 'none', border: 'none', cursor: 'pointer', padding: 0,
           }}
         >
-          <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke={GOLD} strokeWidth="1.5" strokeLinecap="round">
-            <path d="M9 6H3M5 4L3 6l2 2" />
-          </svg>
-          <span style={{ fontFamily: "'Inter', sans-serif", fontSize: 11, fontWeight: 600, letterSpacing: '0.14em', textTransform: 'uppercase', color: GOLD }}>Back to Home</span>
+          <MdArrowBack size={12} color={GOLD} />
+          <span style={{ fontFamily: "'Inter', sans-serif", fontSize: 11, fontWeight: 600, letterSpacing: '0.14em', textTransform: 'uppercase', color: GOLD }}>Back</span>
         </button>
       </div>
 
@@ -426,9 +400,7 @@ export default function ConceptsPage() {
           {/* <span style={{ color: '#F2F2F2' }}>{pageContent.headingWhite} </span> */}
           <span style={{ color: GOLD }}>{pageContent.headingGold}</span>
         </h1>
-        <div style={{ display: 'flex', justifyContent: 'center', margin: isMobile ? '14px 0' : '20px 0' }}>
-          <div style={{ width: isMobile ? 90 : 160, height: 1, background: 'linear-gradient(to right, transparent, rgba(212,175,55,0.7), transparent)' }} />
-        </div>
+        <StarDivider lineWidth={isMobile ? 45 : 80} style={{ margin: isMobile ? '14px 0' : '20px 0' }} />
         {/* <p style={{
           fontFamily: "'Cinzel', serif", fontSize: isMobile ? 10 : 13, letterSpacing: '0.2em',
           textTransform: 'uppercase', color: 'rgba(237,237,237,0.85)', margin: '0 0 28px',
@@ -509,9 +481,7 @@ export default function ConceptsPage() {
               display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer',
             }}
           >
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke={GOLD} strokeWidth={2} strokeLinecap="round" strokeLinejoin="round">
-              <path d="M9 6l6 6-6 6" />
-            </svg>
+            <MdChevronRight size={16} color={GOLD} />
           </button>
         </div>
 
@@ -545,7 +515,10 @@ export default function ConceptsPage() {
               <div style={{
                 display: isMobile ? 'flex' : 'grid',
                 flexDirection: isMobile ? 'column' : undefined,
-                gridTemplateColumns: isMobile ? undefined : 'repeat(4, 1fr)',
+                // auto-fit naturally reduces the column count (4 → 3 → 2) as the
+                // viewport narrows, instead of jumping straight from 4 to 1 at
+                // the mobile breakpoint — mobile itself keeps the stacked list.
+                gridTemplateColumns: isMobile ? undefined : 'repeat(auto-fit, minmax(260px, 1fr))',
                 gap: isMobile ? 14 : 20,
               }}>
                 {visible.map((c, i) => (

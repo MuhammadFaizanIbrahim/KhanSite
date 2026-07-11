@@ -5,6 +5,7 @@ import { PROJECTS } from '@/data/projects'
 import { useBreakpoint } from '@/hooks/useBreakpoint'
 import { useLenis } from '@/hooks/useLenis'
 import Footer from '@/components/sections/Footer'
+import { MdArrowBack } from 'react-icons/md'
 
 const label = (text: string) => ({
   fontFamily: 'Manrope, sans-serif' as const,
@@ -52,9 +53,7 @@ export default function ProjectPage() {
             display: 'flex', alignItems: 'center', gap: 8, background: 'none', border: 'none', cursor: 'pointer', padding: 0,
           }}
         >
-          <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="#D4AF37" strokeWidth="1.5" strokeLinecap="round">
-            <path d="M9 6H3M5 4L3 6l2 2" />
-          </svg>
+          <MdArrowBack size={12} color="#D4AF37" />
           <span style={{ fontFamily: 'Manrope, sans-serif', fontSize: 11, fontWeight: 600, letterSpacing: '0.14em', textTransform: 'uppercase', color: '#D4AF37' }}>Back to Work</span>
         </button>
       </div>

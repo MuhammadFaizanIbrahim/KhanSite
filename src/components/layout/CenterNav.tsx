@@ -10,37 +10,14 @@ interface NavItem {
   action:    'home' | 'route' | 'anchor'
   path?:     string
   anchor?:   string
-  icon:      (color: string) => JSX.Element
 }
 
 const ICON_STROKE = 1.6
 
 const items: NavItem[] = [
-  {
-    label: 'Home', action: 'home',
-    icon: c => (
-      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke={c} strokeWidth={ICON_STROKE} strokeLinecap="round" strokeLinejoin="round">
-        <path d="M3 11.5 12 4l9 7.5" /><path d="M5 10v9a1 1 0 0 0 1 1h4v-6h4v6h4a1 1 0 0 0 1-1v-9" />
-      </svg>
-    ),
-  },
-  {
-    label: 'Concepts', action: 'route', path: '/concepts',
-    icon: c => (
-      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke={c} strokeWidth={ICON_STROKE} strokeLinecap="round" strokeLinejoin="round">
-        <rect x="3" y="3" width="8" height="8" rx="1.5" /><rect x="13" y="3" width="8" height="8" rx="1.5" />
-        <rect x="3" y="13" width="8" height="8" rx="1.5" /><rect x="13" y="13" width="8" height="8" rx="1.5" />
-      </svg>
-    ),
-  },
-  {
-    label: 'Contact', action: 'route', path: '/contact',
-    icon: c => (
-      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke={c} strokeWidth={ICON_STROKE} strokeLinecap="round" strokeLinejoin="round">
-        <rect x="3" y="5" width="18" height="14" rx="2" /><path d="m3 6 9 7 9-7" />
-      </svg>
-    ),
-  },
+  { label: 'Home', action: 'home' },
+  { label: 'Concepts', action: 'route', path: '/concepts' },
+  { label: 'Contact', action: 'route', path: '/contact' },
 ]
 
 function MusicIcon({ on }: { on: boolean }) {
@@ -110,14 +87,13 @@ export default function CenterNav() {
               <button
                 onClick={() => handleClick(item)}
                 style={{
-                  display: 'flex', flexDirection: isMobile ? 'column' : 'row',
-                  alignItems: 'center', justifyContent: 'center', gap: isMobile ? 5 : 8,
+                  display: 'flex', flexDirection: 'row',
+                  alignItems: 'center', justifyContent: 'center', gap: 8,
                   padding: isMobile ? '4px 6px' : '4px 10px',
                   background: 'transparent', border: 'none', cursor: 'pointer',
                   lineHeight: 1,
                 }}
               >
-                {isMobile && item.icon(active ? '#D4AF37' : 'rgba(255,255,255,0.75)')}
                 <span style={{
                   fontFamily: "'Playfair Display', serif",
                   fontSize: isMobile ? 12 : 'clamp(15px, 1.05vw, 18px)',

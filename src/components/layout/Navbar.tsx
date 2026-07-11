@@ -1,6 +1,7 @@
 import { useNavigate, useLocation } from 'react-router-dom'
 import { usePageTransition } from '@/contexts/TransitionContext'
 import { useBreakpoint } from '@/hooks/useBreakpoint'
+import { smoothScrollTo } from '@/hooks/useLenis'
 
 export default function Navbar() {
   const { isMobile } = useBreakpoint()
@@ -9,7 +10,9 @@ export default function Navbar() {
   const { triggerPageOut } = usePageTransition()
 
   const handleLogoClick = () => {
-    if (location.pathname === '/') window.scrollTo({ top: 0, behavior: 'smooth' })
+    // Homepage scrolling is driven by Lenis on its own scroll container, not
+    // the window — smoothScrollTo() targets whichever is actually active.
+    if (location.pathname === '/') smoothScrollTo(0)
     else triggerPageOut(() => navigate('/'))
   }
 

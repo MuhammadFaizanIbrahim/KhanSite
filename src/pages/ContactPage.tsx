@@ -5,16 +5,21 @@ import { usePageTransition } from '@/contexts/TransitionContext'
 import { useBreakpoint } from '@/hooks/useBreakpoint'
 import { useLenis } from '@/hooks/useLenis'
 import { useContent } from '@/hooks/useContent'
+import StarDivider from '@/components/ui/StarDivider'
 import Footer from '@/components/sections/Footer'
 import DatePicker from 'react-datepicker'
 import 'react-datepicker/dist/react-datepicker.css'
+import {
+  MdOutlineAutoAwesome, MdCheck, MdOutlineBusiness, MdOutlineMail,
+  MdOutlineCalendarToday, MdOutlineAccessTime, MdOutlineEdit, MdArrowForward, MdArrowBack,
+} from 'react-icons/md'
+import { SiWhatsapp } from 'react-icons/si'
 
 const SVC  = import.meta.env.VITE_EMAILJS_SERVICE_ID  || ''
 const TMPL = import.meta.env.VITE_EMAILJS_TEMPLATE_ID || ''
 const KEY  = import.meta.env.VITE_EMAILJS_PUBLIC_KEY   || ''
 
 const GOLD = '#D4AF37'
-const ICON_STROKE = 1.6
 
 const fieldSt = (isMobile: boolean): React.CSSProperties => ({
   width: '100%',
@@ -35,11 +40,7 @@ const labelSt: React.CSSProperties = {
 }
 
 function SparkleIcon({ size = 12 }: { size?: number }) {
-  return (
-    <svg width={size} height={size} viewBox="0 0 24 24" fill={GOLD}>
-      <path d="M12 2l2.2 6.8L21 11l-6.8 2.2L12 20l-2.2-6.8L3 11l6.8-2.2L12 2Z" />
-    </svg>
-  )
+  return <MdOutlineAutoAwesome size={size} color={GOLD} />
 }
 
 const ERROR_COLOR = '#e0483e'
@@ -58,11 +59,7 @@ function ErrorText({ show, text }: { show?: boolean; text: string }) {
   )
 }
 
-const CheckIcon = (
-  <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke={GOLD} strokeWidth={2.4} strokeLinecap="round" strokeLinejoin="round">
-    <path d="M5 13l4 4L19 7" />
-  </svg>
-)
+const CheckIcon = <MdCheck size={30} color={GOLD} />
 
 function FieldIcon({ children }: { children: React.ReactNode }) {
   return (
@@ -72,42 +69,13 @@ function FieldIcon({ children }: { children: React.ReactNode }) {
   )
 }
 
-const BuildingIcon = (
-  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke={GOLD} strokeWidth={ICON_STROKE} strokeLinecap="round" strokeLinejoin="round">
-    <rect x="4" y="3" width="10" height="18" rx="1" /><rect x="14" y="8" width="6" height="13" rx="1" />
-    <path d="M7 7h1M7 11h1M7 15h1M11 7h1M11 11h1M11 15h1M16.5 12h1M16.5 16h1" />
-  </svg>
-)
-const EnvelopeIcon = (
-  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke={GOLD} strokeWidth={ICON_STROKE} strokeLinecap="round" strokeLinejoin="round">
-    <rect x="3" y="5" width="18" height="14" rx="2" /><path d="m3 6 9 7 9-7" />
-  </svg>
-)
-const CalendarIcon = (
-  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke={GOLD} strokeWidth={ICON_STROKE} strokeLinecap="round" strokeLinejoin="round">
-    <rect x="3" y="5" width="18" height="16" rx="2" /><path d="M3 10h18M8 3v4M16 3v4" />
-  </svg>
-)
-const ClockIcon = (
-  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke={GOLD} strokeWidth={ICON_STROKE} strokeLinecap="round" strokeLinejoin="round">
-    <circle cx="12" cy="12" r="9" /><path d="M12 7v5l3.5 2" />
-  </svg>
-)
-const PencilIcon = (
-  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke={GOLD} strokeWidth={ICON_STROKE} strokeLinecap="round" strokeLinejoin="round">
-    <path d="M12 20h9" /><path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4Z" />
-  </svg>
-)
-const ArrowIcon = (
-  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke={GOLD} strokeWidth={2} strokeLinecap="round" strokeLinejoin="round">
-    <path d="M5 12h14M13 6l6 6-6 6" />
-  </svg>
-)
-const WhatsAppIcon = (
-  <svg width="18" height="18" viewBox="0 0 24 24" fill={GOLD}>
-    <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347zM12 0C5.373 0 0 5.373 0 12c0 2.126.553 4.122 1.522 5.858L.057 23.882a.5.5 0 0 0 .606.619l6.188-1.621A11.94 11.94 0 0 0 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-1.885 0-3.655-.51-5.179-1.402l-.369-.22-3.823 1.002 1.019-3.72-.241-.383A9.953 9.953 0 0 1 2 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z" />
-  </svg>
-)
+const BuildingIcon = <MdOutlineBusiness size={14} color={GOLD} />
+const EnvelopeIcon = <MdOutlineMail size={14} color={GOLD} />
+const CalendarIcon = <MdOutlineCalendarToday size={14} color={GOLD} />
+const ClockIcon = <MdOutlineAccessTime size={14} color={GOLD} />
+const PencilIcon = <MdOutlineEdit size={15} color={GOLD} />
+const ArrowIcon = <MdArrowForward size={16} color={GOLD} />
+const WhatsAppIcon = <SiWhatsapp size={18} color={GOLD} />
 
 export default function ContactPage() {
   const navigate = useNavigate()
@@ -182,18 +150,14 @@ export default function ContactPage() {
 
       <h1 style={{
         fontFamily: "'Playfair Display', serif", fontWeight: 700,
-        fontSize: isMobile ? 'clamp(24px, 8vw, 32px)' : 'clamp(30px, 3vw, 42px)',
+        fontSize: isMobile ? 'clamp(20px, 6.5vw, 26px)' : 'clamp(30px, 3vw, 42px)',
         lineHeight: 1.15, margin: 0,
       }}>
         <span style={{ color: '#F2F2F2' }}>{content.headingWhite} </span>
         <span style={{ color: GOLD }}>{content.headingGold}</span>
       </h1>
 
-      <div style={{ display: 'flex', alignItems: 'center', gap: 10, margin: isMobile ? '16px 0 20px' : '22px 0 26px' }}>
-        <div style={{ width: isMobile ? 70 : 110, height: 1, background: 'linear-gradient(to right, rgba(212,175,55,0.7), transparent)' }} />
-        <SparkleIcon size={9} />
-        <div style={{ width: isMobile ? 70 : 110, height: 1, background: 'linear-gradient(to left, rgba(212,175,55,0.7), transparent)' }} />
-      </div>
+      <StarDivider lineWidth={isMobile ? 70 : 110} style={{ margin: isMobile ? '16px 0 20px' : '22px 0 26px' }} />
 
       <p style={{
         fontFamily: "'Inter', sans-serif", fontSize: isMobile ? 13.5 : 14.5, lineHeight: 1.65,
@@ -442,10 +406,8 @@ export default function ContactPage() {
               display: 'flex', alignItems: 'center', gap: 8, background: 'none', border: 'none', cursor: 'pointer', padding: 0,
             }}
           >
-            <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke={GOLD} strokeWidth="1.5" strokeLinecap="round">
-              <path d="M9 6H3M5 4L3 6l2 2" />
-            </svg>
-            <span style={{ fontFamily: "'Inter', sans-serif", fontSize: 11, fontWeight: 600, letterSpacing: '0.14em', textTransform: 'uppercase', color: GOLD }}>Back to Home</span>
+            <MdArrowBack size={14} color={GOLD} />
+            <span style={{ fontFamily: "'Inter', sans-serif", fontSize: 11, fontWeight: 600, letterSpacing: '0.14em', textTransform: 'uppercase', color: GOLD }}>Back</span>
           </button>
         </div>
 

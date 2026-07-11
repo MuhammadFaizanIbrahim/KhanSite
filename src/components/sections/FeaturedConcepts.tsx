@@ -2,21 +2,15 @@ import { useEffect, useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { useBreakpoint } from '@/hooks/useBreakpoint'
 import { useContent } from '@/hooks/useContent'
+import StarDivider from '@/components/ui/StarDivider'
+import BackgroundMedia from '@/components/ui/BackgroundMedia'
+import { MdOutlineAutoAwesome, MdTrendingUp, MdChevronLeft, MdChevronRight, MdArrowForward } from 'react-icons/md'
 
 const GOLD = '#D4AF37'
-const ICON_STROKE = 1.6
 
 const BADGE_ICONS: Record<string, JSX.Element> = {
-  sparkle: (
-    <svg width="12" height="12" viewBox="0 0 24 24" fill={GOLD}>
-      <path d="M12 2l2.2 6.8L21 11l-6.8 2.2L12 20l-2.2-6.8L3 11l6.8-2.2L12 2Z" />
-    </svg>
-  ),
-  trend: (
-    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke={GOLD} strokeWidth={ICON_STROKE} strokeLinecap="round" strokeLinejoin="round">
-      <path d="M3 17l6-6 4 4 8-8" /><path d="M15 6h6v6" />
-    </svg>
-  ),
+  sparkle: <MdOutlineAutoAwesome size={12} color={GOLD} />,
+  trend: <MdTrendingUp size={12} color={GOLD} />,
 }
 
 interface FeaturedTag { icon: string; text: string }
@@ -30,11 +24,7 @@ interface FeaturedItem {
 }
 
 function ChevronIcon({ dir }: { dir: 'left' | 'right' }) {
-  return (
-    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke={GOLD} strokeWidth={2} strokeLinecap="round" strokeLinejoin="round">
-      <path d={dir === 'left' ? 'M15 18l-6-6 6-6' : 'M9 6l6 6-6 6'} />
-    </svg>
-  )
+  return dir === 'left' ? <MdChevronLeft size={22} color={GOLD} /> : <MdChevronRight size={22} color={GOLD} />
 }
 
 function CardImage({ src, alt }: { src: string; alt: string }) {
@@ -100,9 +90,7 @@ function FeaturedCard({ item, cardWidth, isActive }: { item: FeaturedItem; cardW
 
         <Link to="/concepts" style={{ display: 'inline-flex', alignItems: 'center', gap: 7, textDecoration: 'none' }}>
           <span style={{ fontFamily: "'Inter', sans-serif", fontSize: 13.5, fontWeight: 500, color: GOLD }}>Explore Concept</span>
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke={GOLD} strokeWidth={2} strokeLinecap="round" strokeLinejoin="round">
-            <path d="M5 12h14M13 6l6 6-6 6" />
-          </svg>
+          <MdArrowForward size={14} color={GOLD} />
         </Link>
       </div>
     </div>
@@ -181,7 +169,9 @@ export default function FeaturedConcepts() {
         padding: isMobile ? '90px 0 90px' : '120px 0 150px',
       }}
     >
-      <div ref={sectionRef} style={{ maxWidth: 1440, margin: '0 auto' }}>
+      <BackgroundMedia background={content.background} />
+
+      <div ref={sectionRef} style={{ position: 'relative', zIndex: 1, maxWidth: 1440, margin: '0 auto' }}>
 
         {/* Heading */}
         <div style={{
@@ -189,22 +179,15 @@ export default function FeaturedConcepts() {
           opacity: inView ? 1 : 0, transform: inView ? 'translateY(0)' : 'translateY(16px)',
           transition: 'opacity 1.5s ease, transform 1.5s cubic-bezier(0.16,1,0.3,1)',
         }}>
-          <span style={{
-            fontFamily: "'Cinzel', serif", fontSize: isMobile ? 11 : 13, letterSpacing: '0.3em',
-            color: GOLD, textTransform: 'uppercase', fontWeight: 600,
-          }}>{content.eyebrow}</span>
           <h2 style={{
             fontFamily: "'Playfair Display', serif", fontWeight: 600,
             fontSize: isMobile ? 'clamp(24px, 7vw, 30px)' : 'clamp(34px, 3.6vw, 52px)',
-            margin: '10px 0 0', lineHeight: 1.25,
+            margin: 0, lineHeight: 1.25,
           }}>
-            <span style={{ color: '#F2F2F2' }}>{content.headingWhite1} </span>
+            <span style={{ color: '#F2F2F2' }}>{content.headingWhite} </span>
             <span style={{ color: GOLD }}>{content.headingGold}</span>
-            <span style={{ color: '#F2F2F2' }}> {content.headingWhite2}</span>
           </h2>
-          <div style={{ display: 'flex', justifyContent: 'center', marginTop: isMobile ? 14 : 20 }}>
-            <div style={{ width: isMobile ? 100 : 200, height: 1, background: 'linear-gradient(to right, transparent, rgba(212,175,55,0.6), transparent)' }} />
-          </div>
+          <StarDivider lineWidth={isMobile ? 50 : 100} style={{ marginTop: isMobile ? 14 : 20 }} />
         </div>
 
         {/* Carousel stage */}

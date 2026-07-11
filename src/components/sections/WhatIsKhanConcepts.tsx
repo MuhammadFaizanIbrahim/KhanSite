@@ -2,6 +2,8 @@ import { useEffect, useRef, useState } from 'react'
 import { useBreakpoint } from '@/hooks/useBreakpoint'
 import { useContent } from '@/hooks/useContent'
 import { RichText } from '@/utils/richText'
+import StarDivider from '@/components/ui/StarDivider'
+import BackgroundMedia from '@/components/ui/BackgroundMedia'
 
 // Background image disabled in favor of a solid black background — uncomment to restore.
 // const BG_DESKTOP = "url('/images/hero%20bg%20desktop.png')"
@@ -24,34 +26,6 @@ const STEP_DELAYS_MS: Record<number, number> = {
 
 function Gold({ children }: { children: React.ReactNode }) {
   return <span style={{ color: '#D4AF37' }}>{children}</span>
-}
-
-function GlowDivider({ axis, length, style }: { axis: 'horizontal' | 'vertical'; length?: number | string; style?: React.CSSProperties }) {
-  const isH = axis === 'horizontal'
-  return (
-    <div style={{
-      position: 'relative',
-      width:  isH ? (length ?? '100%') : 1,
-      height: isH ? 1 : (length ?? 'auto'),
-      alignSelf: isH ? undefined : 'stretch',
-      flexShrink: 0,
-      ...style,
-    }}>
-      <div style={{
-        position: 'absolute', inset: 0,
-        background: isH
-          ? 'linear-gradient(to right, transparent, rgba(212,175,55,0.55), transparent)'
-          : 'linear-gradient(to bottom, transparent, rgba(212,175,55,0.55), transparent)',
-      }} />
-      <div style={{
-        position: 'absolute', left: '50%', top: '50%',
-        width: 6, height: 6, borderRadius: '50%',
-        background: '#D4AF37',
-        boxShadow: '0 0 10px 3px rgba(212,175,55,0.7)',
-        transform: 'translate(-50%, -50%)',
-      }} />
-    </div>
-  )
 }
 
 // Fires the section's reveal sequence every time it scrolls into view — and
@@ -103,7 +77,7 @@ export default function WhatIsKhanConcepts() {
       id="what-is-khanconcepts"
       style={{
         position: 'relative',
-        minHeight: '100vh',
+        minHeight: isMobile ? '80vh' : '100vh',
         width: '100%',
         // backgroundImage: isMobile ? BG_MOBILE : BG_DESKTOP,
         // backgroundSize: 'cover',
@@ -113,11 +87,13 @@ export default function WhatIsKhanConcepts() {
         flexDirection: 'column',
         alignItems: 'center',
         justifyContent: 'center',
-        padding: isMobile ? '100px 24px 140px' : '120px 32px 160px',
+        padding: isMobile ? '50px 24px 50px' : '120px 32px 160px',
         overflow: 'hidden',
       }}
     >
-      <div ref={ref} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', width: '100%' }}>
+      <BackgroundMedia background={content.background} />
+
+      <div ref={ref} style={{ position: 'relative', zIndex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', width: '100%' }}>
 
         {/* ── Eyebrow ── */}
         <span style={{
@@ -145,9 +121,10 @@ export default function WhatIsKhanConcepts() {
         </h2>
 
         {/* ── Divider ── */}
-        <div style={{ marginTop: isMobile ? 20 : 28 }}>
-          <GlowDivider axis="horizontal" length={isMobile ? 160 : 260} style={fadeStyle(step >= STEP_DIVIDER, 0)} />
-        </div>
+        <StarDivider
+          lineWidth={isMobile ? 80 : 130}
+          style={{ marginTop: isMobile ? 20 : 28, ...fadeStyle(step >= STEP_DIVIDER, 0) }}
+        />
 
         {/* ── Intro paragraphs — plain text, no bordered box ── */}
         <p style={{

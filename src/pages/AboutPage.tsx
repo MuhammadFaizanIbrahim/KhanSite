@@ -2,6 +2,7 @@ import { useRef } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useLenis } from '@/hooks/useLenis'
 import Footer from '@/components/sections/Footer'
+import { MdArrowBack } from 'react-icons/md'
 
 export default function AboutPage() {
   const navigate = useNavigate()
@@ -17,10 +18,8 @@ export default function AboutPage() {
           className="font-subtitle text-[11px] font-semibold tracking-[0.14em] uppercase flex items-center gap-2"
           style={{ color: '#D4AF37' }}
         >
-          <svg className="w-3 h-3" viewBox="0 0 12 12" fill="none" stroke="#D4AF37" strokeWidth="2" strokeLinecap="round">
-            <path d="M9 6H3M5 4L3 6l2 2"/>
-          </svg>
-          Back to Home
+          <MdArrowBack size={12} color="#D4AF37" />
+          Back
         </button>
       </div>
 

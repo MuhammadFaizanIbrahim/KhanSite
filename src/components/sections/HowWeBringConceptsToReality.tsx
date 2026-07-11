@@ -1,34 +1,19 @@
 import { useEffect, useRef, useState } from 'react'
 import { useBreakpoint } from '@/hooks/useBreakpoint'
 import { useContent } from '@/hooks/useContent'
+import StarDivider from '@/components/ui/StarDivider'
+import BackgroundMedia from '@/components/ui/BackgroundMedia'
+import { MdOutlineSearch, MdChatBubbleOutline, MdOutlineDescription, MdOutlineHandshake } from 'react-icons/md'
 
 const GOLD = '#D4AF37'
-const ICON_STROKE = 1.6
 
+// Icon per step is chosen via a key in site.json ("icon": "search" etc.) — swap
+// any of these imports for a different react-icons icon to change it site-wide.
 const ICONS: Record<string, JSX.Element> = {
-  search: (
-    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke={GOLD} strokeWidth={ICON_STROKE} strokeLinecap="round" strokeLinejoin="round">
-      <circle cx="11" cy="11" r="7" /><path d="m21 21-4.3-4.3" />
-    </svg>
-  ),
-  chat: (
-    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke={GOLD} strokeWidth={ICON_STROKE} strokeLinecap="round" strokeLinejoin="round">
-      <path d="M21 11.5a8.38 8.38 0 0 1-4.5 7.4 8.5 8.5 0 0 1-8.9-.5L3 20l1.6-4.6a8.38 8.38 0 0 1-1.1-4.2 8.5 8.5 0 0 1 8.5-8.2h.3a8.48 8.48 0 0 1 8.5 8.3v.2Z" />
-      <circle cx="8" cy="11.5" r="0.7" fill={GOLD} /><circle cx="12" cy="11.5" r="0.7" fill={GOLD} /><circle cx="16" cy="11.5" r="0.7" fill={GOLD} />
-    </svg>
-  ),
-  document: (
-    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke={GOLD} strokeWidth={ICON_STROKE} strokeLinecap="round" strokeLinejoin="round">
-      <path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h7" />
-      <path d="M13 2v6h6" /><path d="M7 13h4M7 17h2" />
-      <path d="M20.4 14.6a1.4 1.4 0 0 1 2 2L16.4 23l-3.1.8.8-3.1Z" />
-    </svg>
-  ),
-  handshake: (
-    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke={GOLD} strokeWidth={ICON_STROKE} strokeLinecap="round" strokeLinejoin="round">
-      <path d="m2 12 4-4 4 3 3-3 4 4-3 3-4-3-3 3Z" /><path d="m14 15 3 3 5-5" />
-    </svg>
-  ),
+  search: <MdOutlineSearch size={24} color={GOLD} />,
+  chat: <MdChatBubbleOutline size={24} color={GOLD} />,
+  document: <MdOutlineDescription size={24} color={GOLD} />,
+  handshake: <MdOutlineHandshake size={24} color={GOLD} />,
 }
 
 interface Step { icon: string; title: string; description: string }
@@ -148,12 +133,14 @@ export default function HowWeBringConceptsToReality() {
         overflow: 'hidden',
       }}
     >
-      <div ref={ref} style={{ maxWidth: 900, margin: '0 auto' }}>
+      <BackgroundMedia background={content.background} />
+
+      <div ref={ref} style={{ position: 'relative', zIndex: 1, maxWidth: 900, margin: '0 auto' }}>
 
         {/* ── Heading ── */}
         <div style={{ textAlign: 'center', marginBottom: isMobile ? 40 : 64 }}>
           <span style={{
-            fontFamily: "'Cinzel', serif", fontSize: isMobile ? 11 : 13, letterSpacing: '0.3em',
+            fontFamily: "'Cinzel', serif", fontSize: isMobile ? 11 : 18, letterSpacing: '0.3em',
             color: GOLD, textTransform: 'uppercase', fontWeight: 600,
           }}>{content.eyebrow}</span>
           <h2 style={{
@@ -164,9 +151,7 @@ export default function HowWeBringConceptsToReality() {
             {content.headingWhite && <span style={{ color: '#F2F2F2' }}>{content.headingWhite} </span>}
             <span style={{ color: GOLD }}>{content.headingGold}</span>
           </h2>
-          <div style={{ display: 'flex', justifyContent: 'center', marginTop: isMobile ? 14 : 20 }}>
-            <div style={{ width: isMobile ? 100 : 200, height: 1, background: 'linear-gradient(to right, transparent, rgba(212,175,55,0.6), transparent)' }} />
-          </div>
+          <StarDivider lineWidth={isMobile ? 50 : 100} style={{ marginTop: isMobile ? 14 : 20 }} />
         </div>
 
         {/* ── Vertical timeline ── */}
