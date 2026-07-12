@@ -189,7 +189,7 @@ export default function Preloader({ onComplete }: PreloaderProps) {
               fontVariant:   'small-caps',
               fontSize:      'clamp(38px, 5.6vw, 68px)',
               fontWeight:    600,
-              color:         '#F2F2F2',
+              color:         '#C0C0C0',
               letterSpacing: '0.01em',
               display:       'inline-block',
               opacity:       khanIn ? 1 : 0,

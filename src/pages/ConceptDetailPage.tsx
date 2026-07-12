@@ -8,7 +8,7 @@ import { slugify } from '@/utils/slug'
 import { getVideoEmbed, getPresentationEmbed } from '@/utils/embed'
 import Footer from '@/components/sections/Footer'
 import type { Concept } from '@/data/concepts'
-import { MdOutlineShare, MdKeyboardArrowDown, MdOutlineLink, MdOutlineCalendarToday, MdArrowBack, MdArrowForward } from 'react-icons/md'
+import { MdOutlineShare, MdKeyboardArrowDown, MdOutlineLink, MdArrowBack, MdArrowForward } from 'react-icons/md'
 import { SiX } from 'react-icons/si'
 import { FaLinkedinIn } from 'react-icons/fa6'
 
@@ -23,7 +23,6 @@ const ChevronIcon = ({ open }: { open: boolean }) => (
 const LinkIcon = <MdOutlineLink size={14} color={GOLD} />
 const XIcon = <SiX size={12} color={GOLD} />
 const LinkedInIcon = <FaLinkedinIn size={12} color={GOLD} />
-const CalendarIcon = <MdOutlineCalendarToday size={15} color="#0A0A0D" />
 function useInView<T extends HTMLElement>() {
   const ref = useRef<T>(null)
   const [inView, setInView] = useState(false)
@@ -295,7 +294,6 @@ export default function ConceptDetailPage() {
               cursor: 'pointer',
             }}
           >
-            <span style={{ width: 26, height: 26, borderRadius: '50%', background: 'rgba(10,10,13,0.15)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>{CalendarIcon}</span>
             <span style={{ fontFamily: "'Inter', sans-serif", fontSize: isMobile ? 12 : 13, fontWeight: 700, letterSpacing: '0.16em', textTransform: 'uppercase', color: '#1a1206' }}>Schedule a Concept Discussion</span>
             <MdArrowForward size={14} color="#1a1206" />
           </button>

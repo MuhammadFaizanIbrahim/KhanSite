@@ -101,7 +101,7 @@ export default function Footer() {
                 fontVariant: 'small-caps',
                 fontSize: isMobile ? 'clamp(22px, 7vw, 28px)' : 'clamp(26px, 2.6vw, 34px)',
                 fontWeight: 600,
-                color: '#F2F2F2',
+                color: '#C0C0C0',
                 letterSpacing: '0.01em',
                 display: 'inline-block',
               }}>{ch}</span>
