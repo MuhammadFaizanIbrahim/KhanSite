@@ -14,6 +14,14 @@ interface ConceptItem {
   bullets: string[]
 }
 
+// Playfair Display's swash "&" glyph looks out of place amid an otherwise
+// plain title, so that one character is rendered in a simple sans-serif font.
+function renderTitle(title: string) {
+  return title.split(/(&)/).map((part, i) =>
+    part === '&' ? <span key={i} style={{ fontFamily: "'Inter', sans-serif" }}>&amp;</span> : part
+  )
+}
+
 function CardImage({ src, alt }: { src: string; alt: string }) {
   const [failed, setFailed] = useState(false)
   if (failed) {
@@ -54,7 +62,7 @@ function ConceptCard({ item, delay, inView, isMobile }: { item: ConceptItem; del
           fontFamily: "'Playfair Display', serif",
           fontSize: isMobile ? 14.5 : 'clamp(17px, 1.7vw, 21px)',
           fontWeight: 600, color: GOLD, lineHeight: 1.25,
-        }}>{item.title}</span>
+        }}>{renderTitle(item.title)}</span>
 
         <div style={{ marginTop: isMobile ? 10 : 14, height: 1, background: 'linear-gradient(to right, rgba(212,175,55,0.5), transparent)' }} />
 
@@ -70,7 +78,7 @@ function ConceptCard({ item, delay, inView, isMobile }: { item: ConceptItem; del
                 fontFamily: "'Inter', sans-serif",
                 fontSize: isMobile ? 11.5 : 13.5,
                 lineHeight: isMobile ? 1.4 : 1.5,
-                color: 'rgba(237,237,237,0.85)',
+                color: 'rgba(192,192,192,0.85)',
               }}>{b}</span>
             </li>
           ))}
@@ -123,14 +131,14 @@ export default function ConceptInnovationSpace() {
             fontSize: isMobile ? 'clamp(20px, 6.5vw, 26px)' : 'clamp(38px, 4vw, 60px)',
             margin: 0,
           }}>
-            <span style={{ color: '#F2F2F2' }}>{content.headingWhite1} </span>
+            <span style={{ color: 'var(--text-primary)' }}>{content.headingWhite1} </span>
             <span style={{ color: GOLD }}>{content.headingGold} </span>
-            <span style={{ color: '#F2F2F2' }}>{content.headingWhite2}</span>
+            <span style={{ color: 'var(--text-primary)' }}>{content.headingWhite2}</span>
           </h2>
           <StarDivider lineWidth={isMobile ? 60 : 110} style={{ marginTop: isMobile ? 10 : 16 }} />
           <p style={{
             fontFamily: "'Inter', sans-serif", fontSize: isMobile ? 13 : 14.5, lineHeight: 1.7,
-            color: 'rgba(237,237,237,0.8)', maxWidth: 720, margin: '22px auto 0',
+            color: 'rgba(192,192,192,0.8)', maxWidth: 720, margin: '22px auto 0',
           }}><RichText text={content.intro} /></p>
         </div>
 

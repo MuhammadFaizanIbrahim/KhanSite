@@ -32,7 +32,7 @@ function Pill({ label, active, onClick }: { label: string; active: boolean; onCl
         borderRadius: 40,
         border: `0.5px solid ${active ? 'rgba(255,255,255,0.45)' : 'rgba(255,255,255,0.12)'}`,
         background: active ? 'rgba(255,255,255,0.07)' : 'transparent',
-        color: '#fff',
+        color: 'var(--text-primary)',
         cursor: 'pointer',
         transition: 'all 0.2s',
         whiteSpace: 'nowrap' as const,
@@ -110,13 +110,13 @@ function GridView({ projects, cols, onProjectClick }: { projects: Project[]; col
           <p style={{
             fontFamily: 'Manrope, sans-serif', fontSize: cols >= 5 ? 8 : 10,
             fontWeight: 400, letterSpacing: '0.12em', textTransform: 'uppercase',
-            color: '#fff', margin: '0 0 4px',
+            color: 'var(--text-primary)', margin: '0 0 4px',
           }}>{p.brand}</p>
           <h3 style={{
             fontFamily: 'Manrope, sans-serif',
             fontSize: titleSize,
             fontWeight: 700, letterSpacing: '0.04em', textTransform: 'uppercase',
-            color: '#fff', margin: 0,
+            color: 'var(--text-primary)', margin: 0,
           }}>{p.title}</h3>
         </div>
       ))}
@@ -198,19 +198,19 @@ export default function WorkPage() {
           {/* <p style={{
             fontFamily: 'Manrope, sans-serif', fontSize: 10, fontWeight: 500,
             letterSpacing: '0.22em', textTransform: 'uppercase',
-            color: '#fff', marginBottom: 18,
+            color: 'var(--text-primary)', marginBottom: 18,
           }}>Selected Work</p> */}
           <h1 style={{
             fontFamily: '"Playfair Display", serif',
             fontSize: 'clamp(52px, 7vw, 88px)',
-            fontWeight: 700, color: '#fff', lineHeight: 1,
+            fontWeight: 700, color: 'var(--text-primary)', lineHeight: 1,
             margin: '0 0 20px',
           }}>Concepts</h1>
           <p style={{
             fontFamily: 'Manrope, sans-serif',
             fontSize: 'clamp(13px, 1.3vw, 16px)',
             fontWeight: 300, fontStyle: 'italic',
-            color: '#fff', letterSpacing: '0.02em',
+            color: 'var(--text-primary)', letterSpacing: '0.02em',
           }}>
             Every great innovation starts with a concept.
           </p>
@@ -230,7 +230,7 @@ export default function WorkPage() {
               <span style={{
                 fontFamily: 'Manrope, sans-serif', fontSize: 9, fontWeight: 500,
                 letterSpacing: '0.16em', textTransform: 'uppercase',
-                color: '#fff', minWidth: 148,
+                color: 'var(--text-primary)', minWidth: 148,
               }}>Filter by Categories</span>
               <div style={{ display: 'flex', gap: 7, flexWrap: 'wrap' }}>
                 {CATEGORIES.map(cat => (
@@ -249,7 +249,7 @@ export default function WorkPage() {
               <span style={{
                 fontFamily: 'Manrope, sans-serif', fontSize: 9, fontWeight: 500,
                 letterSpacing: '0.16em', textTransform: 'uppercase',
-                color: '#fff', minWidth: 148,
+                color: 'var(--text-primary)', minWidth: 148,
               }}>Sub-Categories</span>
               <div style={{ display: 'flex', gap: 7, flexWrap: 'wrap' }}>
                 {subCats.map(sub => (
@@ -285,7 +285,7 @@ export default function WorkPage() {
                     letterSpacing: '0.08em',
                     width: 36, height: 32,
                     background: cols === n ? 'rgba(255,255,255,0.07)' : 'transparent',
-                    color: cols === n ? ACCENT : '#fff',
+                    color: cols === n ? ACCENT : 'var(--text-primary)',
                     border: 'none',
                     borderRight: i < colOptions.length - 1 ? '0.5px solid rgba(255,255,255,0.1)' : 'none',
                     cursor: 'pointer',
@@ -304,7 +304,7 @@ export default function WorkPage() {
           <span style={{
             fontFamily: 'Manrope, sans-serif', fontSize: 9,
             letterSpacing: '0.14em', textTransform: 'uppercase',
-            color: '#fff',
+            color: 'var(--text-primary)',
           }}>
             {filtered.length} Concept{filtered.length !== 1 ? 's' : ''}
           </span>
@@ -313,7 +313,7 @@ export default function WorkPage() {
         {/* ── Grid ── */}
         {filtered.length === 0 ? (
           <div style={{ textAlign: 'center', padding: '80px 0' }}>
-            <p style={{ fontFamily: 'Manrope, sans-serif', fontSize: 13, color: '#fff', letterSpacing: '0.08em' }}>
+            <p style={{ fontFamily: 'Manrope, sans-serif', fontSize: 13, color: 'var(--text-primary)', letterSpacing: '0.08em' }}>
               No Concepts in this category yet.
             </p>
           </div>

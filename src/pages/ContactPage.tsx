@@ -26,7 +26,7 @@ const fieldSt = (isMobile: boolean): React.CSSProperties => ({
   padding: isMobile ? '13px 42px 13px 15px' : '14px 44px 14px 17px',
   background: 'rgba(10,10,13,0.55)',
   border: '1px solid rgba(212,175,55,0.35)',
-  borderRadius: 8, color: '#fff', outline: 'none',
+  borderRadius: 8, color: 'var(--text-primary)', outline: 'none',
   fontFamily: "'Inter', sans-serif", fontSize: isMobile ? 13 : 13.5,
   transition: 'border-color 0.2s',
 })
@@ -35,7 +35,7 @@ const labelSt: React.CSSProperties = {
   fontFamily: "'Inter', sans-serif",
   fontSize: 10.5, fontWeight: 600,
   letterSpacing: '0.16em', textTransform: 'uppercase',
-  color: 'rgba(255,255,255,0.85)', marginBottom: 8,
+  color: 'var(--text-primary)', marginBottom: 8,
   display: 'block',
 }
 
@@ -153,7 +153,7 @@ export default function ContactPage() {
         fontSize: isMobile ? 'clamp(20px, 6.5vw, 26px)' : 'clamp(30px, 3vw, 42px)',
         lineHeight: 1.15, margin: 0,
       }}>
-        <span style={{ color: '#F2F2F2' }}>{content.headingWhite} </span>
+        <span style={{ color: 'var(--text-primary)' }}>{content.headingWhite} </span>
         <span style={{ color: GOLD }}>{content.headingGold}</span>
       </h1>
 
@@ -161,12 +161,12 @@ export default function ContactPage() {
 
       <p style={{
         fontFamily: "'Inter', sans-serif", fontSize: isMobile ? 13.5 : 14.5, lineHeight: 1.65,
-        color: 'rgba(255,255,255,0.82)', margin: content.paragraph2 ? '0 0 16px' : 0, maxWidth: 440,
+        color: 'var(--text-primary)', margin: content.paragraph2 ? '0 0 16px' : 0, maxWidth: 440,
       }}>{content.paragraph1}</p>
       {content.paragraph2 && (
         <p style={{
           fontFamily: "'Inter', sans-serif", fontSize: isMobile ? 13.5 : 14.5, lineHeight: 1.65,
-          color: 'rgba(255,255,255,0.82)', margin: 0, maxWidth: 440,
+          color: 'var(--text-primary)', margin: 0, maxWidth: 440,
         }}>{content.paragraph2}</p>
       )}
     </div>
@@ -216,9 +216,9 @@ export default function ContactPage() {
               <div>
                 <div style={{
                   fontFamily: "'Inter', sans-serif", fontSize: 13, fontWeight: 700,
-                  letterSpacing: '0.08em', textTransform: 'uppercase', color: '#fff',
+                  letterSpacing: '0.08em', textTransform: 'uppercase', color: 'var(--text-primary)',
                 }}>{m.label}</div>
-                <div style={{ fontFamily: "'Inter', sans-serif", fontSize: 12, color: 'rgba(255,255,255,0.6)', marginTop: 2 }}>
+                <div style={{ fontFamily: "'Inter', sans-serif", fontSize: 12, color: 'var(--text-primary)', marginTop: 2 }}>
                   {m.description}
                 </div>
               </div>
@@ -261,7 +261,7 @@ export default function ContactPage() {
             fontFamily: "'Inter', sans-serif", fontSize: isMobile ? 14.5 : 16.5, fontWeight: 700,
             letterSpacing: '0.1em', textTransform: 'uppercase', color: GOLD, margin: '0 0 10px', lineHeight: 1.4,
           }}>{content.form.successTitle}</p>
-          <p style={{ fontFamily: "'Inter', sans-serif", fontSize: 13, color: 'rgba(255,255,255,0.65)', margin: 0 }}>
+          <p style={{ fontFamily: "'Inter', sans-serif", fontSize: 13, color: 'var(--text-primary)', margin: 0 }}>
             {content.form.successMessage}
           </p>
         </div>

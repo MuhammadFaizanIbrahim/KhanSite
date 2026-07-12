@@ -15,7 +15,7 @@ const inputSt: React.CSSProperties = {
   width: '100%', padding: '12px 16px',
   background: 'rgba(255,255,255,0.04)',
   border: '0.5px solid rgba(255,255,255,0.1)',
-  borderRadius: 3, color: '#fff',
+  borderRadius: 3, color: 'var(--text-primary)',
   fontFamily: "'Inter', sans-serif", fontSize: 13,
   outline: 'none', transition: 'border-color 0.2s',
 }
@@ -25,7 +25,7 @@ const labelSt: React.CSSProperties = {
   fontFamily: "'Inter', sans-serif",
   fontSize: 9, fontWeight: 600,
   letterSpacing: '0.16em', textTransform: 'uppercase',
-  color: '#fff', marginBottom: 7,
+  color: 'var(--text-primary)', marginBottom: 7,
 }
 
 export default function ContactOverlay({ visible, onClose }: ContactOverlayProps) {
@@ -99,7 +99,7 @@ export default function ContactOverlay({ visible, onClose }: ContactOverlayProps
             fontFamily: "'Inter', sans-serif",
             fontSize: 9, fontWeight: 600,
             letterSpacing: '0.14em', textTransform: 'uppercase',
-            color: '#fff', transition: 'opacity 0.2s',
+            color: 'var(--text-primary)', transition: 'opacity 0.2s',
           }}
           onMouseEnter={e => (e.currentTarget.style.opacity = '0.5')}
           onMouseLeave={e => (e.currentTarget.style.opacity = '1')}
@@ -114,10 +114,10 @@ export default function ContactOverlay({ visible, onClose }: ContactOverlayProps
 
           {/* Header */}
           <div style={{ textAlign: 'center', marginBottom: 28 }}>
-            <p style={{ fontFamily: "'Inter', sans-serif", fontSize: 12, fontWeight: 300, color: '#fff', lineHeight: 1.9, marginBottom: 10, letterSpacing: '0.04em' }}>
+            <p style={{ fontFamily: "'Inter', sans-serif", fontSize: 12, fontWeight: 300, color: 'var(--text-primary)', lineHeight: 1.9, marginBottom: 10, letterSpacing: '0.04em' }}>
               Contact me · if · you are
             </p>
-            <p style={{ fontFamily: "'Playfair Display', serif", fontSize: 'clamp(16px, 2vw, 22px)', fontWeight: 700, color: '#fff', lineHeight: 1.55 }}>
+            <p style={{ fontFamily: "'Playfair Display', serif", fontSize: 'clamp(16px, 2vw, 22px)', fontWeight: 700, color: 'var(--text-primary)', lineHeight: 1.55 }}>
               Building a product or business<br />
               in a new industry?<br />
               <span style={{ fontStyle: 'italic' }}>I innovate the concepts that set you ahead.</span>
@@ -147,7 +147,7 @@ export default function ContactOverlay({ visible, onClose }: ContactOverlayProps
                   fontFamily: "'Inter', sans-serif",
                   fontSize: 11, fontWeight: 500,
                   letterSpacing: '0.1em', textTransform: 'uppercase',
-                  color: '#fff', textDecoration: 'none',
+                  color: 'var(--text-primary)', textDecoration: 'none',
                   transition: 'background 0.2s, border-color 0.2s',
                 }}
                 onMouseEnter={e => { (e.currentTarget as HTMLElement).style.background = 'rgba(255,255,255,0.09)'; (e.currentTarget as HTMLElement).style.borderColor = 'rgba(255,255,255,0.6)' }}
@@ -163,8 +163,8 @@ export default function ContactOverlay({ visible, onClose }: ContactOverlayProps
           {/* Form */}
           {status === 'done' ? (
             <div style={{ textAlign: 'center', padding: '32px 0' }}>
-              <p style={{ fontFamily: "'Playfair Display', serif", fontSize: 22, color: '#fff', marginBottom: 10 }}>Thank you.</p>
-              <p style={{ fontFamily: "'Inter', sans-serif", fontSize: 12, color: '#fff' }}>I'll be in touch shortly.</p>
+              <p style={{ fontFamily: "'Playfair Display', serif", fontSize: 22, color: 'var(--text-primary)', marginBottom: 10 }}>Thank you.</p>
+              <p style={{ fontFamily: "'Inter', sans-serif", fontSize: 12, color: 'var(--text-primary)' }}>I'll be in touch shortly.</p>
             </div>
           ) : (
             <form ref={formRef} onSubmit={submit} style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>

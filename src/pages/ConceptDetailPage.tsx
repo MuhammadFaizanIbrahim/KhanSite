@@ -106,7 +106,7 @@ export default function ConceptDetailPage() {
   if (!concept) {
     return (
       <div style={{ position: 'fixed', inset: 0, background: '#000', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-        <p style={{ fontFamily: "'Inter', sans-serif", fontSize: 13, color: '#fff', letterSpacing: '0.08em' }}>
+        <p style={{ fontFamily: "'Inter', sans-serif", fontSize: 13, color: 'var(--text-primary)', letterSpacing: '0.08em' }}>
           Concept not found.
         </p>
       </div>
@@ -208,7 +208,7 @@ export default function ConceptDetailPage() {
               }}
             >
               <div style={{ fontFamily: "'Inter', sans-serif", fontSize: 10.5, fontWeight: 700, letterSpacing: '0.14em', textTransform: 'uppercase', color: GOLD, marginBottom: 6 }}>{m.label}</div>
-              <div style={{ fontFamily: "'Inter', sans-serif", fontSize: isMobile ? 13.5 : 14, color: '#F2F2F2' }}>{m.value}</div>
+              <div style={{ fontFamily: "'Inter', sans-serif", fontSize: isMobile ? 13.5 : 14, color: 'var(--text-primary)' }}>{m.value}</div>
             </div>
           ))}
         </div>
@@ -221,7 +221,7 @@ export default function ConceptDetailPage() {
           <InfoBox title="Concept Overview" isMobile={isMobile}>
             <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
               {concept.overview.map((p, i) => (
-                <p key={i} style={{ margin: 0, fontFamily: "'Inter', sans-serif", fontSize: isMobile ? 12.5 : 13.5, lineHeight: 1.65, color: 'rgba(237,237,237,0.85)' }}>{p}</p>
+                <p key={i} style={{ margin: 0, fontFamily: "'Inter', sans-serif", fontSize: isMobile ? 12.5 : 13.5, lineHeight: 1.65, color: 'rgba(192,192,192,0.85)' }}>{p}</p>
               ))}
             </div>
           </InfoBox>
@@ -276,12 +276,12 @@ export default function ConceptDetailPage() {
             fontSize: isMobile ? 'clamp(22px, 7vw, 28px)' : 'clamp(28px, 3vw, 40px)',
             margin: '0 0 16px',
           }}>
-            <span style={{ color: '#F2F2F2' }}>Interested in </span>
+            <span style={{ color: 'var(--text-primary)' }}>Interested in </span>
             <span style={{ color: GOLD }}>This Concept?</span>
           </h2>
           <p style={{
             fontFamily: "'Inter', sans-serif", fontSize: isMobile ? 12.5 : 14, lineHeight: 1.65,
-            color: 'rgba(237,237,237,0.82)', maxWidth: 560, margin: '0 auto 26px',
+            color: 'rgba(192,192,192,0.82)', maxWidth: 560, margin: '0 auto 26px',
           }}>
             Schedule a Concept Discussion to explore how this Concept Design can be tailored to your company's goals and requirements.
           </p>
@@ -312,5 +312,5 @@ const shareRowStyle: React.CSSProperties = {
   cursor: 'pointer', textDecoration: 'none', textAlign: 'left',
 }
 const shareRowTextStyle: React.CSSProperties = {
-  fontFamily: "'Inter', sans-serif", fontSize: 12, fontWeight: 500, color: '#F2F2F2',
+  fontFamily: "'Inter', sans-serif", fontSize: 12, fontWeight: 500, color: 'var(--text-primary)',
 }

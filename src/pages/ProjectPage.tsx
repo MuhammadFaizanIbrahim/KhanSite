@@ -13,7 +13,7 @@ const label = (text: string) => ({
   fontWeight: 500,
   letterSpacing: '0.18em',
   textTransform: 'uppercase' as const,
-  color: '#fff',
+  color: 'var(--text-primary)',
   margin: '0 0 10px',
 })
 
@@ -31,7 +31,7 @@ export default function ProjectPage() {
   if (!project) {
     return (
       <div style={{ position: 'fixed', inset: 0, background: '#040609', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-        <p style={{ fontFamily: 'Manrope, sans-serif', fontSize: 13, color: '#fff', letterSpacing: '0.08em' }}>
+        <p style={{ fontFamily: 'Manrope, sans-serif', fontSize: 13, color: 'var(--text-primary)', letterSpacing: '0.08em' }}>
           Project not found.
         </p>
       </div>
@@ -69,7 +69,7 @@ export default function ProjectPage() {
             fontWeight: 800,
             letterSpacing: '-0.02em',
             textTransform: 'uppercase',
-            color: '#ffffff',
+            color: 'var(--text-primary)',
             lineHeight: 0.9,
             margin: '0 0 10px',
           }}>
@@ -81,7 +81,7 @@ export default function ProjectPage() {
             fontWeight: 700,
             letterSpacing: '-0.02em',
             textTransform: 'uppercase',
-            color: '#fff',
+            color: 'var(--text-primary)',
             lineHeight: 0.9,
             margin: 0,
           }}>
@@ -101,13 +101,13 @@ export default function ProjectPage() {
         }}>
           <div>
             <p style={label('Category')}>Category</p>
-            <p style={{ fontFamily: 'Manrope, sans-serif', fontSize: 15, fontWeight: 400, color: '#fff', margin: 0 }}>
+            <p style={{ fontFamily: 'Manrope, sans-serif', fontSize: 15, fontWeight: 400, color: 'var(--text-primary)', margin: 0 }}>
               {project.category}
             </p>
           </div>
           <div>
             <p style={label('Sub Category')}>Sub Category</p>
-            <p style={{ fontFamily: 'Manrope, sans-serif', fontSize: 15, fontWeight: 400, color: '#fff', margin: 0 }}>
+            <p style={{ fontFamily: 'Manrope, sans-serif', fontSize: 15, fontWeight: 400, color: 'var(--text-primary)', margin: 0 }}>
               {project.subCategory}
             </p>
           </div>
@@ -118,7 +118,7 @@ export default function ProjectPage() {
           <div style={{ marginBottom: 48, maxWidth: 720, borderTop: '0.5px solid rgba(255,255,255,0.08)', paddingTop: 28 }}>            <p style={{
             fontFamily: 'Manrope, sans-serif', fontSize: 9, fontWeight: 500,
             letterSpacing: '0.18em', textTransform: 'uppercase',
-            color: '#fff', margin: '0 0 16px',
+            color: 'var(--text-primary)', margin: '0 0 16px',
           }}>
             Overview
           </p>
@@ -127,7 +127,7 @@ export default function ProjectPage() {
               fontSize: 'clamp(14px, 1.4vw, 17px)',
               fontWeight: 300,
               lineHeight: 1.8,
-              color: 'rgba(255,255,255,0.75)',
+              color: 'var(--text-primary)',
               margin: 0,
               letterSpacing: '0.01em',
             }}>
@@ -173,7 +173,7 @@ export default function ProjectPage() {
           <p style={{
             fontFamily: 'Manrope, sans-serif', fontSize: 9, fontWeight: 500,
             letterSpacing: '0.18em', textTransform: 'uppercase',
-            color: '#fff', margin: '0 0 20px',
+            color: 'var(--text-primary)', margin: '0 0 20px',
           }}>
             Presentation
           </p>

@@ -110,7 +110,7 @@ function TimelineRow({ step, index, isLast, inView, isMobile }: {
         <div style={{ width: 26, height: 2, background: GOLD, margin: isMobile ? '8px 0 10px' : '10px 0 14px' }} />
         <p style={{
           margin: 0, fontFamily: "'Inter', sans-serif", fontSize: isMobile ? 12.5 : 14,
-          lineHeight: 1.65, color: 'rgba(237,237,237,0.8)',
+          lineHeight: 1.65, color: 'rgba(192,192,192,0.8)',
         }}>{step.description}</p>
       </div>
     </div>
@@ -148,7 +148,7 @@ export default function HowWeBringConceptsToReality() {
             fontSize: isMobile ? 'clamp(30px, 11vw, 42px)' : 'clamp(44px, 5vw, 68px)',
             margin: '10px 0 0',
           }}>
-            {content.headingWhite && <span style={{ color: '#F2F2F2' }}>{content.headingWhite} </span>}
+            {content.headingWhite && <span style={{ color: 'var(--text-primary)' }}>{content.headingWhite} </span>}
             <span style={{ color: GOLD }}>{content.headingGold}</span>
           </h2>
           <StarDivider lineWidth={isMobile ? 50 : 100} style={{ marginTop: isMobile ? 14 : 20 }} />

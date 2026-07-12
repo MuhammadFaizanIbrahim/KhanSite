@@ -48,7 +48,7 @@ function RadioRow({ label, count, active, onClick }: { label: string; count: num
         </span>
         <span style={{
           fontFamily: "'Inter', sans-serif", fontSize: 12.5,
-          color: active ? '#F2F2F2' : 'rgba(255,255,255,0.65)',
+          color: active ? 'var(--text-primary)' : 'rgba(255,255,255,0.65)',
         }}>{label}</span>
       </span>
       <span style={{ fontFamily: "'Inter', sans-serif", fontSize: 11, color: 'rgba(255,255,255,0.35)' }}>{count}</span>
@@ -76,7 +76,7 @@ function CheckRow({ label, count, active, onClick }: { label: string; count: num
         </span>
         <span style={{
           fontFamily: "'Inter', sans-serif", fontSize: 12.5,
-          color: active ? '#F2F2F2' : 'rgba(255,255,255,0.65)',
+          color: active ? 'var(--text-primary)' : 'rgba(255,255,255,0.65)',
         }}>{label}</span>
       </span>
       <span style={{ fontFamily: "'Inter', sans-serif", fontSize: 11, color: 'rgba(255,255,255,0.35)' }}>{count}</span>
@@ -103,6 +103,14 @@ function FilterGroup({ title, defaultOpen = true, children }: { title: string; d
       </button>
       {open && children}
     </div>
+  )
+}
+
+// Playfair Display's swash "&" glyph looks out of place amid an otherwise
+// plain title, so that one character is rendered in a simple sans-serif font.
+function renderTitle(title: string) {
+  return title.split(/(&)/).map((part, i) =>
+    part === '&' ? <span key={i} style={{ fontFamily: "'Inter', sans-serif" }}>&amp;</span> : part
   )
 }
 
@@ -142,14 +150,14 @@ function ConceptCard({ concept, isMobile, delay, inView, onOpen }: { concept: Co
     <div style={{ flex: 1, display: 'flex', flexDirection: 'column', padding: isMobile ? '10px 4px' : '14px 16px 16px' }}>
       <h3 style={{
         fontFamily: "'Playfair Display', serif", fontWeight: 600, lineHeight: 1.3,
-        fontSize: isMobile ? 15 : 'clamp(15px, 1.3vw, 18px)', color: '#F2F2F2', margin: '0 0 8px',
+        fontSize: isMobile ? 15 : 'clamp(15px, 1.3vw, 18px)', color: 'var(--text-primary)', margin: '0 0 8px',
         minHeight: '2.6em',
-      }}>{concept.title}</h3>
+      }}>{renderTitle(concept.title)}</h3>
       <div style={{ display: 'flex', flexDirection: 'column', gap: 5 }}>
-        <span style={{ fontFamily: "'Inter', sans-serif", fontSize: 11.5, lineHeight: 1.4, color: 'rgba(237,237,237,0.75)', minHeight: '1.4em' }}>
+        <span style={{ fontFamily: "'Inter', sans-serif", fontSize: 11.5, lineHeight: 1.4, color: 'rgba(192,192,192,0.75)', minHeight: '1.4em' }}>
           {concept.space.replace(' Concepts', '')}
         </span>
-        <span style={{ fontFamily: "'Inter', sans-serif", fontSize: 11.5, lineHeight: 1.4, color: 'rgba(237,237,237,0.75)', minHeight: '1.4em' }}>
+        <span style={{ fontFamily: "'Inter', sans-serif", fontSize: 11.5, lineHeight: 1.4, color: 'rgba(192,192,192,0.75)', minHeight: '1.4em' }}>
           {concept.tagline}
         </span>
       </div>
@@ -307,7 +315,7 @@ export default function ConceptsPage() {
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 6 }}>
         <span style={{
           fontFamily: "'Inter', sans-serif", fontSize: 13, fontWeight: 700,
-          letterSpacing: '0.1em', textTransform: 'uppercase', color: '#F2F2F2',
+          letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--text-primary)',
         }}>Filters</span>
         <button
           onClick={clearAll}
@@ -339,7 +347,7 @@ export default function ConceptsPage() {
             placeholder="Search concept types..."
             style={{
               width: '100%', padding: '8px 12px 8px 32px', background: 'rgba(255,255,255,0.03)',
-              border: '1px solid rgba(212,175,55,0.25)', borderRadius: 6, color: '#fff', outline: 'none',
+              border: '1px solid rgba(212,175,55,0.25)', borderRadius: 6, color: 'var(--text-primary)', outline: 'none',
               fontFamily: "'Inter', sans-serif", fontSize: 11.5,
             }}
           />
@@ -397,13 +405,13 @@ export default function ConceptsPage() {
           fontSize: isMobile ? 'clamp(36px, 13vw, 48px)' : 'clamp(48px, 5.5vw, 80px)',
           margin: 0, lineHeight: 1.05,
         }}>
-          {/* <span style={{ color: '#F2F2F2' }}>{pageContent.headingWhite} </span> */}
+          {/* <span style={{ color: 'var(--text-primary)' }}>{pageContent.headingWhite} </span> */}
           <span style={{ color: GOLD }}>{pageContent.headingGold}</span>
         </h1>
         <StarDivider lineWidth={isMobile ? 45 : 80} style={{ margin: isMobile ? '14px 0' : '20px 0' }} />
         {/* <p style={{
           fontFamily: "'Cinzel', serif", fontSize: isMobile ? 10 : 13, letterSpacing: '0.2em',
-          textTransform: 'uppercase', color: 'rgba(237,237,237,0.85)', margin: '0 0 28px',
+          textTransform: 'uppercase', color: 'rgba(192,192,192,0.85)', margin: '0 0 28px',
         }}>
           <RichText text={pageContent.tagline} goldColor={GOLD} />
         </p> */}
@@ -416,7 +424,7 @@ export default function ConceptsPage() {
               style={{
                 width: '100%', padding: isMobile ? '12px 16px 12px 40px' : '15px 20px 15px 46px',
                 background: 'rgba(10,10,13,0.6)', border: '1px solid rgba(212,175,55,0.35)', borderRadius: 10,
-                color: '#fff', outline: 'none', fontFamily: "'Inter', sans-serif", fontSize: isMobile ? 13 : 14,
+                color: 'var(--text-primary)', outline: 'none', fontFamily: "'Inter', sans-serif", fontSize: isMobile ? 13 : 14,
                 backdropFilter: 'blur(6px)',
               }}
             />
@@ -507,7 +515,7 @@ export default function ConceptsPage() {
           <div style={{ flex: 1, minWidth: 0 }} ref={gridRef}>
             {visible.length === 0 ? (
               <div style={{ textAlign: 'center', padding: '80px 0' }}>
-                <p style={{ fontFamily: "'Inter', sans-serif", fontSize: 13, color: 'rgba(255,255,255,0.6)', letterSpacing: '0.06em' }}>
+                <p style={{ fontFamily: "'Inter', sans-serif", fontSize: 13, color: 'var(--text-primary)', letterSpacing: '0.06em' }}>
                   No concepts match your filters.
                 </p>
               </div>
@@ -540,7 +548,7 @@ export default function ConceptsPage() {
                   }} />
                   <span style={{
                     fontFamily: "'Cinzel', serif", fontSize: 11, letterSpacing: '0.2em',
-                    textTransform: 'uppercase', color: 'rgba(237,237,237,0.6)',
+                    textTransform: 'uppercase', color: 'rgba(192,192,192,0.6)',
                   }}>Loading more concepts...</span>
                 </div>
               </div>

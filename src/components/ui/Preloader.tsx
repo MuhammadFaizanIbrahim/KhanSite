@@ -224,7 +224,7 @@ export default function Preloader({ onComplete }: PreloaderProps) {
           fontFamily: "'Playfair Display', serif",
           fontSize:   'clamp(15px, 2vw, 22px)',
           fontWeight: 400,
-          color:      '#F2F2F2',
+          color:      'var(--text-primary)',
           lineHeight: 1.5,
           opacity:    tagIn ? 1 : 0,
           filter:     tagIn ? 'blur(0px)' : 'blur(6px)',

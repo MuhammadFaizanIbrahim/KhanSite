@@ -76,13 +76,13 @@ function FeaturedCard({ item, cardWidth, isActive }: { item: FeaturedItem; cardW
 
       <div style={{ padding: '18px 22px 22px' }}>
         <h3 style={{ fontFamily: "'Playfair Display', serif", fontWeight: 600, fontSize: 'clamp(20px, 2vw, 25px)', margin: 0, lineHeight: 1.2 }}>
-          <span style={{ color: '#F2F2F2' }}>{item.titleWhite} </span>
+          <span style={{ color: 'var(--text-primary)' }}>{item.titleWhite} </span>
           <span style={{ color: GOLD }}>{item.titleGold}</span>
         </h3>
 
         <div style={{ display: 'flex', flexDirection: 'column', gap: 4, marginTop: 12 }}>
           {item.tags.map(tag => (
-            <span key={tag.text} style={{ fontFamily: "'Inter', sans-serif", fontSize: 12.5, color: 'rgba(237,237,237,0.78)' }}>{tag.text}</span>
+            <span key={tag.text} style={{ fontFamily: "'Inter', sans-serif", fontSize: 12.5, color: 'rgba(192,192,192,0.78)' }}>{tag.text}</span>
           ))}
         </div>
 
@@ -184,7 +184,7 @@ export default function FeaturedConcepts() {
             fontSize: isMobile ? 'clamp(24px, 7vw, 30px)' : 'clamp(34px, 3.6vw, 52px)',
             margin: 0, lineHeight: 1.25,
           }}>
-            <span style={{ color: '#F2F2F2' }}>{content.headingWhite} </span>
+            <span style={{ color: 'var(--text-primary)' }}>{content.headingWhite} </span>
             <span style={{ color: GOLD }}>{content.headingGold}</span>
           </h2>
           <StarDivider lineWidth={isMobile ? 50 : 100} style={{ marginTop: isMobile ? 14 : 20 }} />

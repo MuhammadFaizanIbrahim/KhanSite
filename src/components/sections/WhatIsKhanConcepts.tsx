@@ -117,7 +117,7 @@ export default function WhatIsKhanConcepts() {
           textAlign: 'center',
           ...fadeStyle(step >= STEP_HEADING),
         }}>
-          <span style={{ color: '#F2F2F2' }}>{content.headingWhite}</span><Gold>{content.headingGold}</Gold>
+          <span style={{ color: 'var(--text-primary)' }}>{content.headingWhite}</span><Gold>{content.headingGold}</Gold>
         </h2>
 
         {/* ── Divider ── */}
@@ -134,7 +134,7 @@ export default function WhatIsKhanConcepts() {
           fontFamily: "'Inter', sans-serif",
           fontSize: isMobile ? 15.5 : 18,
           lineHeight: 1.75,
-          color: '#EDEDED',
+          color: 'var(--text-primary)',
           ...fadeStyle(step >= STEP_PARAGRAPH1),
         }}>
           <RichText text={content.paragraph1} />
@@ -148,7 +148,7 @@ export default function WhatIsKhanConcepts() {
             fontFamily: "'Inter', sans-serif",
             fontSize: isMobile ? 15.5 : 18,
             lineHeight: 1.75,
-            color: '#EDEDED',
+            color: 'var(--text-primary)',
             ...fadeStyle(step >= STEP_PARAGRAPH2),
           }}>
             <RichText text={content.paragraph2} />

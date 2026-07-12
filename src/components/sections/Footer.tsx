@@ -71,7 +71,7 @@ export default function Footer() {
           <h2 style={{
             fontFamily: "'Playfair Display', serif", fontWeight: 500,
             fontSize: isMobile ? 'clamp(26px, 7.5vw, 34px)' : 'clamp(32px, 3.4vw, 48px)',
-            color: '#F2F2F2', lineHeight: 1.3,
+            color: 'var(--text-primary)', lineHeight: 1.3,
             margin: isMobile ? '22px 0' : '30px 0',
           }}>
             <div><RichText text={content.headingLine1} /></div>

@@ -2,6 +2,12 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Site-wide text color — change this one value to retint every heading and
+   paragraph across the whole site (gold accents are unaffected). */
+:root {
+  --text-primary: #C0C0C0;
+}
+
 @font-face {
   font-family: 'BastligaOne';
   src: url('/fonts/bastliga-one.regular.otf') format('opentype');
@@ -11,7 +17,8 @@
 /* ── Base ── */
 @layer base {
   html, body, #root {
-    @apply w-full h-full overflow-hidden bg-black text-white;
+    @apply w-full h-full overflow-hidden bg-black;
+    color: var(--text-primary);
   }
 
   .font-logo     { font-family: 'BastligaOne', serif !important; }
@@ -24,6 +31,9 @@
   .font-body     { font-family: 'Inter', sans-serif; }
   .font-inter    { font-family: 'Inter', sans-serif; }
 }
+
+/* Drop-in replacement for Tailwind's `text-white` utility, tied to the same variable. */
+.text-primary { color: var(--text-primary); }
 
 /* ── Custom cursor — native OS cursor hidden in favor of <CustomCursor/>,
    restored over text fields/iframes where a graphic cursor doesn't help ── */
