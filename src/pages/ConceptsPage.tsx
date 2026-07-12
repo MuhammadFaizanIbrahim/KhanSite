@@ -154,10 +154,10 @@ function ConceptCard({ concept, isMobile, delay, inView, onOpen }: { concept: Co
         minHeight: '2.6em',
       }}>{renderTitle(concept.title)}</h3>
       <div style={{ display: 'flex', flexDirection: 'column', gap: 5 }}>
-        <span style={{ fontFamily: "'Inter', sans-serif", fontSize: 11.5, lineHeight: 1.4, color: 'rgba(192,192,192,0.75)', minHeight: '1.4em' }}>
+        <span style={{ fontFamily: "'Inter', sans-serif", fontSize: 11.5, lineHeight: 1.4, color: 'var(--text-primary)', minHeight: '1.4em' }}>
           {concept.space.replace(' Concepts', '')}
         </span>
-        <span style={{ fontFamily: "'Inter', sans-serif", fontSize: 11.5, lineHeight: 1.4, color: 'rgba(192,192,192,0.75)', minHeight: '1.4em' }}>
+        <span style={{ fontFamily: "'Inter', sans-serif", fontSize: 11.5, lineHeight: 1.4, color: 'var(--text-primary)', minHeight: '1.4em' }}>
           {concept.tagline}
         </span>
       </div>
@@ -411,7 +411,7 @@ export default function ConceptsPage() {
         <StarDivider lineWidth={isMobile ? 45 : 80} style={{ margin: isMobile ? '14px 0' : '20px 0' }} />
         {/* <p style={{
           fontFamily: "'Cinzel', serif", fontSize: isMobile ? 10 : 13, letterSpacing: '0.2em',
-          textTransform: 'uppercase', color: 'rgba(192,192,192,0.85)', margin: '0 0 28px',
+          textTransform: 'uppercase', color: 'var(--text-primary)', margin: '0 0 28px',
         }}>
           <RichText text={pageContent.tagline} goldColor={GOLD} />
         </p> */}
@@ -548,7 +548,7 @@ export default function ConceptsPage() {
                   }} />
                   <span style={{
                     fontFamily: "'Cinzel', serif", fontSize: 11, letterSpacing: '0.2em',
-                    textTransform: 'uppercase', color: 'rgba(192,192,192,0.6)',
+                    textTransform: 'uppercase', color: 'var(--text-primary)',
                   }}>Loading more concepts...</span>
                 </div>
               </div>

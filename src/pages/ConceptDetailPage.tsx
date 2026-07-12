@@ -221,7 +221,7 @@ export default function ConceptDetailPage() {
           <InfoBox title="Concept Overview" isMobile={isMobile}>
             <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
               {concept.overview.map((p, i) => (
-                <p key={i} style={{ margin: 0, fontFamily: "'Inter', sans-serif", fontSize: isMobile ? 12.5 : 13.5, lineHeight: 1.65, color: 'rgba(192,192,192,0.85)' }}>{p}</p>
+                <p key={i} style={{ margin: 0, fontFamily: "'Inter', sans-serif", fontSize: isMobile ? 12.5 : 13.5, lineHeight: 1.65, color: 'var(--text-primary)' }}>{p}</p>
               ))}
             </div>
           </InfoBox>
@@ -281,7 +281,7 @@ export default function ConceptDetailPage() {
           </h2>
           <p style={{
             fontFamily: "'Inter', sans-serif", fontSize: isMobile ? 12.5 : 14, lineHeight: 1.65,
-            color: 'rgba(192,192,192,0.82)', maxWidth: 560, margin: '0 auto 26px',
+            color: 'var(--text-primary)', maxWidth: 560, margin: '0 auto 26px',
           }}>
             Schedule a Concept Discussion to explore how this Concept Design can be tailored to your company's goals and requirements.
           </p>

@@ -82,7 +82,7 @@ function FeaturedCard({ item, cardWidth, isActive }: { item: FeaturedItem; cardW
 
         <div style={{ display: 'flex', flexDirection: 'column', gap: 4, marginTop: 12 }}>
           {item.tags.map(tag => (
-            <span key={tag.text} style={{ fontFamily: "'Inter', sans-serif", fontSize: 12.5, color: 'rgba(192,192,192,0.78)' }}>{tag.text}</span>
+            <span key={tag.text} style={{ fontFamily: "'Inter', sans-serif", fontSize: 12.5, color: 'var(--text-primary)' }}>{tag.text}</span>
           ))}
         </div>
 

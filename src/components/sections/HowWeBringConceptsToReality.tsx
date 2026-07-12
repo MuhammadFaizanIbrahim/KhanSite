@@ -110,7 +110,7 @@ function TimelineRow({ step, index, isLast, inView, isMobile }: {
         <div style={{ width: 26, height: 2, background: GOLD, margin: isMobile ? '8px 0 10px' : '10px 0 14px' }} />
         <p style={{
           margin: 0, fontFamily: "'Inter', sans-serif", fontSize: isMobile ? 12.5 : 14,
-          lineHeight: 1.65, color: 'rgba(192,192,192,0.8)',
+          lineHeight: 1.65, color: 'var(--text-primary)',
         }}>{step.description}</p>
       </div>
     </div>

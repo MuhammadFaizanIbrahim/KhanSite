@@ -78,7 +78,7 @@ function ConceptCard({ item, delay, inView, isMobile }: { item: ConceptItem; del
                 fontFamily: "'Inter', sans-serif",
                 fontSize: isMobile ? 11.5 : 13.5,
                 lineHeight: isMobile ? 1.4 : 1.5,
-                color: 'rgba(192,192,192,0.85)',
+                color: 'var(--text-primary)',
               }}>{b}</span>
             </li>
           ))}
@@ -138,7 +138,7 @@ export default function ConceptInnovationSpace() {
           <StarDivider lineWidth={isMobile ? 60 : 110} style={{ marginTop: isMobile ? 10 : 16 }} />
           <p style={{
             fontFamily: "'Inter', sans-serif", fontSize: isMobile ? 13 : 14.5, lineHeight: 1.7,
-            color: 'rgba(192,192,192,0.8)', maxWidth: 720, margin: '22px auto 0',
+            color: 'var(--text-primary)', maxWidth: 720, margin: '22px auto 0',
           }}><RichText text={content.intro} /></p>
         </div>
 
