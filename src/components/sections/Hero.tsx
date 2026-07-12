@@ -172,7 +172,7 @@ export default function Hero() {
         fontWeight: 400,
         lineHeight: 1.35,
         textAlign:  'center',
-        color:      '#F2F2F2',
+        color:      '#C0C0C0',
         maxWidth:   isMobile ? 460 : 980,
         margin:     0,
         ...fadeStyle(step >= STEP_TAGLINE),
