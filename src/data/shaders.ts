@@ -232,7 +232,7 @@ void main(){
   vec2 p = aPos + aVel * uTime;
   p = mod(p + 1.0, 2.0) - 1.0;
 
-  float size = mix(4.5, 18.0, pow(aSize, 3.0));
+  float size = mix(6.0, 23.0, pow(aSize, 3.0));
   gl_PointSize = size * uDpr;
   gl_Position = vec4(p, 0.0, 1.0);
 }
