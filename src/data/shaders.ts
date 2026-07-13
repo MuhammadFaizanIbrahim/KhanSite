@@ -194,11 +194,61 @@ void main(){
   float shape = core + glow;
   float lengthFade = smoothstep(0.0, 0.22, vLocal.y);
 
-  vec3 silver = vec3(0.80, 0.81, 0.85);
-  vec3 gold   = vec3(0.86, 0.72, 0.30);
+  vec3 silver = vec3(0.753, 0.753, 0.753); // #C0C0C0
+  vec3 gold   = vec3(0.831, 0.686, 0.216); // #D4AF37
   vec3 tint   = mix(silver, gold, step(0.93, vTint));
 
   float a = shape * lengthFade * vAlpha;
   fragColor = vec4(tint * a, a);
+}
+`
+
+// ── Ambient galaxy background — gently twinkling stars behind the preloader ──
+// ── and homepage. Static positions (cheap: no per-frame position updates),  ──
+// ── only per-star brightness oscillates, drawn as a single gl.POINTS call. ──
+export const GALAXY_VERTEX_SHADER = `#version 300 es
+precision highp float;
+
+layout(location=0) in vec2  aPos;
+layout(location=1) in float aSize;
+layout(location=2) in float aPhase;
+layout(location=3) in float aSpeed;
+layout(location=4) in float aTint;
+
+uniform float uTime;
+uniform float uDpr;
+
+out float vBrightness;
+out float vTint;
+
+void main(){
+  float twinkle = sin(uTime * aSpeed + aPhase) * 0.5 + 0.5;
+  vBrightness = mix(0.5, 1.0, twinkle);
+  vTint = aTint;
+
+  float size = mix(1.1, 6.5, pow(aSize, 4.0));
+  gl_PointSize = size * uDpr;
+  gl_Position = vec4(aPos, 0.0, 1.0);
+}
+`
+
+export const GALAXY_FRAGMENT_SHADER = `#version 300 es
+precision highp float;
+
+in float vBrightness;
+in float vTint;
+out vec4 fragColor;
+
+void main(){
+  vec2 d = gl_PointCoord - 0.5;
+  float dist = length(d) * 2.0;
+  float falloff = pow(clamp(1.0 - dist, 0.0, 1.0), 1.8);
+
+  vec3 silver = vec3(0.753, 0.753, 0.753); // #C0C0C0
+  vec3 gold   = vec3(0.831, 0.686, 0.216); // #D4AF37
+  vec3 col = mix(silver, gold, vTint);
+
+  float a = falloff * vBrightness;
+  fragColor = vec4(col * a, a);
 }
 `

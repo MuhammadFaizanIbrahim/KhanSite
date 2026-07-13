@@ -82,7 +82,7 @@ export default function WhatIsKhanConcepts() {
         // backgroundImage: isMobile ? BG_MOBILE : BG_DESKTOP,
         // backgroundSize: 'cover',
         // backgroundPosition: 'center',
-        backgroundColor: '#000',
+        backgroundColor: 'transparent',
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',

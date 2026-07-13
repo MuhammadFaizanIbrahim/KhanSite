@@ -165,7 +165,7 @@ export default function FeaturedConcepts() {
       id="featured-concepts"
       style={{
         position: 'relative', width: '100%', overflow: 'hidden',
-        backgroundColor: '#000',
+        backgroundColor: 'transparent',
         padding: isMobile ? '90px 0 90px' : '120px 0 150px',
       }}
     >

@@ -115,7 +115,7 @@ export default function ConceptInnovationSpace() {
       style={{
         position: 'relative',
         width: '100%',
-        backgroundColor: '#000',
+        backgroundColor: 'transparent',
         padding: isMobile ? '90px 16px 100px' : '120px 40px 140px',
       }}
     >

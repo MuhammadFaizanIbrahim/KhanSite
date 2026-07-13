@@ -44,7 +44,7 @@ export default function Footer() {
       position: 'relative', width: '100%', overflow: 'hidden',
       minHeight: isMobile ? '80vh' : '100vh',
       display: 'flex', alignItems: isMobile ? 'stretch' : 'center', justifyContent: 'center',
-      backgroundColor: '#000',
+      backgroundColor: 'transparent',
       padding: isMobile ? '60px 20px 50px' : '100px 40px 70px',
     }}>
       <BackgroundMedia background={content.background} />

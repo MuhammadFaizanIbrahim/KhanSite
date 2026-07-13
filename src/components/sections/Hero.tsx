@@ -149,7 +149,7 @@ export default function Hero() {
         position: 'relative',
         minHeight: isMobile ? '80vh' : '100vh',
         width: '100%',
-        backgroundColor: '#000',
+        backgroundColor: 'transparent',
         overflow: 'hidden',
       }}
     >
