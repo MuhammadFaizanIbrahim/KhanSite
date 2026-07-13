@@ -115,3 +115,90 @@ void main(){
   gl_FragColor = uMode < 0.5 ? sectionDissolve() : glassLens();
 }
 `
+
+// ── Hyperspace starfield page-transition ──────────────────────────────────
+// Each instance is a thin quad stretched between its position "a moment ago"
+// and "now" (both perspective-projected from a shared vanishing point at
+// screen centre), so motion itself produces the light-streak shape — no
+// texture, no multi-frame blur, just one instanced draw call.
+export const STARFIELD_VERTEX_SHADER = `#version 300 es
+precision highp float;
+
+layout(location=0) in vec2 aCorner;
+layout(location=1) in vec4 aSeed;
+layout(location=2) in float aTint;
+
+uniform float uProgress;
+uniform float uAspect;
+
+out float vAlpha;
+out float vTint;
+out vec2  vLocal;
+
+const float NEAR_Z  = 6.0;
+const float FAR_Z   = 70.0;
+const float TRAVEL  = 95.0;
+const float FOCAL   = 1.15;
+const float SPREAD  = 7.0;
+const float STREAK  = 5.5;
+
+vec2 project(vec2 xy, float z){
+  float safeZ = max(z, 0.08);
+  return xy / safeZ * FOCAL;
+}
+
+void main(){
+  float baseZ     = mix(NEAR_Z, FAR_Z, aSeed.z);
+  float travelled = uProgress * uProgress * TRAVEL;
+  float headZ     = baseZ - travelled;
+  float tailZ     = headZ + STREAK;
+
+  vec2 xy    = aSeed.xy * SPREAD;
+  vec2 headP = project(xy, headZ);
+  vec2 tailP = project(xy, tailZ);
+
+  vec2 dir  = headP - tailP;
+  float len = max(length(dir), 0.0008);
+  vec2 dirN = dir / len;
+  vec2 perp = vec2(-dirN.y, dirN.x);
+
+  float widthPx = mix(0.0035, 0.011, aSeed.w);
+  vec2 pos = mix(tailP, headP, aCorner.y) + perp * widthPx * aCorner.x;
+  pos.x /= uAspect;
+
+  float depthFade = smoothstep(0.0, 3.0, headZ);
+  float burstIn   = smoothstep(0.0, 0.08, uProgress);
+  float burstOut  = 1.0 - smoothstep(0.80, 1.0, uProgress);
+  float flash     = 1.0 + 0.6 * exp(-pow((uProgress - 0.75) * 14.0, 2.0));
+
+  vAlpha = mix(0.3, 1.0, aSeed.w) * depthFade * burstIn * burstOut * flash;
+  vTint  = aTint;
+  vLocal = aCorner;
+
+  gl_Position = vec4(pos, 0.0, 1.0);
+}
+`
+
+export const STARFIELD_FRAGMENT_SHADER = `#version 300 es
+precision highp float;
+
+in float vAlpha;
+in float vTint;
+in vec2  vLocal;
+out vec4 fragColor;
+
+void main(){
+  float widthFalloff = clamp(1.0 - abs(vLocal.x) * 2.0, 0.0, 1.0);
+  float core  = pow(widthFalloff, 4.0);
+  float glow  = pow(widthFalloff, 1.1) * 0.32;
+  float shape = core + glow;
+  float lengthFade = smoothstep(0.0, 0.22, vLocal.y);
+
+  vec3 silver = vec3(0.80, 0.81, 0.85);
+  vec3 gold   = vec3(0.86, 0.72, 0.30);
+  vec3 tint   = mix(silver, gold, step(0.93, vTint));
+
+  float a = shape * lengthFade * vAlpha;
+  fragColor = vec4(tint * a, a);
+}
+`

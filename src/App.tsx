@@ -1,12 +1,16 @@
 import { useState, useRef } from 'react'
 import { Routes, Route } from 'react-router-dom'
 import Preloader             from '@/components/ui/Preloader'
-import PageTransitionCanvas  from '@/components/ui/PageTransitionCanvas'
+// Previous page-transition effect (WebGL noise dissolve) — kept here, commented
+// out, in case the new starfield transition below needs to be reverted.
+// import PageTransitionCanvas  from '@/components/ui/PageTransitionCanvas'
+// import type { PageTransitionHandle } from '@/components/ui/PageTransitionCanvas'
+import PageTransitionCanvas  from '@/components/ui/StarfieldTransitionCanvas'
+import type { PageTransitionHandle } from '@/components/ui/StarfieldTransitionCanvas'
 import CustomCursor          from '@/components/ui/CustomCursor'
 import Navbar                from '@/components/layout/Navbar'
 import CenterNav             from '@/components/layout/CenterNav'
 import { TransitionProvider } from '@/contexts/TransitionContext'
-import type { PageTransitionHandle } from '@/components/ui/PageTransitionCanvas'
 import HomePage           from '@/pages/HomePage'
 import WorkPage           from '@/pages/WorkPage'
 import AboutPage          from '@/pages/AboutPage'
