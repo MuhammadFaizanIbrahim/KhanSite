@@ -35,14 +35,15 @@ function useInView<T extends HTMLElement>() {
 }
 
 export default function Footer() {
-  const { isMobile } = useBreakpoint()
+  const { isMobile, isTablet } = useBreakpoint()
+  const sectionMinHeight = isMobile ? '72vh' : isTablet ? '85vh' : '100vh'
   const content = useContent('footer')
   const [ref, inView] = useInView<HTMLDivElement>()
 
   return (
     <footer id="footer" style={{
       position: 'relative', width: '100%', overflow: 'hidden',
-      minHeight: isMobile ? '80vh' : '100vh',
+      minHeight: sectionMinHeight,
       display: 'flex', alignItems: isMobile ? 'stretch' : 'center', justifyContent: 'center',
       backgroundColor: 'transparent',
       padding: isMobile ? '60px 20px 50px' : '100px 40px 70px',
@@ -120,7 +121,7 @@ export default function Footer() {
 
           <div style={{
             width: isMobile ? 220 : 320, height: 1,
-            background: 'rgba(255,255,255,0.15)',
+            background: 'rgba(212,175,55,0.45)',
             margin: isMobile ? '22px 0 22px' : '38px 0 30px',
           }} />
 
@@ -148,7 +149,7 @@ export default function Footer() {
           </div>
 
           <span style={{
-            fontFamily: "'Inter', sans-serif", fontSize: isMobile ? 11 : 12,
+            fontFamily: "'Inter', sans-serif", fontSize: isMobile ? 13 : 14,
             color: GOLD, marginTop: isMobile ? 10 : 16,
           }}>{content.copyright}</span>
         </div>

@@ -180,7 +180,7 @@ export default function ConceptDetailPage() {
           <h1 style={{
             fontFamily: "'Playfair Display', serif", fontWeight: 700, textTransform: 'uppercase',
             fontSize: isMobile ? 'clamp(26px, 8.5vw, 34px)' : 'clamp(38px, 5vw, 60px)',
-            lineHeight: 1.06, margin: isMobile ? 0 : '0 0 20px', color: GOLD,
+            lineHeight: 1.06, margin: isMobile ? 0 : '0 0 20px', color: '#C0C0C0',
           }}>
             {concept.title}
           </h1>

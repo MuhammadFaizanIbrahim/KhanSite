@@ -36,27 +36,21 @@ export default function GalaxyBackground({ position = 'fixed' }: GalaxyBackgroun
 
     const rand = (min: number, max: number) => min + Math.random() * (max - min)
 
-    const positions = new Float32Array(COUNT * 2)
+    const dirs       = new Float32Array(COUNT * 2)
     const sizes      = new Float32Array(COUNT)
     const phases     = new Float32Array(COUNT)
     const speeds     = new Float32Array(COUNT)
-    const tints       = new Float32Array(COUNT)
-    const velocities  = new Float32Array(COUNT * 2)
-
-    // A shared directional glide (so the whole field drifts together like a
-    // slow camera pan through space) plus per-star variance on top of it.
-    const driftX = 0.018
-    const driftY = 0.012
+    const tints      = new Float32Array(COUNT)
+    const depthSeeds = new Float32Array(COUNT)
 
     for (let i = 0; i < COUNT; i++) {
-      positions[i * 2]     = rand(-1, 1)
-      positions[i * 2 + 1] = rand(-1, 1)
+      dirs[i * 2]     = rand(-1, 1)
+      dirs[i * 2 + 1] = rand(-1, 1)
       sizes[i]  = Math.random()
       phases[i] = rand(0, Math.PI * 2)
       speeds[i] = rand(0.3, 1.1)
       tints[i]  = i % 2 // exact 50/50 split before shuffling below
-      velocities[i * 2]     = driftX + rand(-0.015, 0.015)
-      velocities[i * 2 + 1] = driftY + rand(-0.015, 0.015)
+      depthSeeds[i] = Math.random() // staggers each star's far-to-close loop
     }
     // Shuffle so silver/gold aren't laid out in an alternating pattern by index.
     for (let i = tints.length - 1; i > 0; i--) {
@@ -71,12 +65,12 @@ export default function GalaxyBackground({ position = 'fixed' }: GalaxyBackgroun
       gl.enableVertexAttribArray(loc)
       gl.vertexAttribPointer(loc, size, gl.FLOAT, false, 0, 0)
     }
-    mkBuf(positions,  0, 2)
+    mkBuf(dirs,       0, 2)
     mkBuf(sizes,      1, 1)
     mkBuf(phases,     2, 1)
     mkBuf(speeds,     3, 1)
     mkBuf(tints,      4, 1)
-    mkBuf(velocities, 5, 2)
+    mkBuf(depthSeeds, 5, 1)
 
     const uTime = gl.getUniformLocation(prg, 'uTime')
     const uDpr  = gl.getUniformLocation(prg, 'uDpr')

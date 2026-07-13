@@ -203,36 +203,57 @@ void main(){
 }
 `
 
-// ── Ambient galaxy background — drifting, twinkling stars behind the preloader
-// ── and homepage. Each star drifts at its own slow velocity (wrapped
-// ── seamlessly at the screen edges) plus a shared directional glide, so the
-// ── whole field reads as continuously, gently in motion — single gl.POINTS call.
+// ── Ambient galaxy background — stars drift from far to close (radiating
+// ── outward from a shared vanishing point, looping seamlessly) and shimmer
+// ── with a peakier, two-frequency twinkle so they blink like real starlight
+// ── instead of a smooth fade — single gl.POINTS call, no textures.
 export const GALAXY_VERTEX_SHADER = `#version 300 es
 precision highp float;
 
-layout(location=0) in vec2  aPos;
+layout(location=0) in vec2  aDir;
 layout(location=1) in float aSize;
 layout(location=2) in float aPhase;
 layout(location=3) in float aSpeed;
 layout(location=4) in float aTint;
-layout(location=5) in vec2  aVel;
+layout(location=5) in float aDepthSeed;
 
 uniform float uTime;
 uniform float uDpr;
 
 out float vBrightness;
 out float vTint;
+out float vSizeSeed;
+
+const float NEAR_Z = 0.28;
+const float FAR_Z   = 3.4;
+const float CYCLE   = FAR_Z - NEAR_Z;
+const float SPEED_Z = 0.065;
 
 void main(){
-  float twinkle = sin(uTime * aSpeed + aPhase) * 0.5 + 0.5;
-  vBrightness = mix(0.65, 1.0, twinkle);
+  // Each star loops from FAR_Z down to NEAR_Z then instantly respawns far
+  // away again — staggered per-star via aDepthSeed so they don't sync up.
+  float travel = mod(uTime * SPEED_Z + aDepthSeed * CYCLE, CYCLE);
+  float z = FAR_Z - travel;
+  float scale = 1.0 / z;
+
+  vec2 p = aDir * scale * 0.32;
+
+  float fadeIn  = 1.0 - smoothstep(FAR_Z * 0.8, FAR_Z, z);
+  float fadeOut = smoothstep(NEAR_Z, NEAR_Z * 1.9, z);
+  float depthAlpha = fadeIn * fadeOut;
+
+  // Two-frequency shimmer, sharpened with pow() so brightness snaps between
+  // dim and bright rather than smoothly cross-fading — reads as a blink.
+  float tw1 = sin(uTime * aSpeed + aPhase);
+  float tw2 = sin(uTime * aSpeed * 2.3 + aPhase * 1.7);
+  float twinkle = clamp(tw1 * 0.65 + tw2 * 0.35, -1.0, 1.0) * 0.5 + 0.5;
+  float shine = pow(twinkle, 2.4);
+
+  vBrightness = mix(0.4, 1.0, shine) * depthAlpha;
   vTint = aTint;
+  vSizeSeed = aSize;
 
-  // Continuous drift, wrapped seamlessly so stars re-enter the opposite edge.
-  vec2 p = aPos + aVel * uTime;
-  p = mod(p + 1.0, 2.0) - 1.0;
-
-  float size = mix(6.0, 23.0, pow(aSize, 3.0));
+  float size = mix(6.0, 18.0, aSize) * clamp(scale, 0.3, 3.2);
   gl_PointSize = size * uDpr;
   gl_Position = vec4(p, 0.0, 1.0);
 }
@@ -243,6 +264,7 @@ precision highp float;
 
 in float vBrightness;
 in float vTint;
+in float vSizeSeed;
 out vec4 fragColor;
 
 void main(){
@@ -250,11 +272,17 @@ void main(){
   float dist = length(d) * 2.0;
   float falloff = pow(clamp(1.0 - dist, 0.0, 1.0), 1.6);
 
+  // A faint four-point sparkle cross on the larger stars only — cheap way to
+  // read as "shining" without a texture, without cluttering the small ones.
+  float sparkleAmt = smoothstep(0.6, 1.0, vSizeSeed) * vBrightness;
+  float cross = pow(max(0.0, 1.0 - abs(d.x) * 9.0), 3.0) + pow(max(0.0, 1.0 - abs(d.y) * 9.0), 3.0);
+  float shape = falloff + cross * sparkleAmt * 0.5;
+
   vec3 silver = vec3(0.753, 0.753, 0.753); // #C0C0C0
   vec3 gold   = vec3(0.831, 0.686, 0.216); // #D4AF37
   vec3 col = mix(silver, gold, vTint);
 
-  float a = falloff * vBrightness;
+  float a = shape * vBrightness;
   fragColor = vec4(col * a, a);
 }
 `

@@ -134,7 +134,8 @@ function ScrollCue({ label }: { label: string }) {
 }
 
 export default function Hero() {
-  const { isMobile } = useBreakpoint()
+  const { isMobile, isTablet } = useBreakpoint()
+  const sectionMinHeight = isMobile ? '72vh' : isTablet ? '85vh' : '100vh'
   const [ref, inView] = useInView<HTMLElement>()
   const ready = useReadyForReveal()
   const step = useRevealSteps(ready && inView)
@@ -147,7 +148,7 @@ export default function Hero() {
       ref={ref}
       style={{
         position: 'relative',
-        minHeight: isMobile ? '80vh' : '100vh',
+        minHeight: sectionMinHeight,
         width: '100%',
         backgroundColor: 'transparent',
         overflow: 'hidden',
@@ -157,7 +158,7 @@ export default function Hero() {
 
       <div style={{
         position: 'relative', zIndex: 1,
-        width: '100%', minHeight: isMobile ? '80vh' : '100vh',
+        width: '100%', minHeight: sectionMinHeight,
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
@@ -216,7 +217,7 @@ export default function Hero() {
         style={{ marginTop: isMobile ? 24 : 32, ...fadeStyle(step >= STEP_DIVIDER, 0) }}
       />
 
-      <div style={{ marginTop: isMobile ? 32 : 76, ...fadeStyle(step >= STEP_SCROLL) }}>
+      <div style={{ marginTop: isMobile ? 46 : 76, ...fadeStyle(step >= STEP_SCROLL) }}>
         <ScrollCue label={content.scrollCueLabel} />
       </div>
       </div>

@@ -67,7 +67,8 @@ function fadeStyle(active: boolean, distance = 14): React.CSSProperties {
 }
 
 export default function WhatIsKhanConcepts() {
-  const { isMobile } = useBreakpoint()
+  const { isMobile, isTablet } = useBreakpoint()
+  const sectionMinHeight = isMobile ? '72vh' : isTablet ? '85vh' : '100vh'
   const [ref, inView] = useInView<HTMLDivElement>()
   const step = useRevealSteps(inView)
   const content = useContent('what-is-khanconcepts')
@@ -77,7 +78,7 @@ export default function WhatIsKhanConcepts() {
       id="what-is-khanconcepts"
       style={{
         position: 'relative',
-        minHeight: isMobile ? '80vh' : '100vh',
+        minHeight: sectionMinHeight,
         width: '100%',
         // backgroundImage: isMobile ? BG_MOBILE : BG_DESKTOP,
         // backgroundSize: 'cover',
