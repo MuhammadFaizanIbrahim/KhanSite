@@ -205,10 +205,12 @@ void main(){
 
 // ── Ambient galaxy background — round stars scattered evenly across the
 // ── whole screen (no vanishing-point projection, so nothing clusters toward
-// ── the centre), each slowly drifting AND independently cycling through an
-// ── infinite "approaching from far away" grow-and-fade loop (staggered per
-// ── star), plus a peakier two-frequency twinkle and a faint sparkle cross
-// ── so they blink/shine like real starlight — single gl.POINTS call.
+// ── the centre). Each star's position never slides sideways — the only
+// ── motion is an infinite "approaching from far away" grow-and-fade loop
+// ── (staggered per star), so the read is purely "coming toward the viewer,"
+// ── never left-to-right. Plus a peakier two-frequency twinkle and a faint
+// ── sparkle cross so they blink/shine like real starlight — single
+// ── gl.POINTS call.
 export const GALAXY_VERTEX_SHADER = `#version 300 es
 precision highp float;
 
@@ -217,8 +219,7 @@ layout(location=1) in float aSize;
 layout(location=2) in float aPhase;
 layout(location=3) in float aSpeed;
 layout(location=4) in float aTint;
-layout(location=5) in vec2  aVel;
-layout(location=6) in float aDepthSeed;
+layout(location=5) in float aDepthSeed;
 
 uniform float uTime;
 uniform float uDpr;
@@ -227,7 +228,7 @@ out float vBrightness;
 out float vTint;
 out float vSizeSeed;
 
-const float APPROACH_CYCLE = 7.0; // seconds for one far-to-close loop
+const float APPROACH_CYCLE = 6.0; // seconds for one far-to-close loop
 
 void main(){
   // Two-frequency shimmer, sharpened with pow() so brightness snaps between
@@ -239,24 +240,20 @@ void main(){
 
   // Depth-approach loop: each star grows from small/dim ("far") to large/bright
   // ("close") then fades and restarts — staggered via aDepthSeed so they don't
-  // all pulse in sync. Position itself doesn't move toward centre/edges, so
-  // stars stay scattered across the full screen the whole time.
+  // all pulse in sync. Position is completely static otherwise, so there is
+  // no sideways drift at all — only the approaching grow/fade motion.
   float depthT   = mod(uTime + aDepthSeed * APPROACH_CYCLE, APPROACH_CYCLE) / APPROACH_CYCLE;
   float fadeIn   = smoothstep(0.0, 0.08, depthT);
   float fadeOut  = 1.0 - smoothstep(0.86, 1.0, depthT);
-  float approach = mix(0.3, 1.0, depthT);
+  float approach = mix(0.25, 1.0, depthT);
 
-  vBrightness = mix(0.5, 1.0, shine) * mix(0.55, 1.0, depthT) * fadeIn * fadeOut;
+  vBrightness = mix(0.5, 1.0, shine) * mix(0.5, 1.0, depthT) * fadeIn * fadeOut;
   vTint = aTint;
   vSizeSeed = aSize;
 
-  // Continuous drift, wrapped seamlessly so stars re-enter the opposite edge.
-  vec2 p = aPos + aVel * uTime;
-  p = mod(p + 1.0, 2.0) - 1.0;
-
   float baseSize = mix(7.0, 24.0, pow(aSize, 3.0));
   gl_PointSize = baseSize * approach * uDpr;
-  gl_Position = vec4(p, 0.0, 1.0);
+  gl_Position = vec4(aPos, 0.0, 1.0);
 }
 `
 
