@@ -203,92 +203,43 @@ void main(){
 }
 `
 
-// ── Ambient galaxy background — true hyperspace flythrough: each star's
-// ── depth (z) decreases every frame and its x/y are perspective-projected
-// ── from a shared vanishing point at screen centre, so motion radiates
-// ── outward and accelerates toward the edges. Each star is drawn as a
-// ── streak from its position a moment ago to its position now (both
-// ── computed analytically from uTime, no per-frame CPU state needed) —
-// ── center stars stay short dots, edge/near stars stretch into long
-// ── trails. When a star passes the camera it reappears far away with a
-// ── freshly hashed x/y, looping infinitely. uWarpSpeed tunes how fast the
-// ── flythrough feels. Twinkle brightness layered on top so stars still
-// ── shimmer, not just streak.
+// ── Ambient galaxy background — simple round stars scattered evenly across
+// ── the whole screen (no vanishing-point projection, so nothing clusters
+// ── toward the centre), each drifting continuously and wrapping seamlessly
+// ── at the edges, with a peakier two-frequency twinkle so they blink like
+// ── real starlight — single gl.POINTS call, no textures.
 export const GALAXY_VERTEX_SHADER = `#version 300 es
 precision highp float;
 
-layout(location=0) in vec2  aCorner;
-layout(location=1) in float aIndex;
-layout(location=2) in float aDepthSeed;
-layout(location=3) in float aSize;
+layout(location=0) in vec2  aPos;
+layout(location=1) in float aSize;
+layout(location=2) in float aPhase;
+layout(location=3) in float aSpeed;
 layout(location=4) in float aTint;
-layout(location=5) in float aPhase;
-layout(location=6) in float aSpeed;
+layout(location=5) in vec2  aVel;
 
 uniform float uTime;
-uniform float uWarpSpeed;
+uniform float uDpr;
 
-out float vAlpha;
+out float vBrightness;
 out float vTint;
-out vec2  vLocal;
-
-const float NEAR_Z       = 0.2;
-const float FAR_Z        = 3.2;
-const float CYCLE        = FAR_Z - NEAR_Z;
-const float FOCAL        = 0.25;
-const float STREAK_DEPTH = 0.05;
-
-vec2 hash2(vec2 p){
-  p = vec2(dot(p, vec2(127.1, 311.7)), dot(p, vec2(269.5, 183.3)));
-  return fract(sin(p) * 43758.5453);
-}
-
-vec2 project(vec2 xy, float z){
-  float safeZ = max(z, 0.05);
-  return xy / safeZ * FOCAL;
-}
 
 void main(){
-  float rawT       = uTime * uWarpSpeed + aDepthSeed * CYCLE;
-  float cycleIndex = floor(rawT / CYCLE);
-  float localT     = mod(rawT, CYCLE);
-
-  // Freshly hashed x/y every time this star completes a loop — matches
-  // "reset to a far z value with a new random x, y" without needing any
-  // per-frame JS-side bookkeeping.
-  vec2 xy = hash2(vec2(aIndex, cycleIndex)) * 2.0 - 1.0;
-
-  float headZ = FAR_Z - localT;
-  float tailZ = FAR_Z - max(localT - STREAK_DEPTH, 0.0001);
-
-  vec2 headP = project(xy, headZ);
-  vec2 tailP = project(xy, tailZ);
-
-  vec2 dir  = headP - tailP;
-  float len = max(length(dir), 0.0006);
-  vec2 dirN = dir / len;
-  vec2 perp = vec2(-dirN.y, dirN.x);
-
-  float proximity = clamp((FAR_Z - headZ) / CYCLE, 0.0, 1.0);
-  float widthPx = mix(0.0022, 0.0075, aSize) * mix(0.7, 1.6, proximity);
-
-  vec2 p = mix(tailP, headP, aCorner.y) + perp * widthPx * aCorner.x;
-
-  float cyclePos = localT / CYCLE;
-  float fadeIn   = smoothstep(0.0, 0.06, cyclePos);
-  float fadeOut  = 1.0 - smoothstep(0.92, 1.0, cyclePos);
-
   // Two-frequency shimmer, sharpened with pow() so brightness snaps between
   // dim and bright rather than smoothly cross-fading — reads as a blink.
   float tw1 = sin(uTime * aSpeed + aPhase);
   float tw2 = sin(uTime * aSpeed * 2.3 + aPhase * 1.7);
   float twinkle = clamp(tw1 * 0.65 + tw2 * 0.35, -1.0, 1.0) * 0.5 + 0.5;
   float shine = pow(twinkle, 2.0);
+  vBrightness = mix(0.45, 1.0, shine);
+  vTint = aTint;
 
-  vAlpha = fadeIn * fadeOut * mix(0.5, 1.0, proximity) * mix(0.55, 1.0, shine);
-  vTint  = aTint;
-  vLocal = aCorner;
+  // Continuous drift, wrapped seamlessly so stars re-enter the opposite edge.
+  vec2 p = aPos + aVel * uTime;
+  p = mod(p + 1.0, 2.0) - 1.0;
 
+  float size = mix(6.0, 20.0, pow(aSize, 3.0));
+  gl_PointSize = size * uDpr;
   gl_Position = vec4(p, 0.0, 1.0);
 }
 `
@@ -296,23 +247,20 @@ void main(){
 export const GALAXY_FRAGMENT_SHADER = `#version 300 es
 precision highp float;
 
-in float vAlpha;
+in float vBrightness;
 in float vTint;
-in vec2  vLocal;
 out vec4 fragColor;
 
 void main(){
-  float widthFalloff = clamp(1.0 - abs(vLocal.x) * 2.0, 0.0, 1.0);
-  float core  = pow(widthFalloff, 3.0);
-  float glow  = pow(widthFalloff, 1.1) * 0.3;
-  float shape = core + glow;
-  float lengthFade = smoothstep(0.0, 0.15, vLocal.y);
+  vec2 d = gl_PointCoord - 0.5;
+  float dist = length(d) * 2.0;
+  float falloff = pow(clamp(1.0 - dist, 0.0, 1.0), 1.6);
 
   vec3 silver = vec3(0.753, 0.753, 0.753); // #C0C0C0
   vec3 gold   = vec3(0.831, 0.686, 0.216); // #D4AF37
   vec3 col = mix(silver, gold, vTint);
 
-  float a = shape * lengthFade * vAlpha;
+  float a = falloff * vBrightness;
   fragColor = vec4(col * a, a);
 }
 `
