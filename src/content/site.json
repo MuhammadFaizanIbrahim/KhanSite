@@ -3,7 +3,7 @@
   "preloader": {
     "_section": "Preloader — the loading screen shown once before the site reveals. 'background.type' controls this section's background — set it to \"none\" for a plain black background, \"image\" to show background.image, or \"video\" to show background.video (a looping muted video file).",
     "background": {
-      "type": "image",
+      "type": "none",
       "image": "/images/preloader%20bg.png",
       "video": ""
     }

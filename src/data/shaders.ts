@@ -203,9 +203,10 @@ void main(){
 }
 `
 
-// ── Ambient galaxy background — gently twinkling stars behind the preloader ──
-// ── and homepage. Static positions (cheap: no per-frame position updates),  ──
-// ── only per-star brightness oscillates, drawn as a single gl.POINTS call. ──
+// ── Ambient galaxy background — drifting, twinkling stars behind the preloader
+// ── and homepage. Each star drifts at its own slow velocity (wrapped
+// ── seamlessly at the screen edges) plus a shared directional glide, so the
+// ── whole field reads as continuously, gently in motion — single gl.POINTS call.
 export const GALAXY_VERTEX_SHADER = `#version 300 es
 precision highp float;
 
@@ -214,6 +215,7 @@ layout(location=1) in float aSize;
 layout(location=2) in float aPhase;
 layout(location=3) in float aSpeed;
 layout(location=4) in float aTint;
+layout(location=5) in vec2  aVel;
 
 uniform float uTime;
 uniform float uDpr;
@@ -223,12 +225,16 @@ out float vTint;
 
 void main(){
   float twinkle = sin(uTime * aSpeed + aPhase) * 0.5 + 0.5;
-  vBrightness = mix(0.5, 1.0, twinkle);
+  vBrightness = mix(0.65, 1.0, twinkle);
   vTint = aTint;
 
-  float size = mix(1.1, 6.5, pow(aSize, 4.0));
+  // Continuous drift, wrapped seamlessly so stars re-enter the opposite edge.
+  vec2 p = aPos + aVel * uTime;
+  p = mod(p + 1.0, 2.0) - 1.0;
+
+  float size = mix(2.5, 11.0, pow(aSize, 3.0));
   gl_PointSize = size * uDpr;
-  gl_Position = vec4(aPos, 0.0, 1.0);
+  gl_Position = vec4(p, 0.0, 1.0);
 }
 `
 
@@ -242,7 +248,7 @@ out vec4 fragColor;
 void main(){
   vec2 d = gl_PointCoord - 0.5;
   float dist = length(d) * 2.0;
-  float falloff = pow(clamp(1.0 - dist, 0.0, 1.0), 1.8);
+  float falloff = pow(clamp(1.0 - dist, 0.0, 1.0), 1.6);
 
   vec3 silver = vec3(0.753, 0.753, 0.753); // #C0C0C0
   vec3 gold   = vec3(0.831, 0.686, 0.216); // #D4AF37
