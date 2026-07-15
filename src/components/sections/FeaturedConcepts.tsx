@@ -68,7 +68,7 @@ function FeaturedCard({ item, cardWidth, isActive }: { item: FeaturedItem; cardW
           border: '1px solid rgba(212,175,55,0.5)', borderRadius: 20, padding: '5px 11px',
         }}>
           {BADGE_ICONS[item.badgeIcon]}
-          <span style={{ fontFamily: "'Inter', sans-serif", fontSize: 11, fontWeight: 500, color: GOLD, letterSpacing: '0.02em', whiteSpace: 'nowrap' }}>
+          <span style={{ fontFamily: "'Inter', sans-serif", fontSize: 11, fontWeight: 500, color: 'var(--text-gold)', letterSpacing: '0.02em', whiteSpace: 'nowrap' }}>
             {item.badge}
           </span>
         </div>
@@ -77,7 +77,7 @@ function FeaturedCard({ item, cardWidth, isActive }: { item: FeaturedItem; cardW
       <div style={{ padding: '18px 22px 22px' }}>
         <h3 style={{ fontFamily: "'Playfair Display', serif", fontWeight: 600, fontSize: 'clamp(20px, 2vw, 25px)', margin: 0, lineHeight: 1.2 }}>
           <span style={{ color: 'var(--text-primary)' }}>{item.titleWhite} </span>
-          <span style={{ color: GOLD }}>{item.titleGold}</span>
+          <span style={{ color: 'var(--text-gold)' }}>{item.titleGold}</span>
         </h3>
 
         <div style={{ display: 'flex', flexDirection: 'column', gap: 4, marginTop: 12 }}>
@@ -89,7 +89,7 @@ function FeaturedCard({ item, cardWidth, isActive }: { item: FeaturedItem; cardW
         <div style={{ marginTop: 16, marginBottom: 14, height: 1, background: 'linear-gradient(to right, rgba(212,175,55,0.4), transparent)' }} />
 
         <Link to="/concepts" style={{ display: 'inline-flex', alignItems: 'center', gap: 7, textDecoration: 'none' }}>
-          <span style={{ fontFamily: "'Inter', sans-serif", fontSize: 13.5, fontWeight: 500, color: GOLD }}>Explore Concept</span>
+          <span style={{ fontFamily: "'Inter', sans-serif", fontSize: 13.5, fontWeight: 500, color: 'var(--text-gold)' }}>Explore Concept</span>
           <MdArrowForward size={14} color={GOLD} />
         </Link>
       </div>
@@ -185,7 +185,7 @@ export default function FeaturedConcepts() {
             margin: 0, lineHeight: 1.25,
           }}>
             <span style={{ color: 'var(--text-primary)' }}>{content.headingWhite} </span>
-            <span style={{ color: GOLD }}>{content.headingGold}</span>
+            <span style={{ color: 'var(--text-gold)' }}>{content.headingGold}</span>
           </h2>
           <StarDivider lineWidth={isMobile ? 50 : 100} style={{ marginTop: isMobile ? 14 : 20 }} />
         </div>

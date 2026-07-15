@@ -140,7 +140,7 @@ export default function ContactPage() {
       <div style={{ display: 'flex', alignItems: 'center', gap: 14, marginBottom: isMobile ? 12 : 16 }}>
         <span style={{
           fontFamily: "'Cinzel', serif", fontSize: isMobile ? 11 : 13, fontWeight: 600,
-          letterSpacing: '0.3em', color: GOLD, textTransform: 'uppercase',
+          letterSpacing: '0.3em', color: 'var(--text-gold)', textTransform: 'uppercase',
         }}>
           {/* {content.eyebrow} */}
           </span>
@@ -154,7 +154,7 @@ export default function ContactPage() {
         lineHeight: 1.15, margin: 0,
       }}>
         <span style={{ color: 'var(--text-primary)' }}>{content.headingWhite} </span>
-        <span style={{ color: GOLD }}>{content.headingGold}</span>
+        <span style={{ color: 'var(--text-gold)' }}>{content.headingGold}</span>
       </h1>
 
       <StarDivider lineWidth={isMobile ? 65 : 100} style={{ margin: isMobile ? '16px 0 20px' : '22px 0 26px', justifyContent: 'flex-start' }} />
@@ -176,7 +176,7 @@ export default function ContactPage() {
     <div style={{ marginTop: isMobile ? 36 : 52 }}>
       <span style={{
         fontFamily: "'Inter', sans-serif", fontSize: 11, fontWeight: 700,
-        letterSpacing: '0.2em', textTransform: 'uppercase', color: GOLD,
+        letterSpacing: '0.2em', textTransform: 'uppercase', color: 'var(--text-gold)',
       }}>{content.altMethodsLabel}</span>
       <div style={{ width: 70, height: 1, background: 'rgba(212,175,55,0.5)', margin: '12px 0 18px' }} />
 
@@ -244,7 +244,7 @@ export default function ContactPage() {
       <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
         <span style={{
           fontFamily: "'Inter', sans-serif", fontSize: isMobile ? 13 : 14.5, fontWeight: 700,
-          letterSpacing: '0.14em', textTransform: 'uppercase', color: GOLD,
+          letterSpacing: '0.14em', textTransform: 'uppercase', color: 'var(--text-gold)',
         }}>{content.form.eyebrow}</span>
         <SparkleIcon size={13} />
       </div>
@@ -259,7 +259,7 @@ export default function ContactPage() {
           }}>{CheckIcon}</div>
           <p style={{
             fontFamily: "'Inter', sans-serif", fontSize: isMobile ? 14.5 : 16.5, fontWeight: 700,
-            letterSpacing: '0.1em', textTransform: 'uppercase', color: GOLD, margin: '0 0 10px', lineHeight: 1.4,
+            letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--text-gold)', margin: '0 0 10px', lineHeight: 1.4,
           }}>{content.form.successTitle}</p>
           <p style={{ fontFamily: "'Inter', sans-serif", fontSize: 13, color: 'var(--text-primary)', margin: 0 }}>
             {content.form.successMessage}
@@ -407,7 +407,7 @@ export default function ContactPage() {
             }}
           >
             <MdArrowBack size={14} color={GOLD} />
-            <span style={{ fontFamily: "'Inter', sans-serif", fontSize: 11, fontWeight: 600, letterSpacing: '0.14em', textTransform: 'uppercase', color: GOLD }}>Back</span>
+            <span style={{ fontFamily: "'Inter', sans-serif", fontSize: 11, fontWeight: 600, letterSpacing: '0.14em', textTransform: 'uppercase', color: 'var(--text-gold)' }}>Back</span>
           </button>
         </div>
 

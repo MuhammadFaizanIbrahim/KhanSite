@@ -183,7 +183,7 @@ export default function WorkPage() {
           }}
         >
           <MdArrowBack size={12} color="#D4AF37" />
-          <span style={{ fontFamily: 'Manrope, sans-serif', fontSize: 11, fontWeight: 600, letterSpacing: '0.14em', textTransform: 'uppercase', color: '#D4AF37' }}>Back</span>
+          <span style={{ fontFamily: 'Manrope, sans-serif', fontSize: 11, fontWeight: 600, letterSpacing: '0.14em', textTransform: 'uppercase', color: 'var(--text-gold)' }}>Back</span>
         </button>
       </div>
 

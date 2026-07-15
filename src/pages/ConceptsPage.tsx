@@ -97,7 +97,7 @@ function FilterGroup({ title, defaultOpen = true, children }: { title: string; d
       >
         <span style={{
           fontFamily: "'Inter', sans-serif", fontSize: 11, fontWeight: 700,
-          letterSpacing: '0.14em', textTransform: 'uppercase', color: GOLD,
+          letterSpacing: '0.14em', textTransform: 'uppercase', color: 'var(--text-gold)',
         }}>{title}</span>
         <ChevronIcon open={open} />
       </button>
@@ -141,7 +141,7 @@ function ConceptCard({ concept, isMobile, delay, inView, onOpen }: { concept: Co
       {concept.status === 'new' ? SparkleIcon : TrendIcon}
       <span style={{
         fontFamily: "'Inter', sans-serif", fontSize: 10, fontWeight: 600, letterSpacing: '0.04em',
-        color: GOLD, whiteSpace: 'nowrap',
+        color: 'var(--text-gold)', whiteSpace: 'nowrap',
       }}>{concept.status === 'new' ? 'NEW' : 'IMPROVED'}</span>
     </div>
   )
@@ -169,7 +169,7 @@ function ConceptCard({ concept, isMobile, delay, inView, onOpen }: { concept: Co
           background: 'none', border: 'none', cursor: 'pointer',
         }}
       >
-        <span style={{ fontFamily: "'Inter', sans-serif", fontSize: 12, fontWeight: 500, color: GOLD }}>Explore Concept</span>
+        <span style={{ fontFamily: "'Inter', sans-serif", fontSize: 12, fontWeight: 500, color: 'var(--text-gold)' }}>Explore Concept</span>
         <MdArrowForward size={13} color={GOLD} />
       </button>
     </div>
@@ -322,7 +322,7 @@ export default function ConceptsPage() {
           style={{ display: 'flex', alignItems: 'center', gap: 5, background: 'transparent', border: 'none', cursor: 'pointer' }}
         >
           {RefreshIcon}
-          <span style={{ fontFamily: "'Inter', sans-serif", fontSize: 11, color: GOLD }}>Clear All</span>
+          <span style={{ fontFamily: "'Inter', sans-serif", fontSize: 11, color: 'var(--text-gold)' }}>Clear All</span>
         </button>
       </div>
 
@@ -387,7 +387,7 @@ export default function ConceptsPage() {
           }}
         >
           <MdArrowBack size={12} color={GOLD} />
-          <span style={{ fontFamily: "'Inter', sans-serif", fontSize: 11, fontWeight: 600, letterSpacing: '0.14em', textTransform: 'uppercase', color: GOLD }}>Back</span>
+          <span style={{ fontFamily: "'Inter', sans-serif", fontSize: 11, fontWeight: 600, letterSpacing: '0.14em', textTransform: 'uppercase', color: 'var(--text-gold)' }}>Back</span>
         </button>
       </div>
 
@@ -406,7 +406,7 @@ export default function ConceptsPage() {
           margin: 0, lineHeight: 1.05,
         }}>
           {/* <span style={{ color: 'var(--text-primary)' }}>{pageContent.headingWhite} </span> */}
-          <span style={{ color: GOLD }}>{pageContent.headingGold}</span>
+          <span style={{ color: 'var(--text-gold)' }}>{pageContent.headingGold}</span>
         </h1>
         <StarDivider lineWidth={isMobile ? 45 : 80} style={{ margin: isMobile ? '14px 0' : '20px 0' }} />
         {/* <p style={{
@@ -441,7 +441,7 @@ export default function ConceptsPage() {
               }}
             >
               {SlidersIcon}
-              <span style={{ fontFamily: "'Inter', sans-serif", fontSize: 12, fontWeight: 600, letterSpacing: '0.12em', color: GOLD }}>FILTERS</span>
+              <span style={{ fontFamily: "'Inter', sans-serif", fontSize: 12, fontWeight: 600, letterSpacing: '0.12em', color: 'var(--text-gold)' }}>FILTERS</span>
               <ChevronIcon open={filtersOpen} />
             </button>
           )}
@@ -472,7 +472,7 @@ export default function ConceptsPage() {
                     padding: '8px 16px', borderRadius: 999,
                     border: `1px solid ${active ? GOLD : 'rgba(255,255,255,0.2)'}`,
                     background: active ? 'rgba(212,175,55,0.12)' : 'rgba(10,10,13,0.5)',
-                    color: active ? GOLD : 'rgba(255,255,255,0.75)',
+                    color: active ? 'var(--text-gold)' : 'rgba(255,255,255,0.75)',
                     fontFamily: "'Inter', sans-serif", fontSize: 12, fontWeight: 500,
                     cursor: 'pointer', transition: 'all 0.2s',
                   }}

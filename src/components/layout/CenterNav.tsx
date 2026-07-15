@@ -113,7 +113,7 @@ export default function CenterNav() {
                   fontSize: isMobile ? 12 : 'clamp(15px, 1.05vw, 18px)',
                   fontWeight: active ? 600 : 400,
                   lineHeight: 1,
-                  color: active ? '#D4AF37' : 'rgba(255,255,255,0.82)',
+                  color: active ? 'var(--text-gold)' : 'rgba(255,255,255,0.82)',
                   whiteSpace: 'nowrap',
                   borderBottom: active && !isMobile ? '1px solid #D4AF37' : '1px solid transparent',
                   paddingBottom: active && !isMobile ? 3 : 0,

@@ -16,7 +16,7 @@ export default function AboutPage() {
         <button
           onClick={() => navigate('/')}
           className="font-subtitle text-[11px] font-semibold tracking-[0.14em] uppercase flex items-center gap-2"
-          style={{ color: '#D4AF37' }}
+          style={{ color: 'var(--text-gold)' }}
         >
           <MdArrowBack size={12} color="#D4AF37" />
           Back

@@ -50,7 +50,7 @@ function InfoBox({ title, isMobile, children }: { title: string; isMobile: boole
         <h2 style={{
           fontFamily: "'Playfair Display', serif", fontWeight: 600, fontVariant: 'small-caps',
           fontSize: isMobile ? 'clamp(16px, 4.5vw, 19px)' : 'clamp(19px, 1.7vw, 24px)',
-          letterSpacing: '0.04em', color: GOLD, margin: isMobile ? '0 0 12px' : '0 0 18px',
+          letterSpacing: '0.04em', color: 'var(--text-gold)', margin: isMobile ? '0 0 12px' : '0 0 18px',
         }}>{title}</h2>
         {children}
       </div>
@@ -132,7 +132,7 @@ export default function ConceptDetailPage() {
           }}
         >
           <MdArrowBack size={14} color={GOLD} />
-          <span style={{ fontFamily: "'Inter', sans-serif", fontSize: 11, fontWeight: 600, letterSpacing: '0.14em', textTransform: 'uppercase', color: GOLD }}>Back to Concepts</span>
+          <span style={{ fontFamily: "'Inter', sans-serif", fontSize: 11, fontWeight: 600, letterSpacing: '0.14em', textTransform: 'uppercase', color: 'var(--text-gold)' }}>Back to Concepts</span>
         </button>
 
         <div
@@ -149,7 +149,7 @@ export default function ConceptDetailPage() {
             }}
           >
             {ShareIcon}
-            {!isMobile && <span style={{ fontFamily: "'Inter', sans-serif", fontSize: 11.5, fontWeight: 600, letterSpacing: '0.1em', color: GOLD }}>SHARE CONCEPT</span>}
+            {!isMobile && <span style={{ fontFamily: "'Inter', sans-serif", fontSize: 11.5, fontWeight: 600, letterSpacing: '0.1em', color: 'var(--text-gold)' }}>SHARE CONCEPT</span>}
             <ChevronIcon open={shareOpen} />
           </button>
 
@@ -180,7 +180,7 @@ export default function ConceptDetailPage() {
           <h1 style={{
             fontFamily: "'Playfair Display', serif", fontWeight: 700, textTransform: 'uppercase',
             fontSize: isMobile ? 'clamp(26px, 8.5vw, 34px)' : 'clamp(38px, 5vw, 60px)',
-            lineHeight: 1.06, margin: isMobile ? 0 : '0 0 20px', color: '#C0C0C0',
+            lineHeight: 1.06, margin: isMobile ? 0 : '0 0 20px', color: 'var(--text-primary)',
           }}>
             {concept.title}
           </h1>
@@ -207,7 +207,7 @@ export default function ConceptDetailPage() {
                 borderBottom: isMobile && i < 2 ? '1px solid rgba(212,175,55,0.15)' : 'none',
               }}
             >
-              <div style={{ fontFamily: "'Inter', sans-serif", fontSize: 10.5, fontWeight: 700, letterSpacing: '0.14em', textTransform: 'uppercase', color: GOLD, marginBottom: 6 }}>{m.label}</div>
+              <div style={{ fontFamily: "'Inter', sans-serif", fontSize: 10.5, fontWeight: 700, letterSpacing: '0.14em', textTransform: 'uppercase', color: 'var(--text-gold)', marginBottom: 6 }}>{m.label}</div>
               <div style={{ fontFamily: "'Inter', sans-serif", fontSize: isMobile ? 13.5 : 14, color: 'var(--text-primary)' }}>{m.value}</div>
             </div>
           ))}
@@ -277,7 +277,7 @@ export default function ConceptDetailPage() {
             margin: '0 0 16px',
           }}>
             <span style={{ color: 'var(--text-primary)' }}>Interested in </span>
-            <span style={{ color: GOLD }}>This Concept?</span>
+            <span style={{ color: 'var(--text-gold)' }}>This Concept?</span>
           </h2>
           <p style={{
             fontFamily: "'Inter', sans-serif", fontSize: isMobile ? 12.5 : 14, lineHeight: 1.65,

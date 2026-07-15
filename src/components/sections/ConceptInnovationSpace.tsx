@@ -38,7 +38,7 @@ function ConceptCard({ item, delay, inView, isMobile }: { item: ConceptItem; del
           display: 'block', textAlign: 'center',
           fontFamily: "'Playfair Display', serif",
           fontSize: isMobile ? 14.5 : 'clamp(17px, 1.7vw, 21px)',
-          fontWeight: 600, color: GOLD, lineHeight: 1.25,
+          fontWeight: 600, color: 'var(--text-gold)', lineHeight: 1.25,
         }}>{renderTitle(item.title)}</span>
 
         <StarDivider
@@ -113,7 +113,7 @@ export default function ConceptInnovationSpace() {
             margin: 0,
           }}>
             <span style={{ color: 'var(--text-primary)' }}>{content.headingWhite1} </span>
-            <span style={{ color: GOLD }}>{content.headingGold} </span>
+            <span style={{ color: 'var(--text-gold)' }}>{content.headingGold} </span>
             <span style={{ color: 'var(--text-primary)' }}>{content.headingWhite2}</span>
           </h2>
           <StarDivider lineWidth={isMobile ? 60 : 110} style={{ marginTop: isMobile ? 10 : 16 }} />

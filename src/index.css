@@ -2,10 +2,12 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Site-wide text color — change this one value to retint every heading and
-   paragraph across the whole site (gold accents are unaffected). */
+/* Site-wide text colors — change either value to retint every matching piece
+   of text across the whole site. --text-gold only covers gold TEXT color;
+   gold borders/icon-fills/glows (rgba(212,175,55,x)) are untouched by it. */
 :root {
-  --text-primary: #C0C0C0;
+  --text-primary: #F2F2F2;
+  --text-gold: #D4AF37;
 }
 
 @font-face {

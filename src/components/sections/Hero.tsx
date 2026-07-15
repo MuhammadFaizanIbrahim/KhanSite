@@ -102,7 +102,7 @@ function ScrollCue({ label }: { label: string }) {
     >
       <span style={{
         fontFamily: "'Cinzel', serif", fontSize: 11, fontWeight: 500,
-        letterSpacing: '0.35em', color: '#D4AF37', textTransform: 'uppercase',
+        letterSpacing: '0.35em', color: 'var(--text-gold)', textTransform: 'uppercase',
       }}>{label}</span>
 
       <div style={{
@@ -175,7 +175,7 @@ export default function Hero() {
         fontWeight: 400,
         lineHeight: 1.35,
         textAlign:  'center',
-        color:      '#C0C0C0',
+        color:      'var(--text-primary)',
         maxWidth:   isMobile ? 460 : 980,
         margin:     0,
         ...fadeStyle(step >= STEP_TAGLINE),
@@ -192,23 +192,23 @@ export default function Hero() {
       }}>
         <span style={{
           fontFamily: "'Cinzel', serif", fontSize: isMobile ? 11 : 14,
-          letterSpacing: '0.3em', color: '#D4AF37', textTransform: 'uppercase',
+          letterSpacing: '0.3em', color: 'var(--text-gold)', textTransform: 'uppercase',
           ...fadeStyle(step >= STEP_OPP),
         }}>{wordOpp}</span>
 
-        <span style={{ color: '#D4AF37', fontSize: isMobile ? 12 : 15, ...fadeStyle(step >= STEP_ARROW1) }}>&rarr;</span>
+        <span style={{ color: 'var(--text-gold)', fontSize: isMobile ? 12 : 15, ...fadeStyle(step >= STEP_ARROW1) }}>&rarr;</span>
 
         <span style={{
           fontFamily: "'Cinzel', serif", fontSize: isMobile ? 11 : 14,
-          letterSpacing: '0.3em', color: '#D4AF37', textTransform: 'uppercase',
+          letterSpacing: '0.3em', color: 'var(--text-gold)', textTransform: 'uppercase',
           ...fadeStyle(step >= STEP_CONCEPT),
         }}>{wordConcept}</span>
 
-        <span style={{ color: '#D4AF37', fontSize: isMobile ? 12 : 15, ...fadeStyle(step >= STEP_ARROW2) }}>&rarr;</span>
+        <span style={{ color: 'var(--text-gold)', fontSize: isMobile ? 12 : 15, ...fadeStyle(step >= STEP_ARROW2) }}>&rarr;</span>
 
         <span style={{
           fontFamily: "'Cinzel', serif", fontSize: isMobile ? 11 : 14,
-          letterSpacing: '0.3em', color: '#D4AF37', textTransform: 'uppercase',
+          letterSpacing: '0.3em', color: 'var(--text-gold)', textTransform: 'uppercase',
           ...fadeStyle(step >= STEP_REALITY),
         }}>{wordReality}</span>
       </div>

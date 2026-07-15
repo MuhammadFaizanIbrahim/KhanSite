@@ -109,7 +109,7 @@ export default function Sidebar() {
                     fontWeight: isActive ? 600 : 400,
                     letterSpacing: '0.04em',
                     whiteSpace: 'nowrap',
-                    color: isActive ? '#D4AF37' : 'rgba(255,255,255,0.85)',
+                    color: isActive ? 'var(--text-gold)' : 'rgba(255,255,255,0.85)',
                     transition: 'color 0.3s ease',
                     // Solid backing so the label reads as a floating UI element
                     // rather than bleeding transparently over whatever section content

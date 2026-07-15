@@ -191,7 +191,7 @@ export default function Preloader({ onComplete }: PreloaderProps) {
               fontVariant:   'small-caps',
               fontSize:      'clamp(38px, 5.6vw, 68px)',
               fontWeight:    600,
-              color:         '#C0C0C0',
+              color:         'var(--text-primary)',
               letterSpacing: '0.01em',
               display:       'inline-block',
               opacity:       khanIn ? 1 : 0,
@@ -209,7 +209,7 @@ export default function Preloader({ onComplete }: PreloaderProps) {
           fontFamily:    "'Cinzel', serif",
           fontSize:      'clamp(10px, 1.1vw, 13px)',
           fontWeight:    500,
-          color:         '#D4AF37',
+          color:         'var(--text-gold)',
           letterSpacing: '0.4em',
           textTransform: 'uppercase',
           marginTop:     6,
@@ -232,8 +232,8 @@ export default function Preloader({ onComplete }: PreloaderProps) {
           filter:     tagIn ? 'blur(0px)' : 'blur(6px)',
           transition: 'opacity 1.1s ease, filter 1.1s ease',
         }}>
-          <div>Every Great <span style={{ color: '#D4AF37' }}>Innovation</span></div>
-          <div>Starts With A <span style={{ color: '#D4AF37' }}>Concept.</span></div>
+          <div>Every Great <span style={{ color: 'var(--text-gold)' }}>Innovation</span></div>
+          <div>Starts With A <span style={{ color: 'var(--text-gold)' }}>Concept.</span></div>
         </div>
 
         {/* ── Progress bar — present from the first frame, no fade-in or width easing ── */}
@@ -245,11 +245,11 @@ export default function Preloader({ onComplete }: PreloaderProps) {
           <div style={{ display: 'flex', justifyContent: 'space-between', width: '100%' }}>
             <span style={{
               fontFamily: "'Cinzel', serif", fontSize: 11, fontWeight: 500,
-              letterSpacing: '0.3em', color: '#D4AF37',
+              letterSpacing: '0.3em', color: 'var(--text-gold)',
             }}>LOADING</span>
             <span style={{
               fontFamily: "'Cinzel', serif", fontSize: 11, fontWeight: 500,
-              letterSpacing: '0.1em', color: '#D4AF37',
+              letterSpacing: '0.1em', color: 'var(--text-gold)',
             }}>{pct}%</span>
           </div>
           <div style={{

@@ -102,7 +102,7 @@ export default function Footer() {
                 fontVariant: 'small-caps',
                 fontSize: isMobile ? 'clamp(22px, 7vw, 28px)' : 'clamp(26px, 2.6vw, 34px)',
                 fontWeight: 600,
-                color: '#C0C0C0',
+                color: 'var(--text-primary)',
                 letterSpacing: '0.01em',
                 display: 'inline-block',
               }}>{ch}</span>
@@ -113,7 +113,7 @@ export default function Footer() {
             fontFamily: "'Cinzel', serif",
             fontSize: isMobile ? 9 : 11,
             fontWeight: 500,
-            color: GOLD,
+            color: 'var(--text-gold)',
             letterSpacing: '0.4em',
             textTransform: 'uppercase',
             marginTop: isMobile ? 6 : 8,
@@ -150,7 +150,7 @@ export default function Footer() {
 
           <span style={{
             fontFamily: "'Inter', sans-serif", fontSize: isMobile ? 13 : 14,
-            color: GOLD, marginTop: isMobile ? 10 : 16,
+            color: 'var(--text-gold)', marginTop: isMobile ? 10 : 16,
           }}>{content.copyright}</span>
         </div>
       </div>

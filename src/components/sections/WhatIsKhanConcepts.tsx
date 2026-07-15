@@ -25,7 +25,7 @@ const STEP_DELAYS_MS: Record<number, number> = {
 }
 
 function Gold({ children }: { children: React.ReactNode }) {
-  return <span style={{ color: '#D4AF37' }}>{children}</span>
+  return <span style={{ color: 'var(--text-gold)' }}>{children}</span>
 }
 
 // Fires the section's reveal sequence every time it scrolls into view — and
@@ -103,7 +103,7 @@ export default function WhatIsKhanConcepts() {
           fontWeight: 500,
           letterSpacing: '0.4em',
           textTransform: 'uppercase',
-          color: '#D4AF37',
+          color: 'var(--text-gold)',
           ...fadeStyle(step >= STEP_EYEBROW),
         }}>{content.eyebrow}</span>
 

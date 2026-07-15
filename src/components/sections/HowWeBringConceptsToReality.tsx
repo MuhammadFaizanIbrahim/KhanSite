@@ -70,7 +70,7 @@ function TimelineRow({ step, index, isLast, inView, isMobile }: {
       }}>
         <span style={{
           fontFamily: "'Playfair Display', serif", fontWeight: 700,
-          fontSize: isMobile ? 22 : 32, color: 'rgba(212,175,55,0.85)', lineHeight: 1,
+          fontSize: isMobile ? 22 : 32, color: 'var(--text-gold)', lineHeight: 1,
         }}>{String(index + 1).padStart(2, '0')}</span>
         <div style={{ width: isMobile ? 16 : 20, height: 2, background: GOLD, marginTop: 6 }} />
       </div>
@@ -105,7 +105,7 @@ function TimelineRow({ step, index, isLast, inView, isMobile }: {
       }}>
         <h3 style={{
           fontFamily: "'Playfair Display', serif", fontWeight: 600,
-          fontSize: isMobile ? 17 : 22, color: GOLD, margin: 0,
+          fontSize: isMobile ? 17 : 22, color: 'var(--text-gold)', margin: 0,
         }}>{step.title}</h3>
         <div style={{ width: 26, height: 2, background: GOLD, margin: isMobile ? '8px 0 10px' : '10px 0 14px' }} />
         <p style={{
@@ -141,7 +141,7 @@ export default function HowWeBringConceptsToReality() {
         <div style={{ textAlign: 'center', marginBottom: isMobile ? 40 : 64 }}>
           <span style={{
             fontFamily: "'Cinzel', serif", fontSize: isMobile ? 11 : 18, letterSpacing: '0.3em',
-            color: GOLD, textTransform: 'uppercase', fontWeight: 600,
+            color: 'var(--text-gold)', textTransform: 'uppercase', fontWeight: 600,
           }}>{content.eyebrow}</span>
           <h2 style={{
             fontFamily: "'Playfair Display', serif", fontWeight: 600,
@@ -149,7 +149,7 @@ export default function HowWeBringConceptsToReality() {
             margin: '10px 0 0',
           }}>
             {content.headingWhite && <span style={{ color: 'var(--text-primary)' }}>{content.headingWhite} </span>}
-            <span style={{ color: GOLD }}>{content.headingGold}</span>
+            <span style={{ color: 'var(--text-gold)' }}>{content.headingGold}</span>
           </h2>
           <StarDivider lineWidth={isMobile ? 50 : 100} style={{ marginTop: isMobile ? 14 : 20 }} />
         </div>
