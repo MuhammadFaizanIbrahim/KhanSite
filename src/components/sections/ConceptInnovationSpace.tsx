@@ -35,16 +35,16 @@ function ConceptCard({ item, delay, inView, isMobile }: { item: ConceptItem; del
     }}>
       <div style={{ padding: isMobile ? '18px 14px 0' : '24px 20px 0' }}>
         <span style={{
-          display: 'block', textAlign: 'left',
+          display: 'block', textAlign: 'center',
           fontFamily: "'Playfair Display', serif",
           fontSize: isMobile ? 14.5 : 'clamp(17px, 1.7vw, 21px)',
           fontWeight: 600, color: GOLD, lineHeight: 1.25,
         }}>{renderTitle(item.title)}</span>
 
         <StarDivider
-          lineWidth={isMobile ? 26 : 36}
+          lineWidth={isMobile ? 46 : 60}
           gap={7}
-          style={{ marginTop: isMobile ? 10 : 14, justifyContent: 'flex-start' }}
+          style={{ marginTop: isMobile ? 10 : 14 }}
         />
 
         {/* Bullets */}
@@ -124,8 +124,14 @@ export default function ConceptInnovationSpace() {
         </div>
 
 
-        {/* ── Grid: 2 columns mobile, 4 columns desktop ── */}
-        <div className="grid grid-cols-2 md:grid-cols-4" style={{ gap: isMobile ? 10 : 22 }}>
+        {/* ── Grid: column count eases down as the viewport narrows (4 → 3 → 2 → 1)
+             instead of jumping straight from 4 to 2, and cards never shrink below
+             280px — they just wrap onto a new row once they would have to. ── */}
+        <div style={{
+          display: 'grid',
+          gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
+          gap: isMobile ? 14 : 22,
+        }}>
           {content.items.map((item, i) => (
             <ConceptCard key={item.title} item={item} inView={inView} delay={i * 70} isMobile={isMobile} />
           ))}

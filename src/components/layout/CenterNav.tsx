@@ -40,8 +40,12 @@ export default function CenterNav() {
   const toggleSound = () => {
     const audio = audioRef.current
     if (audio) {
-      if (soundOn) audio.pause()
-      else audio.play().catch(() => { /* blocked until a user gesture — harmless to ignore */ })
+      if (soundOn) {
+        audio.pause()
+      } else {
+        audio.volume = 0.4
+        audio.play().catch(() => { /* blocked until a user gesture — harmless to ignore */ })
+      }
     }
     setSoundOn(p => !p)
   }
