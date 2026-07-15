@@ -75,14 +75,25 @@ function FeaturedCard({ item, cardWidth, isActive }: { item: FeaturedItem; cardW
       </div>
 
       <div style={{ padding: '18px 22px 22px' }}>
-        <h3 style={{ fontFamily: "'Playfair Display', serif", fontWeight: 600, fontSize: 'clamp(20px, 2vw, 25px)', margin: 0, lineHeight: 1.2 }}>
+        {/* minHeight reserves exactly 2 lines (lineHeight 1.2 * 2) and
+            line-clamp caps overflow, so every card's title block is the same
+            height whether the concept's name is one word or four — that's
+            what keeps every card sitting flush on the glow ring below,
+            regardless of how much text a given concept has. */}
+        <h3 style={{
+          fontFamily: "'Playfair Display', serif", fontWeight: 600, fontSize: 'clamp(20px, 2vw, 25px)', margin: 0, lineHeight: 1.2,
+          minHeight: '2.4em', display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', overflow: 'hidden',
+        }}>
           <span style={{ color: 'var(--text-primary)' }}>{item.titleWhite} </span>
           <span style={{ color: 'var(--text-gold)' }}>{item.titleGold}</span>
         </h3>
 
-        <div style={{ display: 'flex', flexDirection: 'column', gap: 4, marginTop: 12 }}>
-          {item.tags.map(tag => (
-            <span key={tag.text} style={{ fontFamily: "'Inter', sans-serif", fontSize: 12.5, color: 'var(--text-primary)' }}>{tag.text}</span>
+        {/* Capped to 2 tags with a matching fixed height for the same reason —
+            a 3rd tag (or a missing one) would otherwise change this card's
+            height relative to its neighbours. */}
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 4, marginTop: 12, minHeight: 42, overflow: 'hidden' }}>
+          {item.tags.slice(0, 2).map(tag => (
+            <span key={tag.text} style={{ fontFamily: "'Inter', sans-serif", fontSize: 12.5, lineHeight: 1.4, color: 'var(--text-primary)' }}>{tag.text}</span>
           ))}
         </div>
 
@@ -146,7 +157,10 @@ export default function FeaturedConcepts() {
     ? Math.min(width * 0.6, 250)
     : Math.min(Math.max(width * 0.24, 260), 380)
 
-  const stageHeight = cardWidth * 0.75 + (isMobile ? 168 + 46 : 208 + 60)
+  // The +50 accounts for the title block now always reserving 2 lines
+  // (previously it could be as short as 1 line) — without it the extra title
+  // height ate into the gap that keeps cards floating clear of the glow ring.
+  const stageHeight = cardWidth * 0.75 + (isMobile ? 168 + 46 + 50 : 208 + 60)
   const cardsTopOffset = isMobile ? -10 : -18
   // Distance from center to place the arrows just past the visible side cards,
   // instead of pinned to the far edges of the whole section.

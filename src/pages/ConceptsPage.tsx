@@ -221,7 +221,11 @@ function useInView<T extends HTMLElement>() {
 export default function ConceptsPage() {
   const navigate = useNavigate()
   const { triggerPageOut } = usePageTransition()
-  const { isMobile } = useBreakpoint()
+  const { isMobile, isTablet } = useBreakpoint()
+  // Tablet gets the same collapsible filter panel as mobile (instead of the
+  // permanent 260px sidebar) so the card grid gets the extra width back —
+  // only the filter UI changes; card layout stays on its own isMobile check.
+  const showMobileFilters = isMobile || isTablet
   const scrollRef = useRef<HTMLDivElement>(null)
   useLenis(scrollRef)
   const pageContent = useContent('concepts-page')
@@ -237,6 +241,17 @@ export default function ConceptsPage() {
   const [filtersOpen, setFiltersOpen] = useState(false)
   const [visibleCount, setVisibleCount] = useState(PAGE_SIZE)
   const [loadingMore, setLoadingMore] = useState(false)
+  const filtersRef = useRef<HTMLDivElement>(null)
+
+  // Clicking anywhere outside the mobile/tablet filter dropdown closes it.
+  useEffect(() => {
+    if (!filtersOpen) return
+    const handleClick = (e: MouseEvent) => {
+      if (filtersRef.current && !filtersRef.current.contains(e.target as Node)) setFiltersOpen(false)
+    }
+    document.addEventListener('mousedown', handleClick)
+    return () => document.removeEventListener('mousedown', handleClick)
+  }, [filtersOpen])
 
   const [gridRef, gridInView] = useInView<HTMLDivElement>()
 
@@ -416,7 +431,7 @@ export default function ConceptsPage() {
           <RichText text={pageContent.tagline} goldColor={GOLD} />
         </p> */}
 
-        <div style={{ maxWidth: 640, margin: '0 auto' }}>
+        <div ref={filtersRef} style={{ maxWidth: 640, margin: '0 auto' }}>
           <div style={{ position: 'relative' }}>
             <input
               value={search} onChange={e => setSearch(e.target.value)}
@@ -431,7 +446,7 @@ export default function ConceptsPage() {
             <div style={{ position: 'absolute', left: isMobile ? 14 : 18, top: '50%', transform: 'translateY(-50%)' }}>{SearchIcon}</div>
           </div>
 
-          {isMobile && (
+          {showMobileFilters && (
             <button
               onClick={() => setFiltersOpen(o => !o)}
               style={{
@@ -446,12 +461,24 @@ export default function ConceptsPage() {
             </button>
           )}
 
-          {isMobile && filtersOpen && (
+          {/* Always mounted (not conditionally rendered) so closing it — whether
+              via the button or a click outside — animates smoothly instead of
+              just disappearing instantly. */}
+          {showMobileFilters && (
             <div style={{
-              marginTop: 16, textAlign: 'left', padding: '16px 18px', borderRadius: 12,
-              border: '1px solid rgba(212,175,55,0.3)', background: 'rgba(6,6,8,0.85)', backdropFilter: 'blur(8px)',
+              maxHeight: filtersOpen ? 2000 : 0,
+              opacity: filtersOpen ? 1 : 0,
+              overflow: 'hidden',
+              transition: filtersOpen
+                ? 'max-height 0.45s cubic-bezier(0.16,1,0.3,1), opacity 0.35s ease'
+                : 'max-height 0.35s ease, opacity 0.25s ease',
             }}>
-              {FiltersPanel}
+              <div style={{
+                marginTop: 16, textAlign: 'left', padding: '16px 18px', borderRadius: 12,
+                border: '1px solid rgba(212,175,55,0.3)', background: 'rgba(6,6,8,0.85)', backdropFilter: 'blur(8px)',
+              }}>
+                {FiltersPanel}
+              </div>
             </div>
           )}
         </div>
@@ -506,7 +533,7 @@ export default function ConceptsPage() {
       {/* ── Content ── */}
       <div style={{ maxWidth: 1440, margin: '0 auto', padding: isMobile ? '30px 16px 60px' : '40px 40px 80px' }}>
         <div style={{ display: 'flex', gap: 40, alignItems: 'flex-start' }}>
-          {!isMobile && (
+          {!showMobileFilters && (
             <div style={{ flex: '0 0 260px', position: 'sticky', top: 100 }}>
               {FiltersPanel}
             </div>

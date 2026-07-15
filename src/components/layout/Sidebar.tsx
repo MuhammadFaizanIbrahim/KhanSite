@@ -18,7 +18,7 @@ const SIDEBAR_ITEMS: SidebarItem[] = [
 ]
 
 export default function Sidebar() {
-  const { isTablet } = useBreakpoint()
+  const { width } = useBreakpoint()
   const [active, setActive]   = useState(SIDEBAR_ITEMS[0].id)
   const [hovered, setHovered] = useState<string | null>(null)
 
@@ -46,8 +46,8 @@ export default function Sidebar() {
     if (el) smoothScrollTo(el)
   }
 
-  // Side nav is desktop-only — too cramped alongside the bottom pill nav on mobile/tablet
-  if (isTablet) return null
+  // Side nav is desktop-only — too cramped alongside the bottom pill nav below 1200px
+  if (width < 1200) return null
 
   const dotSize = 13
 

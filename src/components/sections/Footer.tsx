@@ -46,7 +46,11 @@ export default function Footer() {
       minHeight: sectionMinHeight,
       display: 'flex', alignItems: isMobile ? 'stretch' : 'center', justifyContent: 'center',
       backgroundColor: 'transparent',
-      padding: isMobile ? '60px 20px 50px' : '100px 40px 70px',
+      // Bottom padding only (not touching any spacing between the elements
+      // above) — reserved so the copyright line always clears the fixed
+      // bottom pill nav instead of sitting behind it once scrolled all the
+      // way down, at any screen size.
+      padding: isMobile ? '60px 20px 100px' : '100px 40px 100px',
     }}>
       <BackgroundMedia background={content.background} />
 

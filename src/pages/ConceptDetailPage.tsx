@@ -9,7 +9,7 @@ import { getVideoEmbed, getPresentationEmbed } from '@/utils/embed'
 import Footer from '@/components/sections/Footer'
 import type { Concept } from '@/data/concepts'
 import { MdOutlineShare, MdKeyboardArrowDown, MdOutlineLink, MdArrowBack, MdArrowForward } from 'react-icons/md'
-import { SiX } from 'react-icons/si'
+import { SiX, SiInstagram } from 'react-icons/si'
 import { FaLinkedinIn } from 'react-icons/fa6'
 
 const GOLD = '#D4AF37'
@@ -23,6 +23,7 @@ const ChevronIcon = ({ open }: { open: boolean }) => (
 const LinkIcon = <MdOutlineLink size={14} color={GOLD} />
 const XIcon = <SiX size={12} color={GOLD} />
 const LinkedInIcon = <FaLinkedinIn size={12} color={GOLD} />
+const InstagramIcon = <SiInstagram size={12} color={GOLD} />
 function useInView<T extends HTMLElement>() {
   const ref = useRef<T>(null)
   const [inView, setInView] = useState(false)
@@ -103,6 +104,18 @@ export default function ConceptDetailPage() {
     setShareOpen(false)
   }
 
+  // Instagram has no web share-intent URL like X/LinkedIn do, so the practical
+  // equivalent is copying the link for the user to paste into a bio/story/DM,
+  // then handing off to Instagram itself.
+  const [igCopied, setIgCopied] = useState(false)
+  const shareInstagram = async () => {
+    try { await navigator.clipboard.writeText(shareUrl) } catch { /* clipboard unavailable */ }
+    setIgCopied(true)
+    setTimeout(() => setIgCopied(false), 1800)
+    window.open('https://www.instagram.com/', '_blank', 'noreferrer')
+    setShareOpen(false)
+  }
+
   if (!concept) {
     return (
       <div style={{ position: 'fixed', inset: 0, background: 'transparent', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
@@ -168,6 +181,9 @@ export default function ConceptDetailPage() {
                 href={`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(shareUrl)}`}
                 target="_blank" rel="noreferrer" style={shareRowStyle} onClick={() => setShareOpen(false)}
               >{LinkedInIcon}<span style={shareRowTextStyle}>Share on LinkedIn</span></a>
+              <button onClick={shareInstagram} style={{ ...shareRowStyle, borderBottom: 'none' }}>
+                {InstagramIcon}<span style={shareRowTextStyle}>{igCopied ? 'Link copied!' : 'Share on Instagram'}</span>
+              </button>
             </div>
           )}
         </div>
@@ -203,7 +219,7 @@ export default function ConceptDetailPage() {
               key={m.label}
               style={{
                 padding: isMobile ? '14px 0' : '0 0 0 ' + (i === 0 ? 0 : 24) + 'px',
-                borderLeft: !isMobile && i > 0 ? '1px solid rgba(212,175,55,0.2)' : 'none',
+                borderLeft: !isMobile && i > 0 ? '1px solid rgba(212,175,55,0.6)' : 'none',
                 borderBottom: isMobile && i < 2 ? '1px solid rgba(212,175,55,0.15)' : 'none',
               }}
             >
@@ -227,7 +243,9 @@ export default function ConceptDetailPage() {
           </InfoBox>
         </div>
 
-        {/* ── Concept Presentation — video + slide deck ── */}
+        {/* ── Concept Presentation — video + slide deck — hidden entirely when
+             this concept's showPresentation flag is set to false ── */}
+        {concept.showPresentation !== false && (
         <div style={{
           opacity: inView ? 1 : 0, transform: inView ? 'translateY(0)' : 'translateY(16px)',
           transition: 'opacity 1.4s ease 0.1s, transform 1.4s cubic-bezier(0.16,1,0.3,1) 0.1s', marginBottom: isMobile ? 24 : 34,
@@ -262,6 +280,7 @@ export default function ConceptDetailPage() {
             </div>
           </InfoBox>
         </div>
+        )}
 
         {/* ── CTA ── */}
         <div style={{

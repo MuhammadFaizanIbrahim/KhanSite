@@ -169,12 +169,16 @@ export default function Preloader({ onComplete }: PreloaderProps) {
       {/* ── Centered content stack ── */}
       <div style={{ position: 'relative', zIndex: 2, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
 
-        {/* Logo mark */}
+        {/* Logo mark — aspectRatio reserves its height up front (matching the
+            image's real 1774:887 proportions), so the text/progress bar below
+            don't render a moment early in a higher spot then jump down once
+            the logo file finishes loading and its box actually gets sized. */}
         <img
           src="/images/logos/logo.svg"
           alt="KhanConcepts"
           style={{
             width: 'clamp(160px, 22vw, 300px)',
+            aspectRatio: '1774 / 887',
             height: 'auto',
             opacity: khanIn ? 1 : 0,
             filter: khanIn ? 'blur(0px)' : 'blur(16px)',

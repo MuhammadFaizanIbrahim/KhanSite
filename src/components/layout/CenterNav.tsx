@@ -43,7 +43,7 @@ export default function CenterNav() {
       if (soundOn) {
         audio.pause()
       } else {
-        audio.volume = 0.4
+        audio.volume = 0.6
         audio.play().catch(() => { /* blocked until a user gesture — harmless to ignore */ })
       }
     }
