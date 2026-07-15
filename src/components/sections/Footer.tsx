@@ -90,7 +90,7 @@ export default function Footer() {
           marginTop: isMobile ? 'clamp(48px, 14vh, 140px)' : 0,
         }}>
           <img
-            src="/images/logo/logo.png"
+            src="/images/logos/logo.svg"
             alt="KhanConcepts"
             style={{ width: isMobile ? 'clamp(120px, 34vw, 170px)' : 'clamp(160px, 12vw, 220px)', height: 'auto' }}
           />

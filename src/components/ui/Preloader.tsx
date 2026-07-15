@@ -171,7 +171,7 @@ export default function Preloader({ onComplete }: PreloaderProps) {
 
         {/* Logo mark */}
         <img
-          src="/images/logo/logo.png"
+          src="/images/logos/logo.svg"
           alt="KhanConcepts"
           style={{
             width: 'clamp(160px, 22vw, 300px)',

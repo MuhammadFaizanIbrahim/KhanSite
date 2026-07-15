@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useRef } from 'react'
 import { useNavigate, useLocation } from 'react-router-dom'
 import { usePageTransition } from '@/contexts/TransitionContext'
 import { useBreakpoint } from '@/hooks/useBreakpoint'
@@ -35,6 +35,16 @@ export default function CenterNav() {
   const location       = useLocation()
   const { triggerPageOut } = usePageTransition()
   const [soundOn, setSoundOn] = useState(false)
+  const audioRef = useRef<HTMLAudioElement>(null)
+
+  const toggleSound = () => {
+    const audio = audioRef.current
+    if (audio) {
+      if (soundOn) audio.pause()
+      else audio.play().catch(() => { /* blocked until a user gesture — harmless to ignore */ })
+    }
+    setSoundOn(p => !p)
+  }
 
   const isHome = location.pathname === '/'
 
@@ -113,7 +123,7 @@ export default function CenterNav() {
         <div style={{ width: 1, height: isMobile ? 24 : 20, background: 'rgba(255,255,255,0.12)', margin: isMobile ? '0 8px' : '0 14px' }} />
 
         <button
-          onClick={() => setSoundOn(p => !p)}
+          onClick={toggleSound}
           aria-pressed={soundOn}
           aria-label="Toggle sound"
           style={{
@@ -125,6 +135,8 @@ export default function CenterNav() {
           <MusicIcon on={soundOn} />
         </button>
       </div>
+
+      <audio ref={audioRef} src="/audio/Background-Sound.mp3" loop preload="none" />
     </nav>
   )
 }

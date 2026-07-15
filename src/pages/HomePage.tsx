@@ -1,4 +1,6 @@
 import { useEffect, useRef } from 'react'
+import Snap from 'lenis/snap'
+import type { VirtualScrollData } from 'lenis'
 import Sidebar                     from '@/components/layout/Sidebar'
 import Hero                        from '@/components/sections/Hero'
 import WhatIsKhanConcepts          from '@/components/sections/WhatIsKhanConcepts'
@@ -60,10 +62,49 @@ function useSectionHashSpy() {
   }, [])
 }
 
+// "What Is KhanConcepts" is short enough that a fast scroll can blow right
+// past it — proximity-snapping just this one section means a scroll that
+// lands anywhere near it eases into alignment, without affecting scrolling
+// anywhere else on the page (other sections aren't registered as snap points).
+function useSectionSnap(id: string) {
+  useEffect(() => {
+    const lenis = window.__lenis
+    const el = document.getElementById(id)
+    if (!lenis || !el) return
+
+    const snap = new Snap(lenis, { type: 'proximity', duration: 1 })
+    const removeElement = snap.addElement(el, { align: 'start' })
+
+    return () => {
+      removeElement()
+      snap.destroy()
+    }
+  }, [id])
+}
+
+// Proximity-snap only corrects the scroll AFTER it comes to rest, which isn't
+// enough if a fast fling's momentum carries straight past the whole section
+// before it settles. This dampens the wheel/touch delta in real time for as
+// long as any part of the section is on screen, so a fling actually takes
+// noticeably more input to clear it — genuine resistance, not just a snap-back.
+const RESISTANCE_ZONE_ID = 'what-is-khanconcepts'
+const RESISTANCE_FACTOR  = 0.35
+
+function resistScrollThroughSection(data: VirtualScrollData) {
+  const el = document.getElementById(RESISTANCE_ZONE_ID)
+  if (el) {
+    const rect = el.getBoundingClientRect()
+    const inZone = rect.top < window.innerHeight && rect.bottom > 0
+    if (inZone) data.deltaY *= RESISTANCE_FACTOR
+  }
+  return true
+}
+
 export default function HomePage() {
   const scrollRef = useRef<HTMLDivElement>(null)
-  useLenis(scrollRef)
+  useLenis(scrollRef, resistScrollThroughSection)
   useSectionHashSpy()
+  useSectionSnap('what-is-khanconcepts')
 
   return (
     <div ref={scrollRef} className="h-full w-full overflow-y-auto overflow-x-hidden">

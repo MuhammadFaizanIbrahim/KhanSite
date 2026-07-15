@@ -13,8 +13,8 @@ interface GalaxyBackgroundProps {
 // denser), and to keep the draw call cheap on typically less powerful devices.
 function getStarCount() {
   const w = window.innerWidth
-  if (w < 640) return 260   // mobile
-  if (w < 1024) return 1100 // tablet
+  if (w < 640) return 1500   // mobile
+  if (w < 1024) return 2000 // tablet
   return 3200               // desktop
 }
 

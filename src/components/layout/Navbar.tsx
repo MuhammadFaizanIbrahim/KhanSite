@@ -21,11 +21,11 @@ export default function Navbar() {
       style={{ padding: isMobile ? '16px 16px 0' : '24px 24px 0' }}
     >
       <img
-        src="/images/logo/logo.png"
+        src="/images/logos/logo.svg"
         alt="KhanConcepts"
         onClick={handleLogoClick}
         style={{
-          width: isMobile ? 'clamp(84px, 24vw, 120px)' : 'clamp(110px, 10vw, 168px)',
+          width: isMobile ? 'clamp(96px, 27vw, 136px)' : 'clamp(130px, 11.5vw, 192px)',
           height: 'auto',
           cursor: 'pointer',
           pointerEvents: 'auto',

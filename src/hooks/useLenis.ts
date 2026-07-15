@@ -1,6 +1,7 @@
 import { useEffect } from 'react'
 import type { RefObject } from 'react'
 import Lenis from 'lenis'
+import type { VirtualScrollData } from 'lenis'
 
 declare global {
   interface Window { __lenis?: Lenis }
@@ -9,8 +10,10 @@ declare global {
 // Drives smooth scrolling for a given scrollable container (or the window if no
 // ref is passed). The active instance is exposed on window.__lenis so anchor
 // links (Sidebar, CenterNav, scroll cues) can call lenis.scrollTo() instead of
-// fighting Lenis's rAF loop with native scrollIntoView/scrollTo.
-export function useLenis(ref?: RefObject<HTMLElement | null>) {
+// fighting Lenis's rAF loop with native scrollIntoView/scrollTo. An optional
+// virtualScroll callback can dampen wheel/touch delta before Lenis consumes it
+// (e.g. to add scroll "resistance" over a specific section).
+export function useLenis(ref?: RefObject<HTMLElement | null>, virtualScroll?: (data: VirtualScrollData) => boolean) {
   useEffect(() => {
     const wrapper = ref?.current
     if (ref && !wrapper) return
@@ -21,6 +24,7 @@ export function useLenis(ref?: RefObject<HTMLElement | null>) {
       duration: 1.1,
       smoothWheel: true,
       touchMultiplier: 1.4,
+      virtualScroll,
     })
     window.__lenis = lenis
 
