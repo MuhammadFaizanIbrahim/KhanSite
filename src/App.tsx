@@ -1,6 +1,7 @@
 import { useState, useRef } from 'react'
 import { Routes, Route } from 'react-router-dom'
 import Preloader             from '@/components/ui/Preloader'
+import GalaxyBackground      from '@/components/ui/GalaxyBackground'
 // Previous page-transition effect (WebGL noise dissolve) — kept here, commented
 // out, in case the new starfield transition below needs to be reverted.
 // import PageTransitionCanvas  from '@/components/ui/PageTransitionCanvas'
@@ -41,6 +42,10 @@ export default function App() {
 
   return (
     <TransitionProvider canvasRef={transitionRef}>
+      {/* Single shared starfield behind every route — mounted once here rather
+          than per-page so there's only ever one WebGL context for it. */}
+      <GalaxyBackground />
+
       {/* Preloader */}
       {!loaded && (
         <Preloader onComplete={handlePreloaderComplete} />

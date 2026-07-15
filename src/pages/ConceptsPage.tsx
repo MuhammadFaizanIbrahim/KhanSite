@@ -376,7 +376,7 @@ export default function ConceptsPage() {
     <div
       ref={scrollRef}
       className="fade-in"
-      style={{ position: 'fixed', inset: 0, background: '#000', overflowY: 'auto', overflowX: 'hidden' }}
+      style={{ position: 'fixed', inset: 0, background: 'transparent', overflowY: 'auto', overflowX: 'hidden' }}
     >
       {/* ── Back, on a line beneath the universal site logo ── */}
       <div style={{ padding: isMobile ? '90px 16px 0' : '120px 40px 0' }}>
@@ -396,7 +396,7 @@ export default function ConceptsPage() {
         position: 'relative', width: '100%',
         // backgroundImage: bg, backgroundSize: 'cover',
         // backgroundPosition: isMobile ? 'top center' : 'center',
-        backgroundColor: '#000',
+        backgroundColor: 'transparent',
         padding: isMobile ? '20px 20px 40px' : '30px 40px 60px',
         textAlign: 'center',
       }}>

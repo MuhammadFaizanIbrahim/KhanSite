@@ -105,7 +105,7 @@ export default function ConceptDetailPage() {
 
   if (!concept) {
     return (
-      <div style={{ position: 'fixed', inset: 0, background: '#000', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+      <div style={{ position: 'fixed', inset: 0, background: 'transparent', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
         <p style={{ fontFamily: "'Inter', sans-serif", fontSize: 13, color: 'var(--text-primary)', letterSpacing: '0.08em' }}>
           Concept not found.
         </p>
@@ -116,7 +116,7 @@ export default function ConceptDetailPage() {
   const videoEmbed = concept.video ? getVideoEmbed(concept.video) : null
 
   return (
-    <div ref={scrollRef} className="fade-in" style={{ position: 'fixed', inset: 0, background: '#000', overflowY: 'auto', overflowX: 'hidden' }}>
+    <div ref={scrollRef} className="fade-in" style={{ position: 'fixed', inset: 0, background: 'transparent', overflowY: 'auto', overflowX: 'hidden' }}>
 
       <div style={{ position: 'relative', zIndex: 2 }}>
 

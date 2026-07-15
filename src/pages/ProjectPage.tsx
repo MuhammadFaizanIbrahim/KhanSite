@@ -30,7 +30,7 @@ export default function ProjectPage() {
 
   if (!project) {
     return (
-      <div style={{ position: 'fixed', inset: 0, background: '#040609', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+      <div style={{ position: 'fixed', inset: 0, background: 'transparent', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
         <p style={{ fontFamily: 'Manrope, sans-serif', fontSize: 13, color: 'var(--text-primary)', letterSpacing: '0.08em' }}>
           Project not found.
         </p>
@@ -42,7 +42,7 @@ export default function ProjectPage() {
     <div
       ref={scrollRef}
       className="fade-in"
-      style={{ position: 'fixed', inset: 0, background: '#040609', overflowY: 'auto', overflowX: 'hidden' }}
+      style={{ position: 'fixed', inset: 0, background: 'transparent', overflowY: 'auto', overflowX: 'hidden' }}
     >
 
       {/* ── Back, on a line beneath the universal site logo ── */}

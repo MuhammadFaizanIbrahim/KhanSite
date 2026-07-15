@@ -135,7 +135,10 @@ function ScrollCue({ label }: { label: string }) {
 
 export default function Hero() {
   const { isMobile, isTablet } = useBreakpoint()
-  const sectionMinHeight = isMobile ? '72vh' : isTablet ? '85vh' : '100vh'
+  // Mobile gets a little extra height on top of the 72vh baseline — pure slack
+  // space reserved so the absolutely-positioned scroll cue below has room to
+  // sit lower without the section's own overflow:hidden clipping it.
+  const sectionMinHeight = isMobile ? 'calc(72vh + 50px)' : isTablet ? '85vh' : '100vh'
   const [ref, inView] = useInView<HTMLElement>()
   const ready = useReadyForReveal()
   const step = useRevealSteps(ready && inView)
@@ -151,7 +154,6 @@ export default function Hero() {
         minHeight: sectionMinHeight,
         width: '100%',
         backgroundColor: 'transparent',
-        overflow: 'hidden',
       }}
     >
       <BackgroundMedia background={content.background} />
@@ -217,7 +219,14 @@ export default function Hero() {
         style={{ marginTop: isMobile ? 24 : 32, ...fadeStyle(step >= STEP_DIVIDER, 0) }}
       />
 
-      <div style={{ marginTop: isMobile ? 46 : 76, ...fadeStyle(step >= STEP_SCROLL) }}>
+      <div style={
+        isMobile
+          // Positioned relative to the section instead of sitting in the
+          // centered flex flow, so pushing it down doesn't grow the group's
+          // total height and shift the heading/tagline upward to compensate.
+          ? { position: 'absolute', left: 0, right: 0, bottom: -20, display: 'flex', justifyContent: 'center', ...fadeStyle(step >= STEP_SCROLL) }
+          : { marginTop: 76, ...fadeStyle(step >= STEP_SCROLL) }
+      }>
         <ScrollCue label={content.scrollCueLabel} />
       </div>
       </div>

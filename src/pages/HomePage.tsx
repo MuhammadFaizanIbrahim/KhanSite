@@ -1,5 +1,4 @@
 import { useEffect, useRef } from 'react'
-import GalaxyBackground            from '@/components/ui/GalaxyBackground'
 import Sidebar                     from '@/components/layout/Sidebar'
 import Hero                        from '@/components/sections/Hero'
 import WhatIsKhanConcepts          from '@/components/sections/WhatIsKhanConcepts'
@@ -68,8 +67,6 @@ export default function HomePage() {
 
   return (
     <div ref={scrollRef} className="h-full w-full overflow-y-auto overflow-x-hidden">
-      <GalaxyBackground />
-
       <Hero />
       <WhatIsKhanConcepts />
       <ConceptInnovationSpace />

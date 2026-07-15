@@ -22,27 +22,6 @@ function renderTitle(title: string) {
   )
 }
 
-function CardImage({ src, alt }: { src: string; alt: string }) {
-  const [failed, setFailed] = useState(false)
-  if (failed) {
-    return (
-      <div style={{
-        width: '100%', aspectRatio: '4 / 3',
-        background: 'radial-gradient(circle at 50% 40%, rgba(212,175,55,0.14) 0%, rgba(10,10,13,0.9) 70%)',
-      }} />
-    )
-  }
-  return (
-    <img
-      src={src}
-      alt={alt}
-      loading="lazy"
-      onError={() => setFailed(true)}
-      style={{ width: '100%', aspectRatio: '4 / 3', objectFit: 'cover', display: 'block' }}
-    />
-  )
-}
-
 function ConceptCard({ item, delay, inView, isMobile }: { item: ConceptItem; delay: number; inView: boolean; isMobile: boolean }) {
   return (
     <div style={{
@@ -54,9 +33,7 @@ function ConceptCard({ item, delay, inView, isMobile }: { item: ConceptItem; del
       transform: inView ? 'translateY(0)' : 'translateY(20px)',
       transition: `opacity 1.5s ease ${delay}ms, transform 1.5s cubic-bezier(0.16,1,0.3,1) ${delay}ms`,
     }}>
-      <CardImage src={item.image} alt={item.title} />
-
-      <div style={{ padding: isMobile ? '14px 10px 0' : '18px 18px 0' }}>
+      <div style={{ padding: isMobile ? '18px 14px 0' : '24px 20px 0' }}>
         <span style={{
           display: 'block', textAlign: 'left',
           fontFamily: "'Playfair Display', serif",
@@ -64,7 +41,11 @@ function ConceptCard({ item, delay, inView, isMobile }: { item: ConceptItem; del
           fontWeight: 600, color: GOLD, lineHeight: 1.25,
         }}>{renderTitle(item.title)}</span>
 
-        <div style={{ marginTop: isMobile ? 10 : 14, height: 1, background: 'linear-gradient(to right, rgba(212,175,55,0.5), transparent)' }} />
+        <StarDivider
+          lineWidth={isMobile ? 26 : 36}
+          gap={7}
+          style={{ marginTop: isMobile ? 10 : 14, justifyContent: 'flex-start' }}
+        />
 
         {/* Bullets */}
         <ul style={{ listStyle: 'none', margin: 0, padding: isMobile ? '10px 0 16px' : '14px 0 22px', display: 'flex', flexDirection: 'column', gap: isMobile ? 6 : 9 }}>

@@ -203,32 +203,39 @@ void main(){
 }
 `
 
-// ── Ambient galaxy background — round stars scattered evenly across the
-// ── whole screen (no vanishing-point projection, so nothing clusters toward
-// ── the centre). Each star's position never slides sideways — the only
-// ── motion is an infinite "approaching from far away" grow-and-fade loop
-// ── (staggered per star), so the read is purely "coming toward the viewer,"
-// ── never left-to-right. Plus a peakier two-frequency twinkle and a faint
-// ── sparkle cross so they blink/shine like real starlight — single
-// ── gl.POINTS call.
+// ── Ambient galaxy background — a real perspective-camera starfield: each
+// ── star has a FIXED random x/y position in a wide 3D field and only its
+// ── depth (distance from camera) animates, counting down and wrapping back
+// ── to far away once it passes the camera. Projecting x/y through an actual
+// ── perspective formula (divide by distance, matching a real camera's
+// ── projection matrix) is what naturally fills the whole rectangular
+// ── screen and grows stars outward toward the edges as they approach —
+// ── no hand-rolled 2D radius/angle math, so none of that math's artifacts
+// ── (hash patterning, circular cutoffs, uneven density) can happen. Plus a
+// ── peakier two-frequency twinkle so stars blink like real starlight —
+// ── single gl.POINTS call.
 export const GALAXY_VERTEX_SHADER = `#version 300 es
 precision highp float;
 
-layout(location=0) in vec2  aPos;
+layout(location=0) in vec3  aPos;
 layout(location=1) in float aSize;
 layout(location=2) in float aPhase;
 layout(location=3) in float aSpeed;
 layout(location=4) in float aTint;
-layout(location=5) in float aDepthSeed;
 
 uniform float uTime;
 uniform float uDpr;
+uniform float uAspect;
 
 out float vBrightness;
 out float vTint;
 out float vSizeSeed;
 
-const float APPROACH_CYCLE = 6.0; // seconds for one far-to-close loop
+const float CAM_Z     = 20.0;  // camera distance from the origin
+const float NEAR_GAP   = 5.0;  // how far past the camera a star travels before wrapping
+const float DEPTH_MOD  = 200.0; // total depth range a star cycles through
+const float SPEED      = 4.0;  // depth units per second — the flythrough speed
+const float FOV_TAN    = 0.7673; // tan(75°/2) — matches a 75° vertical field of view
 
 void main(){
   // Two-frequency shimmer, sharpened with pow() so brightness snaps between
@@ -238,22 +245,30 @@ void main(){
   float twinkle = clamp(tw1 * 0.65 + tw2 * 0.35, -1.0, 1.0) * 0.5 + 0.5;
   float shine = pow(twinkle, 2.0);
 
-  // Depth-approach loop: each star grows from small/dim ("far") to large/bright
-  // ("close") then fades and restarts — staggered via aDepthSeed so they don't
-  // all pulse in sync. Position is completely static otherwise, so there is
-  // no sideways drift at all — only the approaching grow/fade motion.
-  float depthT   = mod(uTime + aDepthSeed * APPROACH_CYCLE, APPROACH_CYCLE) / APPROACH_CYCLE;
-  float fadeIn   = smoothstep(0.0, 0.08, depthT);
-  float fadeOut  = 1.0 - smoothstep(0.86, 1.0, depthT);
-  float approach = mix(0.25, 1.0, depthT);
+  // Depth animates and wraps — the star's own world-space z, counting the
+  // opposite way from before so the flythrough runs in the reverse direction.
+  float animatedZ = mod(aPos.z + uTime * SPEED, DEPTH_MOD) - DEPTH_MOD + NEAR_GAP;
+  float dist = max(CAM_Z - animatedZ, 1.0); // distance in front of the camera
 
-  vBrightness = mix(0.5, 1.0, shine) * mix(0.5, 1.0, depthT) * fadeIn * fadeOut;
+  // Real perspective projection: x/y divided by distance is exactly what a
+  // camera's projection matrix does, so this naturally produces a correct
+  // rectangular frustum (matching uAspect) instead of a hand-built shape.
+  float ndcX = aPos.x / (dist * FOV_TAN * uAspect);
+  float ndcY = aPos.y / (dist * FOV_TAN);
+
+  float distMin = CAM_Z - NEAR_GAP;
+  float proximity = clamp(1.0 - (dist - distMin) / DEPTH_MOD, 0.0, 1.0); // 0 far, 1 close
+  // Quick fade right before a star reaches the camera and wraps, so the
+  // reset to "far away" isn't a visible pop.
+  float wrapFade = smoothstep(0.0, distMin * 0.6, dist - distMin);
+
+  vBrightness = mix(0.5, 1.0, shine) * mix(0.3, 1.0, proximity) * wrapFade;
   vTint = aTint;
   vSizeSeed = aSize;
 
-  float baseSize = mix(7.0, 24.0, pow(aSize, 3.0));
-  gl_PointSize = baseSize * approach * uDpr;
-  gl_Position = vec4(aPos, 0.0, 1.0);
+  float baseSize = mix(3.0, 8.5, pow(aSize, 3.0));
+  gl_PointSize = clamp((baseSize * 100.0) / dist, 1.0, 38.0) * uDpr;
+  gl_Position = vec4(ndcX, ndcY, 0.0, 1.0);
 }
 `
 

@@ -8,7 +8,15 @@ interface GalaxyBackgroundProps {
   position?: 'fixed' | 'absolute'
 }
 
-const COUNT = 1100
+// Fewer stars on smaller screens — both because a phone screen shows far
+// less area per star than a desktop monitor (so the same count reads as much
+// denser), and to keep the draw call cheap on typically less powerful devices.
+function getStarCount() {
+  const w = window.innerWidth
+  if (w < 640) return 260   // mobile
+  if (w < 1024) return 1100 // tablet
+  return 3200               // desktop
+}
 
 export default function GalaxyBackground({ position = 'fixed' }: GalaxyBackgroundProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null)
@@ -17,6 +25,7 @@ export default function GalaxyBackground({ position = 'fixed' }: GalaxyBackgroun
     const canvas = canvasRef.current
     if (!canvas) return
 
+    const COUNT = getStarCount()
     const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
 
     const gl = canvas.getContext('webgl2', { alpha: true, premultipliedAlpha: false }) as WebGL2RenderingContext | null
@@ -36,21 +45,26 @@ export default function GalaxyBackground({ position = 'fixed' }: GalaxyBackgroun
 
     const rand = (min: number, max: number) => min + Math.random() * (max - min)
 
-    const positions  = new Float32Array(COUNT * 2)
-    const sizes      = new Float32Array(COUNT)
-    const phases     = new Float32Array(COUNT)
-    const speeds     = new Float32Array(COUNT)
-    const tints      = new Float32Array(COUNT)
-    const depthSeeds = new Float32Array(COUNT)
+    // Matches the shader's world scale: a wide flat field of stars with a
+    // fixed x/y each — only z (depth) ever animates, exactly like a real
+    // camera flying forward through a starfield.
+    const WORLD_HALF = 100
+    const DEPTH_MOD  = 200
+
+    const positions = new Float32Array(COUNT * 3)
+    const sizes     = new Float32Array(COUNT)
+    const phases    = new Float32Array(COUNT)
+    const speeds    = new Float32Array(COUNT)
+    const tints     = new Float32Array(COUNT)
 
     for (let i = 0; i < COUNT; i++) {
-      positions[i * 2]     = rand(-1, 1)
-      positions[i * 2 + 1] = rand(-1, 1)
+      positions[i * 3]     = rand(-WORLD_HALF, WORLD_HALF)
+      positions[i * 3 + 1] = rand(-WORLD_HALF, WORLD_HALF)
+      positions[i * 3 + 2] = rand(0, DEPTH_MOD) // staggers each star's approach-cycle loop
       sizes[i]  = Math.random()
       phases[i] = rand(0, Math.PI * 2)
       speeds[i] = rand(0.3, 1.1)
       tints[i]  = i % 2 // exact 50/50 split before shuffling below
-      depthSeeds[i] = Math.random() // staggers each star's approach-cycle loop
     }
     // Shuffle so silver/gold aren't laid out in an alternating pattern by index.
     for (let i = tints.length - 1; i > 0; i--) {
@@ -65,15 +79,15 @@ export default function GalaxyBackground({ position = 'fixed' }: GalaxyBackgroun
       gl.enableVertexAttribArray(loc)
       gl.vertexAttribPointer(loc, size, gl.FLOAT, false, 0, 0)
     }
-    mkBuf(positions,  0, 2)
-    mkBuf(sizes,      1, 1)
-    mkBuf(phases,     2, 1)
-    mkBuf(speeds,     3, 1)
-    mkBuf(tints,      4, 1)
-    mkBuf(depthSeeds, 5, 1)
+    mkBuf(positions, 0, 3)
+    mkBuf(sizes,     1, 1)
+    mkBuf(phases,    2, 1)
+    mkBuf(speeds,    3, 1)
+    mkBuf(tints,     4, 1)
 
-    const uTime = gl.getUniformLocation(prg, 'uTime')
-    const uDpr  = gl.getUniformLocation(prg, 'uDpr')
+    const uTime   = gl.getUniformLocation(prg, 'uTime')
+    const uDpr    = gl.getUniformLocation(prg, 'uDpr')
+    const uAspect = gl.getUniformLocation(prg, 'uAspect')
 
     gl.disable(gl.DEPTH_TEST)
     gl.enable(gl.BLEND)
@@ -86,6 +100,7 @@ export default function GalaxyBackground({ position = 'fixed' }: GalaxyBackgroun
       canvas.width  = Math.round(canvas.clientWidth  * dpr)
       canvas.height = Math.round(canvas.clientHeight * dpr)
       gl.viewport(0, 0, canvas.width, canvas.height)
+      gl.uniform1f(uAspect, canvas.width / canvas.height)
     }
     resize()
     window.addEventListener('resize', resize)

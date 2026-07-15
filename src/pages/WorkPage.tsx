@@ -172,7 +172,7 @@ export default function WorkPage() {
     <div
       ref={scrollRef}
       className="fade-in"
-      style={{ position: 'fixed', inset: 0, background: '#000', overflowY: 'auto', overflowX: 'hidden' }}
+      style={{ position: 'fixed', inset: 0, background: 'transparent', overflowY: 'auto', overflowX: 'hidden' }}
     >
       {/* ── Back, on a line beneath the universal site logo ── */}
       <div style={{ padding: isMobile ? '90px 16px 0' : '120px 48px 0' }}>

@@ -10,7 +10,7 @@ export default function AboutPage() {
   useLenis(scrollRef)
 
   return (
-    <div ref={scrollRef} className="fixed inset-0 bg-black overflow-y-auto overflow-x-hidden fade-in">
+    <div ref={scrollRef} className="fixed inset-0 overflow-y-auto overflow-x-hidden fade-in">
       {/* ── Back, on a line beneath the universal site logo ── */}
       <div className="pt-[90px] sm:pt-[120px] px-4 sm:px-12">
         <button

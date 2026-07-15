@@ -157,7 +157,7 @@ export default function ContactPage() {
         <span style={{ color: GOLD }}>{content.headingGold}</span>
       </h1>
 
-      <StarDivider align="left" lineWidth={isMobile ? 70 : 110} style={{ margin: isMobile ? '16px 0 20px' : '22px 0 26px' }} />
+      <StarDivider lineWidth={isMobile ? 65 : 100} style={{ margin: isMobile ? '16px 0 20px' : '22px 0 26px', justifyContent: 'flex-start' }} />
 
       <p style={{
         fontFamily: "'Inter', sans-serif", fontSize: isMobile ? 13.5 : 14.5, lineHeight: 1.65,
@@ -391,7 +391,7 @@ export default function ContactPage() {
   return (
     <div style={{
       position: 'fixed', inset: 0, zIndex: 10,
-      background: '#000',
+      background: 'transparent',
       // backgroundImage: bg,
       // backgroundSize: 'cover',
       // backgroundPosition: isMobile ? 'top center' : 'center',
