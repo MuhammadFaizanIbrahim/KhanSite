@@ -174,7 +174,7 @@ export default function Preloader({ onComplete }: PreloaderProps) {
             don't render a moment early in a higher spot then jump down once
             the logo file finishes loading and its box actually gets sized. */}
         <img
-          src="/images/logos/logo.svg"
+          src="/images/logos/logo-1024.png"
           alt="KhanConcepts"
           style={{
             width: 'clamp(160px, 22vw, 300px)',
