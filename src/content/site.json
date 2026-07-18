@@ -318,7 +318,7 @@
     }
   },
   "concepts-page": {
-    "_section": "All Concepts page (/concepts) and every individual concept's detail page (/concepts/1, /concepts/2, ...) — the hero heading/tagline, the full Concept Space and Concept Type filter lists, and the master list of every concept card/detail page. 'spaces' and 'types' are the filter taxonomy — every concept's 'space'/'type' value must exactly match one entry from these two lists. Each entry in 'items' is one concept: 'status' must be either \"new\" or \"improved\", 'image' is the file path to its picture, 'overview' is 2-3 paragraphs shown on its detail page. 'video' is shown on the Concept Presentation section of the detail page — paste any regular YouTube or Vimeo link, or a direct hosted video file (.mp4 etc.); leave empty to show a placeholder. 'slideEmbed' is shown above the video — paste any regular Google Slides, Google Drive, or Canva share link (just the normal link you'd copy to share it, not a special embed code); leave empty to show a placeholder. 'problems' and 'opportunities' are legacy bullet lists kept for reference but no longer displayed on the detail page. 'showPresentation' controls whether the Concept Presentation section (video + slide deck) shows at all on that concept's detail page — set it to false to hide that whole section for concepts that don't have a presentation yet.",
+    "_section": "All Concepts page (/concepts) and every individual concept's detail page (/concepts/1, /concepts/2, ...) — the hero heading/tagline, the full Concept Space and Concept Type filter lists, and the master list of every concept card/detail page. 'spaces' and 'types' are the filter taxonomy — every concept's 'space'/'type' value must exactly match one entry from these two lists. Each entry in 'items' is one concept: 'status' must be either \"new\" or \"improved\", 'image' is the file path to its picture, 'overview' is 2-3 paragraphs shown on its detail page. 'video' is shown on the Concept Presentation section of the detail page — paste any regular YouTube or Vimeo link, or a direct hosted video file (.mp4 etc.); leave empty to show a placeholder. 'slideEmbed' is shown above the video — paste any regular Google Slides, Google Drive, or Canva share link (just the normal link you'd copy to share it, not a special embed code); leave empty to show a placeholder. 'problems' and 'opportunities' are legacy bullet lists kept for reference but no longer displayed on the detail page. 'showPresentation' controls whether the Concept Presentation section (slide deck) shows on that concept's detail page — defaults to true. 'showVideo' controls whether the separate Video section shows — defaults to false; set it to true once a concept has a real video to show.",
     "headingWhite": "All",
     "headingGold": "Concepts",
     "tagline": "Every great innovation starts with a **concept**.",
@@ -388,7 +388,8 @@
           "Create a scalable template usable across cities of any size.",
           "Strengthen long-term sustainability and resilience planning."
         ],
-        "showPresentation": false
+        "showPresentation": true,
+        "showVideo": true
       },
       {
         "id": 2,
@@ -422,7 +423,8 @@
           "Scale research throughput without scaling headcount.",
           "Flag anomalies automatically for faster human review."
         ],
-        "showPresentation": true
+        "showPresentation": true,
+        "showVideo": false
       },
       {
         "id": 3,
@@ -456,7 +458,8 @@
           "Keep the user in control with clear checkpoints and permissions.",
           "Let the OS adapt to each person's workflow automatically."
         ],
-        "showPresentation": true
+        "showPresentation": true,
+        "showVideo": false
       },
       {
         "id": 4,
@@ -490,7 +493,8 @@
           "Provide cities with real-time transport emissions data.",
           "Build a template that scales across cities and regions."
         ],
-        "showPresentation": true
+        "showPresentation": true,
+        "showVideo": false
       },
       {
         "id": 5,
@@ -524,7 +528,8 @@
           "Cut research time from hours to a single conversation.",
           "Apply the same trusted model across any product vertical."
         ],
-        "showPresentation": true
+        "showPresentation": true,
+        "showVideo": false
       },
       {
         "id": 6,
@@ -558,7 +563,8 @@
           "Give users one dashboard for battery, health, and connectivity.",
           "Build a foundation that scales to future wearable categories."
         ],
-        "showPresentation": true
+        "showPresentation": true,
+        "showVideo": false
       },
       {
         "id": 7,
@@ -592,7 +598,8 @@
           "Position early adopters ahead of the quantum computing transition.",
           "Turn quantum readiness into a competitive advantage rather than a risk."
         ],
-        "showPresentation": true
+        "showPresentation": true,
+        "showVideo": false
       },
       {
         "id": 8,
@@ -626,7 +633,8 @@
           "Reduce checkout friction with faster, AI-assisted flows.",
           "Reuse one experience model across flagship, pop-up, and outlet formats."
         ],
-        "showPresentation": true
+        "showPresentation": true,
+        "showVideo": false
       },
       {
         "id": 9,
@@ -660,7 +668,8 @@
           "Give cities a standard framework for autonomous-ready networks.",
           "Improve safety margins for autonomous vehicles at scale."
         ],
-        "showPresentation": true
+        "showPresentation": true,
+        "showVideo": false
       },
       {
         "id": 10,
@@ -694,7 +703,8 @@
           "Accelerate materials breakthroughs for aerospace, energy, and beyond.",
           "Build a reusable platform across many materials research programs."
         ],
-        "showPresentation": true
+        "showPresentation": true,
+        "showVideo": false
       },
       {
         "id": 11,
@@ -728,7 +738,8 @@
           "Scale participatory governance from a district to a nation.",
           "Secure digital identity and voting within one civic framework."
         ],
-        "showPresentation": true
+        "showPresentation": true,
+        "showVideo": false
       },
       {
         "id": 12,
@@ -762,7 +773,8 @@
           "Keep a consistent virtual economy across the whole platform.",
           "Set a new fairness and trust standard for VR entertainment."
         ],
-        "showPresentation": true
+        "showPresentation": true,
+        "showVideo": false
       }
     ]
   }

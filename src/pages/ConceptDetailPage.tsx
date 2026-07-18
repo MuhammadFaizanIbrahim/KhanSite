@@ -59,6 +59,17 @@ function InfoBox({ title, isMobile, children }: { title: string; isMobile: boole
   )
 }
 
+function SectionHeading({ isMobile, children }: { isMobile: boolean; children: React.ReactNode }) {
+  return (
+    <h2 style={{
+      fontFamily: "'Playfair Display', serif", fontWeight: 600, fontVariant: 'small-caps',
+      fontSize: isMobile ? 'clamp(16px, 4.5vw, 19px)' : 'clamp(19px, 1.7vw, 24px)',
+      letterSpacing: '0.04em', color: 'var(--text-gold)', margin: isMobile ? '0 0 12px' : '0 0 18px',
+      textAlign: 'left',
+    }}>{children}</h2>
+  )
+}
+
 function PlaceholderPane({ label }: { label: string }) {
   return (
     <div style={{
@@ -243,42 +254,48 @@ export default function ConceptDetailPage() {
           </InfoBox>
         </div>
 
-        {/* ── Concept Presentation — video + slide deck — hidden entirely when
-             this concept's showPresentation flag is set to false ── */}
+        {/* ── Concept Presentation — slide deck only, no outer box. Hidden
+             entirely when this concept's showPresentation flag is false ── */}
         {concept.showPresentation !== false && (
         <div style={{
           opacity: inView ? 1 : 0, transform: inView ? 'translateY(0)' : 'translateY(16px)',
           transition: 'opacity 1.4s ease 0.1s, transform 1.4s cubic-bezier(0.16,1,0.3,1) 0.1s', marginBottom: isMobile ? 24 : 34,
         }}>
-          <InfoBox title="Concept Presentation" isMobile={isMobile}>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: isMobile ? 16 : 22 }}>
-              <div style={{
-                position: 'relative', width: '100%', aspectRatio: '16 / 9', borderRadius: 10, overflow: 'hidden',
-                background: '#000', border: '1px solid rgba(212,175,55,0.25)',
-              }}>
-                {concept.slideEmbed ? (
-                  <iframe src={getPresentationEmbed(concept.slideEmbed)} title="Concept Presentation Slides" allowFullScreen style={{ width: '100%', height: '100%', border: 'none' }} />
-                ) : (
-                  <PlaceholderPane label="Presentation coming soon" />
-                )}
-              </div>
+          <SectionHeading isMobile={isMobile}>Concept Presentation</SectionHeading>
+          <div style={{
+            position: 'relative', width: '100%', aspectRatio: '16 / 9', borderRadius: 10, overflow: 'hidden',
+            background: '#000', border: '1px solid rgba(212,175,55,0.25)',
+          }}>
+            {concept.slideEmbed ? (
+              <iframe src={getPresentationEmbed(concept.slideEmbed)} title="Concept Presentation Slides" allowFullScreen style={{ width: '100%', height: '100%', border: 'none' }} />
+            ) : (
+              <PlaceholderPane label="Presentation coming soon" />
+            )}
+          </div>
+        </div>
+        )}
 
-              <div style={{
-                position: 'relative', width: '100%', aspectRatio: '16 / 9', borderRadius: 10, overflow: 'hidden',
-                background: '#000', border: '1px solid rgba(212,175,55,0.25)',
-              }}>
-                {videoEmbed ? (
-                  videoEmbed.kind === 'iframe' ? (
-                    <iframe src={videoEmbed.src} title="Concept Video" allowFullScreen style={{ width: '100%', height: '100%', border: 'none' }} />
-                  ) : (
-                    <video controls poster={concept.image} src={videoEmbed.src} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
-                  )
-                ) : (
-                  <PlaceholderPane label="Video coming soon" />
-                )}
-              </div>
-            </div>
-          </InfoBox>
+        {/* ── Video — separate section, own flag, no outer box ── */}
+        {concept.showVideo && (
+        <div style={{
+          opacity: inView ? 1 : 0, transform: inView ? 'translateY(0)' : 'translateY(16px)',
+          transition: 'opacity 1.4s ease 0.15s, transform 1.4s cubic-bezier(0.16,1,0.3,1) 0.15s', marginBottom: isMobile ? 24 : 34,
+        }}>
+          <SectionHeading isMobile={isMobile}>Concept Video</SectionHeading>
+          <div style={{
+            position: 'relative', width: '100%', aspectRatio: '16 / 9', borderRadius: 10, overflow: 'hidden',
+            background: '#000', border: '1px solid rgba(212,175,55,0.25)',
+          }}>
+            {videoEmbed ? (
+              videoEmbed.kind === 'iframe' ? (
+                <iframe src={videoEmbed.src} title="Concept Video" allowFullScreen style={{ width: '100%', height: '100%', border: 'none' }} />
+              ) : (
+                <video controls poster={concept.image} src={videoEmbed.src} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+              )
+            ) : (
+              <PlaceholderPane label="Video coming soon" />
+            )}
+          </div>
         </div>
         )}
 
