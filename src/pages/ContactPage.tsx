@@ -1,6 +1,5 @@
 import { useState, useRef } from 'react'
 import { useNavigate } from 'react-router-dom'
-import emailjs from '@emailjs/browser'
 import { usePageTransition } from '@/contexts/TransitionContext'
 import { useBreakpoint } from '@/hooks/useBreakpoint'
 import { useLenis } from '@/hooks/useLenis'
@@ -15,9 +14,9 @@ import {
 } from 'react-icons/md'
 import { SiWhatsapp } from 'react-icons/si'
 
-const SVC  = import.meta.env.VITE_EMAILJS_SERVICE_ID  || ''
-const TMPL = import.meta.env.VITE_EMAILJS_TEMPLATE_ID || ''
-const KEY  = import.meta.env.VITE_EMAILJS_PUBLIC_KEY   || ''
+// Google Apps Script web app URL — emails submissions to Gmail and logs them
+// to a Sheet. See CONTACT_FORM_SETUP.md for how to create/deploy the script.
+const CONTACT_SCRIPT_URL = import.meta.env.VITE_CONTACT_SCRIPT_URL || ''
 
 const GOLD = '#D4AF37'
 
@@ -84,7 +83,10 @@ export default function ContactPage() {
   const stacked = isTablet
   const content = useContent('contact-page')
 
-  const [form, setForm] = useState({ company: '', email: '', message: '' })
+  // 'website' is a honeypot — kept empty and invisible to real visitors, so
+  // any submission where it's filled in is almost certainly a bot and gets
+  // silently dropped instead of emailed/logged.
+  const [form, setForm] = useState({ company: '', email: '', message: '', website: '' })
   const [status, setStatus] = useState<'idle' | 'sending' | 'done'>('idle')
   const [errors, setErrors] = useState<Record<string, boolean>>({})
   const formRef = useRef<HTMLFormElement>(null)
@@ -115,9 +117,25 @@ export default function ContactPage() {
   const submit = async (e: React.FormEvent) => {
     e.preventDefault()
     if (status === 'sending') return
-    if (!validate() || !formRef.current) return
+    if (!validate()) return
     setStatus('sending')
-    try { await emailjs.sendForm(SVC, TMPL, formRef.current, KEY) } catch { /* fall through */ }
+    try {
+      const params = new URLSearchParams({
+        company: form.company,
+        email: form.email,
+        date: selectedDate ? selectedDate.toLocaleDateString() : '',
+        time: selectedTime ? selectedTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : '',
+        message: form.message,
+        website: form.website,
+      })
+      // application/x-www-form-urlencoded keeps this a CORS "simple request" —
+      // Apps Script web apps don't handle preflight OPTIONS requests.
+      await fetch(CONTACT_SCRIPT_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: params.toString(),
+      })
+    } catch { /* fall through — still show success so the user isn't stuck */ }
     setStatus('done')
   }
 
@@ -267,6 +285,13 @@ export default function ContactPage() {
         </div>
       ) : (
         <form ref={formRef} onSubmit={submit} noValidate style={{ flex: 1, display: 'flex', flexDirection: 'column', gap: isMobile ? 20 : 26 }}>
+          {/* Honeypot — invisible to real visitors, tabIndex -1 and off-screen
+              rather than display:none since some bots skip display:none fields */}
+          <input
+            type="text" name="website" value={form.website} onChange={handle}
+            tabIndex={-1} autoComplete="off" aria-hidden="true"
+            style={{ position: 'absolute', left: '-9999px', width: 1, height: 1, opacity: 0 }}
+          />
           <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr' : '1fr 1fr', gap: isMobile ? 18 : 22 }}>
             <div>
               <label style={labelSt}>{content.form.companyLabel}</label>
