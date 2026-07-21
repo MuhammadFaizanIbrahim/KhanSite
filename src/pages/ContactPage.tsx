@@ -4,6 +4,7 @@ import { usePageTransition } from '@/contexts/TransitionContext'
 import { useBreakpoint } from '@/hooks/useBreakpoint'
 import { useLenis } from '@/hooks/useLenis'
 import { useContent } from '@/hooks/useContent'
+import SEO from '@/components/SEO'
 import StarDivider from '@/components/ui/StarDivider'
 import Footer from '@/components/sections/Footer'
 import DatePicker from 'react-datepicker'
@@ -82,6 +83,8 @@ export default function ContactPage() {
   const { isMobile, isTablet } = useBreakpoint()
   const stacked = isTablet
   const content = useContent('contact-page')
+  const seo = useContent('seo')
+  const nav = useContent('navigation')
 
   // 'website' is a honeypot — kept empty and invisible to real visitors, so
   // any submission where it's filled in is almost certainly a bot and gets
@@ -149,9 +152,6 @@ export default function ContactPage() {
   const onFieldBlur = (hasError: boolean) => (e: React.FocusEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     e.target.style.borderColor = hasError ? ERROR_COLOR : 'rgba(212,175,55,0.35)'
   }
-
-  // Background image disabled in favor of a solid black background — uncomment to restore.
-  // const bg = isMobile ? "url('/images/contact%20bg%20mobile.png')" : "url('/images/contact%20bg%20desktop.png')"
 
   const HeadingBlock = (
     <div>
@@ -417,11 +417,14 @@ export default function ContactPage() {
     <div style={{
       position: 'fixed', inset: 0, zIndex: 10,
       background: 'transparent',
-      // backgroundImage: bg,
-      // backgroundSize: 'cover',
-      // backgroundPosition: isMobile ? 'top center' : 'center',
       overflow: 'hidden',
     }}>
+      <SEO
+        title={seo.contact.title || seo.defaultTitle}
+        description={seo.contact.description || seo.defaultDescription}
+        image={seo.contact.image || seo.defaultImage}
+        path="/contact"
+      />
       <div ref={scrollRef} style={{ position: 'absolute', inset: 0, overflowY: 'auto' }}>
         {/* ── Back, on a line beneath the universal site logo ── */}
         <div style={{ padding: isMobile ? '90px 16px 0' : '120px 40px 0' }}>
@@ -432,7 +435,7 @@ export default function ContactPage() {
             }}
           >
             <MdArrowBack size={14} color={GOLD} />
-            <span style={{ fontFamily: "'Inter', sans-serif", fontSize: 11, fontWeight: 600, letterSpacing: '0.14em', textTransform: 'uppercase', color: 'var(--text-gold)' }}>Back</span>
+            <span style={{ fontFamily: "'Inter', sans-serif", fontSize: 11, fontWeight: 600, letterSpacing: '0.14em', textTransform: 'uppercase', color: 'var(--text-gold)' }}>{nav.backLabel}</span>
           </button>
         </div>
 

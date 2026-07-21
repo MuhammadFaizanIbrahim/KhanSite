@@ -4,6 +4,7 @@ import { usePageTransition } from '@/contexts/TransitionContext'
 import { useBreakpoint } from '@/hooks/useBreakpoint'
 import { useLenis } from '@/hooks/useLenis'
 import { useContent } from '@/hooks/useContent'
+import SEO from '@/components/SEO'
 import { RichText } from '@/utils/richText'
 import { slugify } from '@/utils/slug'
 import StarDivider from '@/components/ui/StarDivider'
@@ -114,7 +115,7 @@ function renderTitle(title: string) {
   )
 }
 
-function ConceptCard({ concept, isMobile, delay, inView, onOpen }: { concept: Concept; isMobile: boolean; delay: number; inView: boolean; onOpen: () => void }) {
+function ConceptCard({ concept, isMobile, delay, inView, onOpen, linkLabel }: { concept: Concept; isMobile: boolean; delay: number; inView: boolean; onOpen: () => void; linkLabel: string }) {
   const [imgFailed, setImgFailed] = useState(false)
 
   const image = imgFailed ? (
@@ -169,7 +170,7 @@ function ConceptCard({ concept, isMobile, delay, inView, onOpen }: { concept: Co
           background: 'none', border: 'none', cursor: 'pointer',
         }}
       >
-        <span style={{ fontFamily: "'Inter', sans-serif", fontSize: 12, fontWeight: 500, color: 'var(--text-gold)' }}>Explore Concept</span>
+        <span style={{ fontFamily: "'Inter', sans-serif", fontSize: 12, fontWeight: 500, color: 'var(--text-gold)' }}>{linkLabel}</span>
         <MdArrowForward size={13} color={GOLD} />
       </button>
     </div>
@@ -229,6 +230,8 @@ export default function ConceptsPage() {
   const scrollRef = useRef<HTMLDivElement>(null)
   useLenis(scrollRef)
   const pageContent = useContent('concepts-page')
+  const seo = useContent('seo')
+  const nav = useContent('navigation')
   const CONCEPTS = pageContent.items as Concept[]
   const CONCEPT_SPACES = pageContent.spaces as readonly ConceptSpace[]
   const CONCEPT_TYPES = pageContent.types as readonly ConceptType[]
@@ -331,35 +334,35 @@ export default function ConceptsPage() {
         <span style={{
           fontFamily: "'Inter', sans-serif", fontSize: 13, fontWeight: 700,
           letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--text-primary)',
-        }}>Filters</span>
+        }}>{pageContent.filtersLabel}</span>
         <button
           onClick={clearAll}
           style={{ display: 'flex', alignItems: 'center', gap: 5, background: 'transparent', border: 'none', cursor: 'pointer' }}
         >
           {RefreshIcon}
-          <span style={{ fontFamily: "'Inter', sans-serif", fontSize: 11, color: 'var(--text-gold)' }}>Clear All</span>
+          <span style={{ fontFamily: "'Inter', sans-serif", fontSize: 11, color: 'var(--text-gold)' }}>{pageContent.clearAllLabel}</span>
         </button>
       </div>
 
-      <FilterGroup title="Concept Status">
-        <RadioRow label="All Status" count={statusCounts.all} active={status === 'all'} onClick={() => setStatus('all')} />
-        <RadioRow label="New Concepts" count={statusCounts.new} active={status === 'new'} onClick={() => setStatus('new')} />
-        <RadioRow label="Improved Concepts" count={statusCounts.improved} active={status === 'improved'} onClick={() => setStatus('improved')} />
+      <FilterGroup title={pageContent.statusFilterTitle}>
+        <RadioRow label={pageContent.allStatusLabel} count={statusCounts.all} active={status === 'all'} onClick={() => setStatus('all')} />
+        <RadioRow label={pageContent.newConceptsLabel} count={statusCounts.new} active={status === 'new'} onClick={() => setStatus('new')} />
+        <RadioRow label={pageContent.improvedConceptsLabel} count={statusCounts.improved} active={status === 'improved'} onClick={() => setStatus('improved')} />
       </FilterGroup>
 
-      <FilterGroup title="Industry">
-        <RadioRow label="All" count={spaceCounts.all} active={space === 'all'} onClick={() => setSpace('all')} />
+      <FilterGroup title={pageContent.industryFilterTitle}>
+        <RadioRow label={pageContent.allLabel} count={spaceCounts.all} active={space === 'all'} onClick={() => setSpace('all')} />
         {CONCEPT_SPACES.map(s => (
           <RadioRow key={s} label={s} count={spaceCounts[s]} active={space === s} onClick={() => setSpace(s)} />
         ))}
       </FilterGroup>
 
-      <FilterGroup title="Concept Type">
-        <RadioRow label="All Types" count={CONCEPTS.length} active={types.size === 0} onClick={() => setTypes(new Set())} />
+      <FilterGroup title={pageContent.typeFilterTitle}>
+        <RadioRow label={pageContent.allTypesLabel} count={CONCEPTS.length} active={types.size === 0} onClick={() => setTypes(new Set())} />
         <div style={{ position: 'relative', margin: '10px 0 12px' }}>
           <input
             value={typeSearch} onChange={e => setTypeSearch(e.target.value)}
-            placeholder="Search concept types..."
+            placeholder={pageContent.typeSearchPlaceholder}
             style={{
               width: '100%', padding: '8px 12px 8px 32px', background: 'rgba(255,255,255,0.03)',
               border: '1px solid rgba(212,175,55,0.25)', borderRadius: 6, color: 'var(--text-primary)', outline: 'none',
@@ -384,15 +387,18 @@ export default function ConceptsPage() {
     </div>
   )
 
-  // Background image disabled in favor of a solid black background — uncomment to restore.
-  // const bg = "url('/images/all%20concepts%20bg%20desktop.png')"
-
   return (
     <div
       ref={scrollRef}
       className="fade-in"
       style={{ position: 'fixed', inset: 0, background: 'transparent', overflowY: 'auto', overflowX: 'hidden' }}
     >
+      <SEO
+        title={seo.concepts.title || seo.defaultTitle}
+        description={seo.concepts.description || seo.defaultDescription}
+        image={seo.concepts.image || seo.defaultImage}
+        path="/concepts"
+      />
       {/* ── Back, on a line beneath the universal site logo ── */}
       <div style={{ padding: isMobile ? '90px 16px 0' : '120px 40px 0' }}>
         <button
@@ -402,15 +408,13 @@ export default function ConceptsPage() {
           }}
         >
           <MdArrowBack size={12} color={GOLD} />
-          <span style={{ fontFamily: "'Inter', sans-serif", fontSize: 11, fontWeight: 600, letterSpacing: '0.14em', textTransform: 'uppercase', color: 'var(--text-gold)' }}>Back</span>
+          <span style={{ fontFamily: "'Inter', sans-serif", fontSize: 11, fontWeight: 600, letterSpacing: '0.14em', textTransform: 'uppercase', color: 'var(--text-gold)' }}>{nav.backLabel}</span>
         </button>
       </div>
 
       {/* ── Hero banner ── */}
       <div style={{
         position: 'relative', width: '100%',
-        // backgroundImage: bg, backgroundSize: 'cover',
-        // backgroundPosition: isMobile ? 'top center' : 'center',
         backgroundColor: 'transparent',
         padding: isMobile ? '20px 20px 40px' : '30px 40px 60px',
         textAlign: 'center',
@@ -543,7 +547,7 @@ export default function ConceptsPage() {
             {visible.length === 0 ? (
               <div style={{ textAlign: 'center', padding: '80px 0' }}>
                 <p style={{ fontFamily: "'Inter', sans-serif", fontSize: 13, color: 'var(--text-primary)', letterSpacing: '0.06em' }}>
-                  No concepts match your filters.
+                  {pageContent.noResultsLabel}
                 </p>
               </div>
             ) : (
@@ -560,6 +564,7 @@ export default function ConceptsPage() {
                   <ConceptCard
                     key={c.id} concept={c} isMobile={isMobile} delay={(i % PAGE_SIZE) * 60} inView={gridInView}
                     onOpen={() => triggerPageOut(() => navigate(`/concepts/${slugify(c.title)}`))}
+                    linkLabel={pageContent.linkLabel}
                   />
                 ))}
               </div>
@@ -576,7 +581,7 @@ export default function ConceptsPage() {
                   <span style={{
                     fontFamily: "'Cinzel', serif", fontSize: 11, letterSpacing: '0.2em',
                     textTransform: 'uppercase', color: 'var(--text-primary)',
-                  }}>Loading more concepts...</span>
+                  }}>{pageContent.loadingMoreLabel}</span>
                 </div>
               </div>
             )}

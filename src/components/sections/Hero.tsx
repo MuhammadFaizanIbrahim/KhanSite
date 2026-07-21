@@ -7,10 +7,6 @@ import StarDivider from '@/components/ui/StarDivider'
 import BackgroundMedia from '@/components/ui/BackgroundMedia'
 import { MdKeyboardArrowDown } from 'react-icons/md'
 
-// Background image disabled in favor of a solid black background — uncomment to restore.
-// const BG_DESKTOP = "url('/images/hero%20bg%20desktop.png')"
-// const BG_MOBILE  = "url('/images/hero%20bg%20mobile.png')"
-
 // Sequential reveal steps: tagline → Opportunity → → → Concept → → → Reality → divider → scroll cue
 const STEP_TAGLINE = 1
 const STEP_OPP     = 2

@@ -1,12 +1,38 @@
 {
   "_instructions": "This file holds ALL the editable text on the KhanConcepts website. Each top-level key below is one section of the site — the '_section' note inside it tells you where that section appears. Only edit the plain text values; do not rename or remove any keys. Wrapping a phrase in **double asterisks** (e.g. **like this**) makes it show in gold on the site.",
+  "seo": {
+    "_section": "Controls what shows up in Google search results and in link previews when a page is shared on social media, WhatsApp, iMessage, etc. 'title' is the browser tab title / search result heading, 'description' is the snippet shown below it, and 'image' is the preview picture shown when the link is shared. Leave any page's title/description/image blank to fall back to 'defaultTitle'/'defaultDescription'/'defaultImage' below. 'siteName' is appended after every page's title.",
+    "siteName": "KhanConcepts",
+    "defaultTitle": "KhanConcepts — I Innovate Concepts That Redefine Industries",
+    "defaultDescription": "I innovate concepts that redefine industries and create better solutions across every industry, from product to hardware to technology.",
+    "defaultImage": "/images/logos/logo-1024.png",
+    "home": { "title": "", "description": "", "image": "" },
+    "concepts": { "title": "", "description": "", "image": "" },
+    "contact": { "title": "", "description": "", "image": "" }
+  },
+  "navigation": {
+    "_section": "Labels for the navigation elements that appear identically on every page: the bottom pill nav, the desktop-only left sidebar on the homepage, and the generic 'Back' button used on the Concepts and Contact pages.",
+    "centerNav": { "home": "Home", "concepts": "Concepts", "contact": "Contact" },
+    "sidebar": {
+      "intro": "Intro",
+      "whatIsKhanConcepts": "What Is KhanConcepts?",
+      "conceptDesignIndustries": "Concept Design Industries",
+      "conceptToSolutionProcess": "Concept to Solution Process",
+      "featuredConcepts": "Featured Concepts"
+    },
+    "backLabel": "Back"
+  },
   "preloader": {
-    "_section": "Preloader — the loading screen shown once before the site reveals. 'background.type' controls this section's background — set it to \"none\" for a plain black background, \"image\" to show background.image, or \"video\" to show background.video (a looping muted video file).",
+    "_section": "Preloader — the loading screen shown once before the site reveals. 'background.type' controls this section's background — set it to \"none\" for a plain black background, \"image\" to show background.image, or \"video\" to show background.video (a looping muted video file). 'conceptLabel' is the small label under the logo. 'taglineLine1'/'taglineLine2' are the two lines below that (wrap a word in ** to make it gold, same as everywhere else). 'loadingLabel' is the small word next to the loading percentage.",
     "background": {
       "type": "none",
       "image": "/images/preloader%20bg.png",
       "video": ""
-    }
+    },
+    "conceptLabel": "CONCEPT INNOVATION",
+    "taglineLine1": "Every Great **Innovation**",
+    "taglineLine2": "Starts With A **Concept.**",
+    "loadingLabel": "LOADING"
   },
   "hero": {
     "_section": "Homepage — Hero (the very first section visitors see, with the big background image and logo) — 'background.type' controls this section's background — set it to \"none\" for a plain black background, \"image\" to show background.image, or \"video\" to show background.video (a looping muted video file).",
@@ -318,11 +344,46 @@
     }
   },
   "concepts-page": {
-    "_section": "All Concepts page (/concepts) and every individual concept's detail page (/concepts/1, /concepts/2, ...) — the hero heading/tagline, the full Concept Space and Concept Type filter lists, and the master list of every concept card/detail page. 'spaces' and 'types' are the filter taxonomy — every concept's 'space'/'type' value must exactly match one entry from these two lists. Each entry in 'items' is one concept: 'status' must be either \"new\" or \"improved\", 'image' is the file path to its picture, 'overview' is 2-3 paragraphs shown on its detail page. 'video' is shown on the Concept Presentation section of the detail page — paste any regular YouTube or Vimeo link, or a direct hosted video file (.mp4 etc.); leave empty to show a placeholder. 'slideEmbed' is shown above the video — paste any regular Google Slides, Google Drive, or Canva share link (just the normal link you'd copy to share it, not a special embed code); leave empty to show a placeholder. 'problems' and 'opportunities' are legacy bullet lists kept for reference but no longer displayed on the detail page. 'showPresentation' controls whether the Concept Presentation section (slide deck) shows on that concept's detail page — defaults to true. 'showVideo' controls whether the separate Video section shows — defaults to false; set it to true once a concept has a real video to show.",
+    "_section": "All Concepts page (/concepts) and every individual concept's detail page (/concepts/1, /concepts/2, ...) — the hero heading/tagline, the full Concept Space and Concept Type filter lists, and the master list of every concept card/detail page. 'spaces' and 'types' are the filter taxonomy — every concept's 'space'/'type' value must exactly match one entry from these two lists. Each entry in 'items' is one concept: 'status' must be either \"new\" or \"improved\", 'image' is the file path to its picture, 'overview' is 2-3 paragraphs shown on its detail page. 'video' is shown on the Concept Presentation section of the detail page — paste any regular YouTube or Vimeo link, or a direct hosted video file (.mp4 etc.); leave empty to show a placeholder. 'slideEmbed' is shown above the video — paste any regular Google Slides, Google Drive, or Canva share link (just the normal link you'd copy to share it, not a special embed code); leave empty to show a placeholder. 'problems' and 'opportunities' are legacy bullet lists kept for reference but no longer displayed on the detail page. 'showPresentation' controls whether the Concept Presentation section (slide deck) shows on that concept's detail page — defaults to true. 'showVideo' controls whether the separate Video section shows — defaults to false; set it to true once a concept has a real video to show. 'metaTitle'/'metaDescription' control what shows in Google search results and social media previews for that concept's detail page specifically — leave either blank to fall back to that concept's 'title'/'description' above. 'linkLabel' through 'loadingMoreLabel' are the filter-panel and card labels on the All Concepts listing page. 'detail' holds every label/message on an individual concept's detail page — the share menu, the Status/Industry/Type field labels and their New/Improved values, the video/slide placeholder messages, the not-found message, and the bottom call-to-action block.",
     "headingWhite": "All",
     "headingGold": "Concepts",
     "tagline": "Every great innovation starts with a **concept**.",
     "searchPlaceholder": "Search concepts...",
+    "linkLabel": "Explore Concept",
+    "filtersLabel": "Filters",
+    "clearAllLabel": "Clear All",
+    "statusFilterTitle": "Concept Status",
+    "allStatusLabel": "All Status",
+    "newConceptsLabel": "New Concepts",
+    "improvedConceptsLabel": "Improved Concepts",
+    "industryFilterTitle": "Industry",
+    "allLabel": "All",
+    "typeFilterTitle": "Concept Type",
+    "allTypesLabel": "All Types",
+    "typeSearchPlaceholder": "Search concept types...",
+    "noResultsLabel": "No concepts match your filters.",
+    "loadingMoreLabel": "Loading more concepts...",
+    "detail": {
+      "shareLabel": "SHARE CONCEPT",
+      "copyLinkLabel": "Copy Link",
+      "copiedLabel": "Copied!",
+      "shareXLabel": "Share on X",
+      "shareLinkedInLabel": "Share on LinkedIn",
+      "shareInstagramLabel": "Share on Instagram",
+      "linkCopiedLabel": "Link copied!",
+      "backToConceptsLabel": "Back to Concepts",
+      "statusFieldLabel": "Concept Status",
+      "industryFieldLabel": "Industry",
+      "typeFieldLabel": "Concept Type",
+      "newStatusValue": "New",
+      "improvedStatusValue": "Improved",
+      "presentationPlaceholder": "Presentation coming soon",
+      "videoPlaceholder": "Video coming soon",
+      "notFoundMessage": "Concept not found.",
+      "ctaHeading": "Interested in **This Concept?**",
+      "ctaParagraph": "Schedule a Concept Discussion to explore how this Concept Design can be tailored to your company's goals and requirements.",
+      "ctaButtonLabel": "Schedule a Concept Discussion"
+    },
     "spaces": [
       "Product",
       "Hardware",
@@ -389,7 +450,9 @@
           "Strengthen long-term sustainability and resilience planning."
         ],
         "showPresentation": true,
-        "showVideo": false
+        "showVideo": false,
+        "metaTitle": "",
+        "metaDescription": ""
       },
       {
         "id": 2,
@@ -424,7 +487,9 @@
           "Flag anomalies automatically for faster human review."
         ],
         "showPresentation": true,
-        "showVideo": false
+        "showVideo": false,
+        "metaTitle": "",
+        "metaDescription": ""
       },
       {
         "id": 3,
@@ -459,7 +524,9 @@
           "Let the OS adapt to each person's workflow automatically."
         ],
         "showPresentation": true,
-        "showVideo": false
+        "showVideo": false,
+        "metaTitle": "",
+        "metaDescription": ""
       },
       {
         "id": 4,
@@ -494,7 +561,9 @@
           "Build a template that scales across cities and regions."
         ],
         "showPresentation": true,
-        "showVideo": false
+        "showVideo": false,
+        "metaTitle": "",
+        "metaDescription": ""
       },
       {
         "id": 5,
@@ -529,7 +598,9 @@
           "Apply the same trusted model across any product vertical."
         ],
         "showPresentation": true,
-        "showVideo": false
+        "showVideo": false,
+        "metaTitle": "",
+        "metaDescription": ""
       },
       {
         "id": 6,
@@ -564,7 +635,9 @@
           "Build a foundation that scales to future wearable categories."
         ],
         "showPresentation": true,
-        "showVideo": false
+        "showVideo": false,
+        "metaTitle": "",
+        "metaDescription": ""
       },
       {
         "id": 7,
@@ -599,7 +672,9 @@
           "Turn quantum readiness into a competitive advantage rather than a risk."
         ],
         "showPresentation": true,
-        "showVideo": false
+        "showVideo": false,
+        "metaTitle": "",
+        "metaDescription": ""
       },
       {
         "id": 8,
@@ -634,7 +709,9 @@
           "Reuse one experience model across flagship, pop-up, and outlet formats."
         ],
         "showPresentation": true,
-        "showVideo": false
+        "showVideo": false,
+        "metaTitle": "",
+        "metaDescription": ""
       },
       {
         "id": 9,
@@ -669,7 +746,9 @@
           "Improve safety margins for autonomous vehicles at scale."
         ],
         "showPresentation": true,
-        "showVideo": false
+        "showVideo": false,
+        "metaTitle": "",
+        "metaDescription": ""
       },
       {
         "id": 10,
@@ -704,7 +783,9 @@
           "Build a reusable platform across many materials research programs."
         ],
         "showPresentation": true,
-        "showVideo": false
+        "showVideo": false,
+        "metaTitle": "",
+        "metaDescription": ""
       },
       {
         "id": 11,
@@ -739,7 +820,9 @@
           "Secure digital identity and voting within one civic framework."
         ],
         "showPresentation": true,
-        "showVideo": false
+        "showVideo": false,
+        "metaTitle": "",
+        "metaDescription": ""
       },
       {
         "id": 12,
@@ -774,7 +857,9 @@
           "Set a new fairness and trust standard for VR entertainment."
         ],
         "showPresentation": true,
-        "showVideo": false
+        "showVideo": false,
+        "metaTitle": "",
+        "metaDescription": ""
       }
     ]
   }

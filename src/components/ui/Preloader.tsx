@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import { useContent } from '@/hooks/useContent'
+import { RichText } from '@/utils/richText'
 import BackgroundMedia from '@/components/ui/BackgroundMedia'
 import GalaxyBackground from '@/components/ui/GalaxyBackground'
 
@@ -221,7 +222,7 @@ export default function Preloader({ onComplete }: PreloaderProps) {
           opacity:       subIn ? 1 : 0,
           filter:        subIn ? 'blur(0px)' : 'blur(10px)',
           transition:    'opacity 1s ease, filter 1s ease',
-        }}>CONCEPT INNOVATION</span>
+        }}>{content.conceptLabel}</span>
 
         {/* ── Tagline ── */}
         <div style={{
@@ -236,8 +237,8 @@ export default function Preloader({ onComplete }: PreloaderProps) {
           filter:     tagIn ? 'blur(0px)' : 'blur(6px)',
           transition: 'opacity 1.1s ease, filter 1.1s ease',
         }}>
-          <div>Every Great <span style={{ color: 'var(--text-gold)' }}>Innovation</span></div>
-          <div>Starts With A <span style={{ color: 'var(--text-gold)' }}>Concept.</span></div>
+          <div><RichText text={content.taglineLine1} /></div>
+          <div><RichText text={content.taglineLine2} /></div>
         </div>
 
         {/* ── Progress bar — present from the first frame, no fade-in or width easing ── */}
@@ -250,7 +251,7 @@ export default function Preloader({ onComplete }: PreloaderProps) {
             <span style={{
               fontFamily: "'Cinzel', serif", fontSize: 11, fontWeight: 500,
               letterSpacing: '0.3em', color: 'var(--text-gold)',
-            }}>LOADING</span>
+            }}>{content.loadingLabel}</span>
             <span style={{
               fontFamily: "'Cinzel', serif", fontSize: 11, fontWeight: 500,
               letterSpacing: '0.1em', color: 'var(--text-gold)',

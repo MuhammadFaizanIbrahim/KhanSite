@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import { useBreakpoint } from '@/hooks/useBreakpoint'
+import { useContent } from '@/hooks/useContent'
 import { smoothScrollTo } from '@/hooks/useLenis'
 
 interface SidebarItem {
@@ -7,18 +8,20 @@ interface SidebarItem {
   id: string
 }
 
-// IDs are anchors for sections that will be built next — items simply no-op
-// until a matching #id exists in the DOM, so this list needs no future changes.
-const SIDEBAR_ITEMS: SidebarItem[] = [
-  { label: 'Intro',                             id: 'hero' },
-  { label: 'What Is KhanConcepts?',            id: 'what-is-khanconcepts' },
-  { label: 'Concept Design Industries',         id: 'concept-innovation-space' },
-  { label: 'Concept to Solution Process', id: 'how-we-bring-concepts-to-reality' },
-  { label: 'Featured Concepts',                id: 'featured-concepts' },
-]
-
 export default function Sidebar() {
   const { width } = useBreakpoint()
+  const nav = useContent('navigation')
+
+  // IDs are anchors for sections that will be built next — items simply no-op
+  // until a matching #id exists in the DOM, so this list needs no future changes.
+  const SIDEBAR_ITEMS: SidebarItem[] = [
+    { label: nav.sidebar.intro,                    id: 'hero' },
+    { label: nav.sidebar.whatIsKhanConcepts,       id: 'what-is-khanconcepts' },
+    { label: nav.sidebar.conceptDesignIndustries,  id: 'concept-innovation-space' },
+    { label: nav.sidebar.conceptToSolutionProcess, id: 'how-we-bring-concepts-to-reality' },
+    { label: nav.sidebar.featuredConcepts,         id: 'featured-concepts' },
+  ]
+
   const [active, setActive]   = useState(SIDEBAR_ITEMS[0].id)
   const [hovered, setHovered] = useState<string | null>(null)
 
@@ -94,36 +97,41 @@ export default function Sidebar() {
                 }} />
               </div>
 
-              {/* Tick (collapsed) → Label (expanded on hover / active) */}
-              <div style={{
-                marginLeft: 16,
-                overflow: 'hidden',
-                maxWidth: expanded ? 340 : 18,
-                transition: 'max-width 0.35s cubic-bezier(0.4,0,0.2,1)',
-                display: 'flex', alignItems: 'center',
-              }}>
-                {expanded ? (
-                  <span style={{
-                    fontFamily: "'Inter', sans-serif",
-                    fontSize: 16,
-                    fontWeight: isActive ? 600 : 400,
-                    letterSpacing: '0.04em',
-                    whiteSpace: 'nowrap',
-                    color: isActive ? 'var(--text-gold)' : 'rgba(255,255,255,0.85)',
-                    transition: 'color 0.3s ease',
-                    // Solid backing so the label reads as a floating UI element
-                    // rather than bleeding transparently over whatever section content
-                    // happens to sit underneath the (viewport-fixed) sidebar.
-                    background: 'rgba(6,6,8,0.88)',
-                    backdropFilter: 'blur(6px)',
-                    WebkitBackdropFilter: 'blur(6px)',
-                    border: '1px solid rgba(212,175,55,0.2)',
-                    borderRadius: 6,
-                    padding: '4px 10px',
-                  }}>{item.label}</span>
-                ) : (
-                  <span style={{ width: 18, height: 1, background: 'rgba(255,255,255,0.25)', display: 'block' }} />
-                )}
+              {/* Tick (collapsed) → Label (expanded on hover / active) — both
+                  stay mounted and cross-fade via opacity instead of swapping,
+                  so the label eases in/out alongside the width change rather
+                  than popping in the instant there's room for it. */}
+              <div style={{ marginLeft: 16, position: 'relative', height: 20 }}>
+                <span style={{
+                  position: 'absolute', left: 0, top: '50%', transform: 'translateY(-50%)',
+                  width: 18, height: 1, background: 'rgba(255,255,255,0.25)',
+                  opacity: expanded ? 0 : 1,
+                  transition: expanded ? 'opacity 0.15s ease' : 'opacity 0.25s ease 0.1s',
+                  pointerEvents: 'none',
+                }} />
+                <span style={{
+                  position: 'absolute', left: 0, top: '50%', transform: 'translateY(-50%)',
+                  fontFamily: "'Inter', sans-serif",
+                  fontSize: 16,
+                  fontWeight: isActive ? 600 : 400,
+                  letterSpacing: '0.04em',
+                  whiteSpace: 'nowrap',
+                  color: isActive ? 'var(--text-gold)' : 'rgba(255,255,255,0.85)',
+                  // Solid backing so the label reads as a floating UI element
+                  // rather than bleeding transparently over whatever section content
+                  // happens to sit underneath the (viewport-fixed) sidebar.
+                  background: 'rgba(6,6,8,0.88)',
+                  backdropFilter: 'blur(6px)',
+                  WebkitBackdropFilter: 'blur(6px)',
+                  border: '1px solid rgba(212,175,55,0.2)',
+                  borderRadius: 6,
+                  padding: '4px 10px',
+                  opacity: expanded ? 1 : 0,
+                  pointerEvents: expanded ? 'auto' : 'none',
+                  transition: expanded
+                    ? 'opacity 0.3s ease 0.08s, color 0.3s ease'
+                    : 'opacity 0.15s ease, color 0.3s ease',
+                }}>{item.label}</span>
               </div>
             </div>
 

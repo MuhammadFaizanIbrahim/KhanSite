@@ -49,7 +49,7 @@ function CardImage({ src, alt }: { src: string; alt: string }) {
   )
 }
 
-function FeaturedCard({ item, cardWidth, isActive }: { item: FeaturedItem; cardWidth: number; isActive: boolean }) {
+function FeaturedCard({ item, cardWidth, isActive, linkLabel }: { item: FeaturedItem; cardWidth: number; isActive: boolean; linkLabel: string }) {
   return (
     <div style={{
       width: cardWidth,
@@ -100,7 +100,7 @@ function FeaturedCard({ item, cardWidth, isActive }: { item: FeaturedItem; cardW
         <div style={{ marginTop: 16, marginBottom: 14, height: 1, background: 'linear-gradient(to right, rgba(212,175,55,0.4), transparent)' }} />
 
         <Link to="/concepts" style={{ display: 'inline-flex', alignItems: 'center', gap: 7, textDecoration: 'none' }}>
-          <span style={{ fontFamily: "'Inter', sans-serif", fontSize: 13.5, fontWeight: 500, color: 'var(--text-gold)' }}>Explore Concept</span>
+          <span style={{ fontFamily: "'Inter', sans-serif", fontSize: 13.5, fontWeight: 500, color: 'var(--text-gold)' }}>{linkLabel}</span>
           <MdArrowForward size={14} color={GOLD} />
         </Link>
       </div>
@@ -272,7 +272,7 @@ export default function FeaturedConcepts() {
                   }}
                   onClick={() => !isActive && goTo(i)}
                 >
-                  <FeaturedCard item={item} cardWidth={cardWidth} isActive={isActive} />
+                  <FeaturedCard item={item} cardWidth={cardWidth} isActive={isActive} linkLabel={content.linkLabel} />
                 </div>
               )
             })}

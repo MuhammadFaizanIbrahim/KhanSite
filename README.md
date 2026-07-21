@@ -28,8 +28,8 @@ src/
 │   └── shaders.ts              # GLSL shader strings
 ├── pages/
 │   ├── HomePage.tsx
-│   ├── WorkPage.tsx
-│   ├── AboutPage.tsx
+│   ├── ConceptsPage.tsx
+│   ├── ConceptDetailPage.tsx
 │   └── ContactPage.tsx
 ├── App.tsx                     # Routes + preloader gate
 ├── main.tsx                    # Entry point

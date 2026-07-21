@@ -1,7 +1,8 @@
-import { useState, useRef } from 'react'
+import { useEffect, useState, useRef } from 'react'
 import { useNavigate, useLocation } from 'react-router-dom'
 import { usePageTransition } from '@/contexts/TransitionContext'
 import { useBreakpoint } from '@/hooks/useBreakpoint'
+import { useContent } from '@/hooks/useContent'
 import { smoothScrollTo } from '@/hooks/useLenis'
 
 interface NavItem {
@@ -13,17 +14,17 @@ interface NavItem {
 }
 
 const ICON_STROKE = 1.6
-
-const items: NavItem[] = [
-  { label: 'Home', action: 'home' },
-  { label: 'Concepts', action: 'route', path: '/concepts' },
-  { label: 'Contact', action: 'route', path: '/contact' },
-]
+const TARGET_VOLUME = 0.6
+const FADE_MS = 500
 
 function MusicIcon({ on }: { on: boolean }) {
   const c = on ? '#D4AF37' : 'rgba(255,255,255,0.6)'
   return (
-    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke={c} strokeWidth={ICON_STROKE} strokeLinecap="round" strokeLinejoin="round">
+    <svg
+      width="16" height="16" viewBox="0 0 24 24" fill="none" stroke={c}
+      strokeWidth={ICON_STROKE} strokeLinecap="round" strokeLinejoin="round"
+      style={{ transition: 'stroke 0.35s ease' }}
+    >
       <path d="M9 18V5l12-2v13" /><circle cx="6" cy="18" r="3" /><circle cx="18" cy="16" r="3" />
     </svg>
   )
@@ -34,17 +35,51 @@ export default function CenterNav() {
   const navigate      = useNavigate()
   const location       = useLocation()
   const { triggerPageOut } = usePageTransition()
+  const nav = useContent('navigation')
+  const items: NavItem[] = [
+    { label: nav.centerNav.home, action: 'home' },
+    { label: nav.centerNav.concepts, action: 'route', path: '/concepts' },
+    { label: nav.centerNav.contact, action: 'route', path: '/contact' },
+  ]
   const [soundOn, setSoundOn] = useState(false)
   const audioRef = useRef<HTMLAudioElement>(null)
+  const fadeRef  = useRef<number | null>(null)
+
+  // Ramps audio.volume toward `target` over FADE_MS instead of snapping, so
+  // starting/stopping the track fades in/out rather than cutting instantly.
+  const fadeVolume = (target: number, onDone?: () => void) => {
+    const audio = audioRef.current
+    if (!audio) return
+    if (fadeRef.current !== null) cancelAnimationFrame(fadeRef.current)
+
+    const start = audio.volume
+    const startTime = performance.now()
+    const step = (now: number) => {
+      const t = Math.min(1, (now - startTime) / FADE_MS)
+      audio.volume = start + (target - start) * t
+      if (t < 1) {
+        fadeRef.current = requestAnimationFrame(step)
+      } else {
+        fadeRef.current = null
+        onDone?.()
+      }
+    }
+    fadeRef.current = requestAnimationFrame(step)
+  }
+
+  useEffect(() => () => {
+    if (fadeRef.current !== null) cancelAnimationFrame(fadeRef.current)
+  }, [])
 
   const toggleSound = () => {
     const audio = audioRef.current
     if (audio) {
       if (soundOn) {
-        audio.pause()
+        fadeVolume(0, () => audio.pause())
       } else {
-        audio.volume = 0.6
+        audio.volume = 0
         audio.play().catch(() => { /* blocked until a user gesture — harmless to ignore */ })
+        fadeVolume(TARGET_VOLUME)
       }
     }
     setSoundOn(p => !p)

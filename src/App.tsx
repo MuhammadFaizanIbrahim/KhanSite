@@ -13,10 +13,7 @@ import Navbar                from '@/components/layout/Navbar'
 import CenterNav             from '@/components/layout/CenterNav'
 import { TransitionProvider } from '@/contexts/TransitionContext'
 import HomePage           from '@/pages/HomePage'
-import WorkPage           from '@/pages/WorkPage'
-import AboutPage          from '@/pages/AboutPage'
 import ContactPage        from '@/pages/ContactPage'
-import ProjectPage        from '@/pages/ProjectPage'
 import ConceptsPage       from '@/pages/ConceptsPage'
 import ConceptDetailPage  from '@/pages/ConceptDetailPage'
 
@@ -62,9 +59,6 @@ export default function App() {
           <Route path="/"             element={<HomePage />}          />
           <Route path="/concepts"     element={<ConceptsPage />}      />
           <Route path="/concepts/:slug" element={<ConceptDetailPage />} />
-          <Route path="/work"         element={<WorkPage />}          />
-          <Route path="/work/:id"     element={<ProjectPage />}       />
-          <Route path="/about"        element={<AboutPage />}         />
           <Route path="/contact"      element={<ContactPage />}       />
         </Routes>
       </div>

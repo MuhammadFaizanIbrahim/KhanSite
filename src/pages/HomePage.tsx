@@ -1,6 +1,8 @@
 import { useEffect, useRef } from 'react'
 import Snap from 'lenis/snap'
 import type { VirtualScrollData } from 'lenis'
+import SEO                         from '@/components/SEO'
+import { useContent }              from '@/hooks/useContent'
 import Sidebar                     from '@/components/layout/Sidebar'
 import Hero                        from '@/components/sections/Hero'
 import WhatIsKhanConcepts          from '@/components/sections/WhatIsKhanConcepts'
@@ -105,9 +107,16 @@ export default function HomePage() {
   useLenis(scrollRef, resistScrollThroughSection)
   useSectionHashSpy()
   useSectionSnap('what-is-khanconcepts')
+  const seo = useContent('seo')
 
   return (
     <div ref={scrollRef} className="h-full w-full overflow-y-auto overflow-x-hidden">
+      <SEO
+        title={seo.home.title || seo.defaultTitle}
+        description={seo.home.description || seo.defaultDescription}
+        image={seo.home.image || seo.defaultImage}
+        path="/"
+      />
       <Hero />
       <WhatIsKhanConcepts />
       <ConceptInnovationSpace />

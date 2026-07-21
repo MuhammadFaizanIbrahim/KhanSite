@@ -6,6 +6,8 @@ import { useLenis } from '@/hooks/useLenis'
 import { useContent } from '@/hooks/useContent'
 import { slugify } from '@/utils/slug'
 import { getVideoEmbed, getPresentationEmbed } from '@/utils/embed'
+import { RichText } from '@/utils/richText'
+import SEO from '@/components/SEO'
 import Footer from '@/components/sections/Footer'
 import type { Concept } from '@/data/concepts'
 import { MdOutlineShare, MdKeyboardArrowDown, MdOutlineLink, MdArrowBack, MdArrowForward } from 'react-icons/md'
@@ -92,6 +94,8 @@ export default function ConceptDetailPage() {
   const [copied, setCopied] = useState(false)
   const [ref, inView] = useInView<HTMLDivElement>()
   const pageContent = useContent('concepts-page')
+  const seo = useContent('seo')
+  const d = pageContent.detail
   const shareRef = useRef<HTMLDivElement>(null)
 
   // Clicking anywhere outside the share menu closes it (covers the click-to-open
@@ -131,7 +135,7 @@ export default function ConceptDetailPage() {
     return (
       <div style={{ position: 'fixed', inset: 0, background: 'transparent', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
         <p style={{ fontFamily: "'Inter', sans-serif", fontSize: 13, color: 'var(--text-primary)', letterSpacing: '0.08em' }}>
-          Concept not found.
+          {d.notFoundMessage}
         </p>
       </div>
     )
@@ -141,6 +145,12 @@ export default function ConceptDetailPage() {
 
   return (
     <div ref={scrollRef} className="fade-in" style={{ position: 'fixed', inset: 0, background: 'transparent', overflowY: 'auto', overflowX: 'hidden' }}>
+      <SEO
+        title={`${concept.metaTitle || concept.title} — ${seo.siteName}`}
+        description={concept.metaDescription || concept.description}
+        image={concept.image || seo.defaultImage}
+        path={`/concepts/${slug}`}
+      />
 
       <div style={{ position: 'relative', zIndex: 2 }}>
 
@@ -156,7 +166,7 @@ export default function ConceptDetailPage() {
           }}
         >
           <MdArrowBack size={14} color={GOLD} />
-          <span style={{ fontFamily: "'Inter', sans-serif", fontSize: 11, fontWeight: 600, letterSpacing: '0.14em', textTransform: 'uppercase', color: 'var(--text-gold)' }}>Back to Concepts</span>
+          <span style={{ fontFamily: "'Inter', sans-serif", fontSize: 11, fontWeight: 600, letterSpacing: '0.14em', textTransform: 'uppercase', color: 'var(--text-gold)' }}>{d.backToConceptsLabel}</span>
         </button>
 
         <div
@@ -173,7 +183,7 @@ export default function ConceptDetailPage() {
             }}
           >
             {ShareIcon}
-            {!isMobile && <span style={{ fontFamily: "'Inter', sans-serif", fontSize: 11.5, fontWeight: 600, letterSpacing: '0.1em', color: 'var(--text-gold)' }}>SHARE CONCEPT</span>}
+            {!isMobile && <span style={{ fontFamily: "'Inter', sans-serif", fontSize: 11.5, fontWeight: 600, letterSpacing: '0.1em', color: 'var(--text-gold)' }}>{d.shareLabel}</span>}
             <ChevronIcon open={shareOpen} />
           </button>
 
@@ -183,17 +193,17 @@ export default function ConceptDetailPage() {
               border: `1px solid ${GOLD}`, borderRadius: 10, background: 'rgba(6,6,8,0.96)', backdropFilter: 'blur(10px)',
               overflow: 'hidden',
             }}>
-              <button onClick={copyLink} style={shareRowStyle}>{LinkIcon}<span style={shareRowTextStyle}>{copied ? 'Copied!' : 'Copy Link'}</span></button>
+              <button onClick={copyLink} style={shareRowStyle}>{LinkIcon}<span style={shareRowTextStyle}>{copied ? d.copiedLabel : d.copyLinkLabel}</span></button>
               <a
                 href={`https://twitter.com/intent/tweet?url=${encodeURIComponent(shareUrl)}&text=${encodeURIComponent(concept.title)}`}
                 target="_blank" rel="noreferrer" style={shareRowStyle} onClick={() => setShareOpen(false)}
-              >{XIcon}<span style={shareRowTextStyle}>Share on X</span></a>
+              >{XIcon}<span style={shareRowTextStyle}>{d.shareXLabel}</span></a>
               <a
                 href={`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(shareUrl)}`}
                 target="_blank" rel="noreferrer" style={shareRowStyle} onClick={() => setShareOpen(false)}
-              >{LinkedInIcon}<span style={shareRowTextStyle}>Share on LinkedIn</span></a>
+              >{LinkedInIcon}<span style={shareRowTextStyle}>{d.shareLinkedInLabel}</span></a>
               <button onClick={shareInstagram} style={{ ...shareRowStyle, borderBottom: 'none' }}>
-                {InstagramIcon}<span style={shareRowTextStyle}>{igCopied ? 'Link copied!' : 'Share on Instagram'}</span>
+                {InstagramIcon}<span style={shareRowTextStyle}>{igCopied ? d.linkCopiedLabel : d.shareInstagramLabel}</span>
               </button>
             </div>
           )}
@@ -222,9 +232,9 @@ export default function ConceptDetailPage() {
           margin: isMobile ? '22px 0 26px' : '34px 0 40px',
         }}>
           {[
-            { label: 'Concept Status', value: concept.status === 'new' ? 'New' : 'Improved' },
-            { label: 'Industry', value: concept.space },
-            { label: 'Concept Type', value: concept.type },
+            { label: d.statusFieldLabel, value: concept.status === 'new' ? d.newStatusValue : d.improvedStatusValue },
+            { label: d.industryFieldLabel, value: concept.space },
+            { label: d.typeFieldLabel, value: concept.type },
           ].map((m, i) => (
             <div
               key={m.label}
@@ -269,7 +279,7 @@ export default function ConceptDetailPage() {
             {concept.slideEmbed ? (
               <iframe src={getPresentationEmbed(concept.slideEmbed)} title="Concept Presentation Slides" allowFullScreen style={{ width: '100%', height: '100%', border: 'none' }} />
             ) : (
-              <PlaceholderPane label="Presentation coming soon" />
+              <PlaceholderPane label={d.presentationPlaceholder} />
             )}
           </div>
         </div>
@@ -293,7 +303,7 @@ export default function ConceptDetailPage() {
                 <video controls poster={concept.image} src={videoEmbed.src} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
               )
             ) : (
-              <PlaceholderPane label="Video coming soon" />
+              <PlaceholderPane label={d.videoPlaceholder} />
             )}
           </div>
         </div>
@@ -310,16 +320,15 @@ export default function ConceptDetailPage() {
           <h2 style={{
             fontFamily: "'Playfair Display', serif", fontWeight: 700,
             fontSize: isMobile ? 'clamp(22px, 7vw, 28px)' : 'clamp(28px, 3vw, 40px)',
-            margin: '0 0 16px',
+            margin: '0 0 16px', color: 'var(--text-primary)',
           }}>
-            <span style={{ color: 'var(--text-primary)' }}>Interested in </span>
-            <span style={{ color: 'var(--text-gold)' }}>This Concept?</span>
+            <RichText text={d.ctaHeading} />
           </h2>
           <p style={{
             fontFamily: "'Inter', sans-serif", fontSize: isMobile ? 12.5 : 14, lineHeight: 1.65,
             color: 'var(--text-primary)', maxWidth: 560, margin: '0 auto 26px',
           }}>
-            Schedule a Concept Discussion to explore how this Concept Design can be tailored to your company's goals and requirements.
+            {d.ctaParagraph}
           </p>
           <button
             onClick={() => triggerPageOut(() => navigate('/contact'))}
@@ -330,7 +339,7 @@ export default function ConceptDetailPage() {
               cursor: 'pointer',
             }}
           >
-            <span style={{ fontFamily: "'Inter', sans-serif", fontSize: isMobile ? 12 : 13, fontWeight: 700, letterSpacing: '0.16em', textTransform: 'uppercase', color: '#1a1206' }}>Schedule a Concept Discussion</span>
+            <span style={{ fontFamily: "'Inter', sans-serif", fontSize: isMobile ? 12 : 13, fontWeight: 700, letterSpacing: '0.16em', textTransform: 'uppercase', color: '#1a1206' }}>{d.ctaButtonLabel}</span>
             <MdArrowForward size={14} color="#1a1206" />
           </button>
         </div>
