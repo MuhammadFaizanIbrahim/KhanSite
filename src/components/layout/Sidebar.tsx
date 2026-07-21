@@ -17,8 +17,8 @@ export default function Sidebar() {
   const SIDEBAR_ITEMS: SidebarItem[] = [
     { label: nav.sidebar.intro,                    id: 'hero' },
     { label: nav.sidebar.whatIsKhanConcepts,       id: 'what-is-khanconcepts' },
-    { label: nav.sidebar.conceptDesignIndustries,  id: 'concept-innovation-space' },
-    { label: nav.sidebar.conceptToSolutionProcess, id: 'how-we-bring-concepts-to-reality' },
+    { label: nav.sidebar.conceptDesignIndustries,  id: 'concept-design-innovation' },
+    { label: nav.sidebar.conceptToSolutionProcess, id: 'concept-to-solution-process' },
     { label: nav.sidebar.featuredConcepts,         id: 'featured-concepts' },
   ]
 

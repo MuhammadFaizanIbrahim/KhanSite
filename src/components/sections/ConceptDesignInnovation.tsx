@@ -85,14 +85,14 @@ function useInView<T extends HTMLElement>() {
   return [ref, inView] as const
 }
 
-export default function ConceptInnovationSpace() {
+export default function ConceptDesignInnovation() {
   const { isMobile } = useBreakpoint()
-  const content = useContent('concept-innovation-space')
+  const content = useContent('concept-design-innovation')
   const [ref, inView] = useInView<HTMLDivElement>()
 
   return (
     <section
-      id="concept-innovation-space"
+      id="concept-design-innovation"
       style={{
         position: 'relative',
         width: '100%',

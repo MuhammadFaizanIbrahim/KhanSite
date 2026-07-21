@@ -10,12 +10,6 @@
   --text-gold: #D4AF37;
 }
 
-@font-face {
-  font-family: 'BastligaOne';
-  src: url('/fonts/bastliga-one.regular.otf') format('opentype');
-  font-display: swap;
-}
-
 /* ── Base ── */
 @layer base {
   html, body, #root {
@@ -23,8 +17,6 @@
     color: var(--text-primary);
   }
 
-  .font-logo     { font-family: 'BastligaOne', serif !important; }
-  .font-bastliga { font-family: 'BastligaOne', serif !important; }
   .font-title    { font-family: 'Playfair Display', serif; }
   .font-playfair { font-family: 'Playfair Display', serif; }
   .font-cinzel   { font-family: 'Cinzel', serif; }

@@ -117,15 +117,15 @@ function TimelineRow({ step, index, isLast, inView, isMobile }: {
   )
 }
 
-export default function HowWeBringConceptsToReality() {
+export default function ConceptToSolutionProcess() {
   const { isMobile } = useBreakpoint()
-  const content = useContent('how-we-bring-concepts-to-reality')
+  const content = useContent('concept-to-solution-process')
   const [ref, inView] = useInView<HTMLDivElement>()
   const steps = content.steps as Step[]
 
   return (
     <section
-      id="how-we-bring-concepts-to-reality"
+      id="concept-to-solution-process"
       style={{
         position: 'relative', width: '100%',
         backgroundColor: 'transparent',

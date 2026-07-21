@@ -3,9 +3,7 @@ export default {
   content: ['./index.html', './src/**/*.{js,ts,jsx,tsx}'],
   theme: {
     extend: {
-      fontFamily: {
-        logo:     ['BastligaOne', 'serif'],
-        bastliga: ['BastligaOne', 'serif'],
+      fontFamily: {        
         playfair: ['Playfair Display', 'serif'],
         cinzel:   ['Cinzel', 'serif'],
         manrope:  ['Manrope', 'sans-serif'],

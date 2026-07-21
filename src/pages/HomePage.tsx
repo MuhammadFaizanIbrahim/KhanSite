@@ -6,8 +6,8 @@ import { useContent }              from '@/hooks/useContent'
 import Sidebar                     from '@/components/layout/Sidebar'
 import Hero                        from '@/components/sections/Hero'
 import WhatIsKhanConcepts          from '@/components/sections/WhatIsKhanConcepts'
-import HowWeBringConceptsToReality from '@/components/sections/HowWeBringConceptsToReality'
-import ConceptInnovationSpace      from '@/components/sections/ConceptInnovationSpace'
+import ConceptToSolutionProcess    from '@/components/sections/ConceptToSolutionProcess'
+import ConceptDesignInnovation     from '@/components/sections/ConceptDesignInnovation'
 import FeaturedConcepts            from '@/components/sections/FeaturedConcepts'
 import Footer                      from '@/components/sections/Footer'
 import { useLenis } from '@/hooks/useLenis'
@@ -16,8 +16,8 @@ import { useLenis } from '@/hooks/useLenis'
 // view. Hero has none — the URL hash clears back to just "/" while at the top.
 const SECTION_HASHES: { id: string; hash: string }[] = [
   { id: 'what-is-khanconcepts', hash: 'whatiskhanconcepts' },
-  { id: 'concept-innovation-space', hash: 'conceptdesignindustries' },
-  { id: 'how-we-bring-concepts-to-reality', hash: 'concepttosolutionprocess' },
+  { id: 'concept-design-innovation', hash: 'conceptdesignindustries' },
+  { id: 'concept-to-solution-process', hash: 'concepttosolutionprocess' },
   { id: 'featured-concepts', hash: 'featuredconcepts' },
   { id: 'footer', hash: 'footer' },
 ]
@@ -119,8 +119,8 @@ export default function HomePage() {
       />
       <Hero />
       <WhatIsKhanConcepts />
-      <ConceptInnovationSpace />
-      <HowWeBringConceptsToReality />
+      <ConceptDesignInnovation />
+      <ConceptToSolutionProcess />
       <FeaturedConcepts />
       <Footer />
 

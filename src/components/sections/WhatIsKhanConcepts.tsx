@@ -5,10 +5,6 @@ import { RichText } from '@/utils/richText'
 import StarDivider from '@/components/ui/StarDivider'
 import BackgroundMedia from '@/components/ui/BackgroundMedia'
 
-// Background image disabled in favor of a solid black background — uncomment to restore.
-// const BG_DESKTOP = "url('/images/hero%20bg%20desktop.png')"
-// const BG_MOBILE  = "url('/images/hero%20bg%20mobile.png')"
-
 // Sequential reveal: eyebrow → heading → divider → paragraph 1 → paragraph 2
 const STEP_EYEBROW    = 1
 const STEP_HEADING    = 2
