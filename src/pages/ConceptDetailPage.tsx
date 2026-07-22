@@ -109,7 +109,7 @@ export default function ConceptDetailPage() {
     return () => document.removeEventListener('mousedown', handleClick)
   }, [shareOpen])
 
-  const concept = (pageContent.items as Concept[]).find(c => slugify(c.title) === slug)
+  const concept = (pageContent.items as Concept[]).find(c => slugify(c.conceptName) === slug)
 
   const shareUrl = typeof window !== 'undefined' ? window.location.href : ''
   const copyLink = async () => {
@@ -141,13 +141,13 @@ export default function ConceptDetailPage() {
     )
   }
 
-  const videoEmbed = concept.video ? getVideoEmbed(concept.video) : null
+  const videoEmbed = concept.conceptVideoLink ? getVideoEmbed(concept.conceptVideoLink) : null
 
   return (
     <div ref={scrollRef} className="fade-in" style={{ position: 'fixed', inset: 0, background: 'transparent', overflowY: 'auto', overflowX: 'hidden' }}>
       <SEO
-        title={`${concept.metaTitle || concept.title} — ${seo.siteName}`}
-        description={concept.metaDescription || concept.description}
+        title={`${concept.conceptName} — ${seo.siteName}`}
+        description={concept.description}
         image={concept.image || seo.defaultImage}
         path={`/concepts/${slug}`}
       />
@@ -183,7 +183,7 @@ export default function ConceptDetailPage() {
             }}
           >
             {ShareIcon}
-            {!isMobile && <span style={{ fontFamily: "'Inter', sans-serif", fontSize: 11.5, fontWeight: 600, letterSpacing: '0.1em', color: 'var(--text-gold)' }}>{d.shareLabel}</span>}
+            {!isMobile && <span style={{ fontFamily: "'Inter', sans-serif", fontSize: 11.5, fontWeight: 600, letterSpacing: '0.1em', color: 'var(--text-gold)' }}>{d.shareConceptLabel}</span>}
             <ChevronIcon open={shareOpen} />
           </button>
 
@@ -195,7 +195,7 @@ export default function ConceptDetailPage() {
             }}>
               <button onClick={copyLink} style={shareRowStyle}>{LinkIcon}<span style={shareRowTextStyle}>{copied ? d.copiedLabel : d.copyLinkLabel}</span></button>
               <a
-                href={`https://twitter.com/intent/tweet?url=${encodeURIComponent(shareUrl)}&text=${encodeURIComponent(concept.title)}`}
+                href={`https://twitter.com/intent/tweet?url=${encodeURIComponent(shareUrl)}&text=${encodeURIComponent(concept.conceptName)}`}
                 target="_blank" rel="noreferrer" style={shareRowStyle} onClick={() => setShareOpen(false)}
               >{XIcon}<span style={shareRowTextStyle}>{d.shareXLabel}</span></a>
               <a
@@ -219,7 +219,7 @@ export default function ConceptDetailPage() {
             fontSize: isMobile ? 'clamp(26px, 8.5vw, 34px)' : 'clamp(38px, 5vw, 60px)',
             lineHeight: 1.06, margin: isMobile ? 0 : '0 0 20px', color: 'var(--text-primary)',
           }}>
-            {concept.title}
+            {concept.conceptName}
           </h1>
         </div>
 
@@ -232,9 +232,9 @@ export default function ConceptDetailPage() {
           margin: isMobile ? '22px 0 26px' : '34px 0 40px',
         }}>
           {[
-            { label: d.statusFieldLabel, value: concept.status === 'new' ? d.newStatusValue : d.improvedStatusValue },
-            { label: d.industryFieldLabel, value: concept.space },
-            { label: d.typeFieldLabel, value: concept.type },
+            { label: d.conceptStatusFieldLabel, value: concept.conceptStatus === 'new' ? d.newStatusValue : d.improvedStatusValue },
+            { label: d.industryFieldLabel, value: concept.industry },
+            { label: d.conceptTypeFieldLabel, value: concept.conceptType },
           ].map((m, i) => (
             <div
               key={m.label}
@@ -276,8 +276,8 @@ export default function ConceptDetailPage() {
             position: 'relative', width: '100%', aspectRatio: '16 / 9', borderRadius: 10, overflow: 'hidden',
             background: '#000', border: '1px solid rgba(212,175,55,0.25)',
           }}>
-            {concept.slideEmbed ? (
-              <iframe src={getPresentationEmbed(concept.slideEmbed)} title="Concept Presentation Slides" allowFullScreen style={{ width: '100%', height: '100%', border: 'none' }} />
+            {concept.embedPresentationLink ? (
+              <iframe src={getPresentationEmbed(concept.embedPresentationLink)} title="Concept Presentation Slides" allowFullScreen style={{ width: '100%', height: '100%', border: 'none' }} />
             ) : (
               <PlaceholderPane label={d.presentationPlaceholder} />
             )}

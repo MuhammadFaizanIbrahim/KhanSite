@@ -3,7 +3,6 @@ import { useBreakpoint } from '@/hooks/useBreakpoint'
 import { useContent } from '@/hooks/useContent'
 import { RichText } from '@/utils/richText'
 import StarDivider from '@/components/ui/StarDivider'
-import BackgroundMedia from '@/components/ui/BackgroundMedia'
 
 // Sequential reveal: eyebrow → heading → divider → paragraph 1 → paragraph 2
 const STEP_EYEBROW    = 1
@@ -76,9 +75,6 @@ export default function WhatIsKhanConcepts() {
         position: 'relative',
         minHeight: sectionMinHeight,
         width: '100%',
-        // backgroundImage: isMobile ? BG_MOBILE : BG_DESKTOP,
-        // backgroundSize: 'cover',
-        // backgroundPosition: 'center',
         backgroundColor: 'transparent',
         display: 'flex',
         flexDirection: 'column',
@@ -88,8 +84,6 @@ export default function WhatIsKhanConcepts() {
         overflow: 'hidden',
       }}
     >
-      <BackgroundMedia background={content.background} />
-
       <div ref={ref} style={{ position: 'relative', zIndex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', width: '100%' }}>
 
         {/* ── Eyebrow ── */}

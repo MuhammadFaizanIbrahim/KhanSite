@@ -2,7 +2,6 @@ import { useEffect, useRef, useState } from 'react'
 import { useBreakpoint } from '@/hooks/useBreakpoint'
 import { useContent } from '@/hooks/useContent'
 import StarDivider from '@/components/ui/StarDivider'
-import BackgroundMedia from '@/components/ui/BackgroundMedia'
 import { MdOutlineSearch, MdChatBubbleOutline, MdOutlineDescription, MdOutlineHandshake } from 'react-icons/md'
 
 const GOLD = '#D4AF37'
@@ -133,8 +132,6 @@ export default function ConceptToSolutionProcess() {
         overflow: 'hidden',
       }}
     >
-      <BackgroundMedia background={content.background} />
-
       <div ref={ref} style={{ position: 'relative', zIndex: 1, maxWidth: 900, margin: '0 auto' }}>
 
         {/* ── Heading ── */}

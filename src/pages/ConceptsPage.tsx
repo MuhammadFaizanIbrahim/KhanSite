@@ -5,7 +5,6 @@ import { useBreakpoint } from '@/hooks/useBreakpoint'
 import { useLenis } from '@/hooks/useLenis'
 import { useContent } from '@/hooks/useContent'
 import SEO from '@/components/SEO'
-import { RichText } from '@/utils/richText'
 import { slugify } from '@/utils/slug'
 import StarDivider from '@/components/ui/StarDivider'
 import Footer from '@/components/sections/Footer'
@@ -115,7 +114,7 @@ function renderTitle(title: string) {
   )
 }
 
-function ConceptCard({ concept, isMobile, delay, inView, onOpen, linkLabel }: { concept: Concept; isMobile: boolean; delay: number; inView: boolean; onOpen: () => void; linkLabel: string }) {
+function ConceptCard({ concept, isMobile, delay, inView, onOpen, exploreConceptLabel, newConceptBadgeLabel, improvedConceptBadgeLabel }: { concept: Concept; isMobile: boolean; delay: number; inView: boolean; onOpen: () => void; exploreConceptLabel: string; newConceptBadgeLabel: string; improvedConceptBadgeLabel: string }) {
   const [imgFailed, setImgFailed] = useState(false)
 
   const image = imgFailed ? (
@@ -125,7 +124,7 @@ function ConceptCard({ concept, isMobile, delay, inView, onOpen, linkLabel }: { 
     }} />
   ) : (
     <img
-      src={concept.image} alt={concept.title} loading="lazy"
+      src={concept.image} alt={concept.conceptName} loading="lazy"
       onError={() => setImgFailed(true)}
       style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
     />
@@ -139,11 +138,11 @@ function ConceptCard({ concept, isMobile, delay, inView, onOpen, linkLabel }: { 
       border: '1px solid rgba(212,175,55,0.5)',
       borderRadius: 20, padding: '4px 10px',
     }}>
-      {concept.status === 'new' ? SparkleIcon : TrendIcon}
+      {concept.conceptStatus === 'new' ? SparkleIcon : TrendIcon}
       <span style={{
         fontFamily: "'Inter', sans-serif", fontSize: 10, fontWeight: 600, letterSpacing: '0.04em',
         color: 'var(--text-gold)', whiteSpace: 'nowrap',
-      }}>{concept.status === 'new' ? 'NEW' : 'IMPROVED'}</span>
+      }}>{concept.conceptStatus === 'new' ? newConceptBadgeLabel : improvedConceptBadgeLabel}</span>
     </div>
   )
 
@@ -153,13 +152,13 @@ function ConceptCard({ concept, isMobile, delay, inView, onOpen, linkLabel }: { 
         fontFamily: "'Playfair Display', serif", fontWeight: 600, lineHeight: 1.3,
         fontSize: isMobile ? 15 : 'clamp(15px, 1.3vw, 18px)', color: 'var(--text-primary)', margin: '0 0 8px',
         minHeight: '2.6em',
-      }}>{renderTitle(concept.title)}</h3>
+      }}>{renderTitle(concept.conceptName)}</h3>
       <div style={{ display: 'flex', flexDirection: 'column', gap: 5 }}>
         <span style={{ fontFamily: "'Inter', sans-serif", fontSize: 11.5, lineHeight: 1.4, color: 'var(--text-primary)', minHeight: '1.4em' }}>
-          {concept.space.replace(' Concepts', '')}
+          {concept.industry.replace(' Concepts', '')}
         </span>
         <span style={{ fontFamily: "'Inter', sans-serif", fontSize: 11.5, lineHeight: 1.4, color: 'var(--text-primary)', minHeight: '1.4em' }}>
-          {concept.tagline}
+          {concept.conceptTagLine}
         </span>
       </div>
       <button
@@ -170,7 +169,7 @@ function ConceptCard({ concept, isMobile, delay, inView, onOpen, linkLabel }: { 
           background: 'none', border: 'none', cursor: 'pointer',
         }}
       >
-        <span style={{ fontFamily: "'Inter', sans-serif", fontSize: 12, fontWeight: 500, color: 'var(--text-gold)' }}>{linkLabel}</span>
+        <span style={{ fontFamily: "'Inter', sans-serif", fontSize: 12, fontWeight: 500, color: 'var(--text-gold)' }}>{exploreConceptLabel}</span>
         <MdArrowForward size={13} color={GOLD} />
       </button>
     </div>
@@ -233,8 +232,8 @@ export default function ConceptsPage() {
   const seo = useContent('seo')
   const nav = useContent('navigation')
   const CONCEPTS = pageContent.items as Concept[]
-  const CONCEPT_SPACES = pageContent.spaces as readonly ConceptSpace[]
-  const CONCEPT_TYPES = pageContent.types as readonly ConceptType[]
+  const CONCEPT_SPACES = pageContent.industry as readonly ConceptSpace[]
+  const CONCEPT_TYPES = pageContent.conceptTypes as readonly ConceptType[]
 
   const [search, setSearch] = useState('')
   const [status, setStatus] = useState<'all' | 'new' | 'improved'>('all')
@@ -282,10 +281,10 @@ export default function ConceptsPage() {
   }
 
   const filtered = useMemo(() => CONCEPTS.filter(c => {
-    if (status !== 'all' && c.status !== status) return false
-    if (space !== 'all' && c.space !== space) return false
-    if (types.size > 0 && !types.has(c.type)) return false
-    if (search.trim() && !c.title.toLowerCase().includes(search.trim().toLowerCase())) return false
+    if (status !== 'all' && c.conceptStatus !== status) return false
+    if (space !== 'all' && c.industry !== space) return false
+    if (types.size > 0 && !types.has(c.conceptType)) return false
+    if (search.trim() && !c.conceptName.toLowerCase().includes(search.trim().toLowerCase())) return false
     return true
   }), [status, space, types, search])
 
@@ -311,13 +310,13 @@ export default function ConceptsPage() {
 
   const statusCounts = {
     all: CONCEPTS.length,
-    new: CONCEPTS.filter(c => c.status === 'new').length,
-    improved: CONCEPTS.filter(c => c.status === 'improved').length,
+    new: CONCEPTS.filter(c => c.conceptStatus === 'new').length,
+    improved: CONCEPTS.filter(c => c.conceptStatus === 'improved').length,
   }
   const spaceCounts: Record<string, number> = { all: CONCEPTS.length }
-  CONCEPT_SPACES.forEach(s => { spaceCounts[s] = CONCEPTS.filter(c => c.space === s).length })
+  CONCEPT_SPACES.forEach(s => { spaceCounts[s] = CONCEPTS.filter(c => c.industry === s).length })
   const typeCounts: Record<string, number> = {}
-  CONCEPT_TYPES.forEach(t => { typeCounts[t] = CONCEPTS.filter(c => c.type === t).length })
+  CONCEPT_TYPES.forEach(t => { typeCounts[t] = CONCEPTS.filter(c => c.conceptType === t).length })
 
   const visibleTypeList = CONCEPT_TYPES.filter(t => t.toLowerCase().includes(typeSearch.trim().toLowerCase()))
   const quickPills: ('all' | ConceptType)[] = ['all', ...CONCEPT_TYPES]
@@ -344,20 +343,20 @@ export default function ConceptsPage() {
         </button>
       </div>
 
-      <FilterGroup title={pageContent.statusFilterTitle}>
+      <FilterGroup title={pageContent.conceptStatusFilterTitle}>
         <RadioRow label={pageContent.allStatusLabel} count={statusCounts.all} active={status === 'all'} onClick={() => setStatus('all')} />
         <RadioRow label={pageContent.newConceptsLabel} count={statusCounts.new} active={status === 'new'} onClick={() => setStatus('new')} />
         <RadioRow label={pageContent.improvedConceptsLabel} count={statusCounts.improved} active={status === 'improved'} onClick={() => setStatus('improved')} />
       </FilterGroup>
 
       <FilterGroup title={pageContent.industryFilterTitle}>
-        <RadioRow label={pageContent.allLabel} count={spaceCounts.all} active={space === 'all'} onClick={() => setSpace('all')} />
+        <RadioRow label={pageContent.allIndustriesLabel} count={spaceCounts.all} active={space === 'all'} onClick={() => setSpace('all')} />
         {CONCEPT_SPACES.map(s => (
           <RadioRow key={s} label={s} count={spaceCounts[s]} active={space === s} onClick={() => setSpace(s)} />
         ))}
       </FilterGroup>
 
-      <FilterGroup title={pageContent.typeFilterTitle}>
+      <FilterGroup title={pageContent.conceptTypeFilterTitle}>
         <RadioRow label={pageContent.allTypesLabel} count={CONCEPTS.length} active={types.size === 0} onClick={() => setTypes(new Set())} />
         <div style={{ position: 'relative', margin: '10px 0 12px' }}>
           <input
@@ -424,16 +423,9 @@ export default function ConceptsPage() {
           fontSize: isMobile ? 'clamp(36px, 13vw, 48px)' : 'clamp(48px, 5.5vw, 80px)',
           margin: 0, lineHeight: 1.05,
         }}>
-          {/* <span style={{ color: 'var(--text-primary)' }}>{pageContent.headingWhite} </span> */}
           <span style={{ color: 'var(--text-gold)' }}>{pageContent.headingGold}</span>
         </h1>
         <StarDivider lineWidth={isMobile ? 45 : 80} style={{ margin: isMobile ? '14px 0' : '20px 0' }} />
-        {/* <p style={{
-          fontFamily: "'Cinzel', serif", fontSize: isMobile ? 10 : 13, letterSpacing: '0.2em',
-          textTransform: 'uppercase', color: 'var(--text-primary)', margin: '0 0 28px',
-        }}>
-          <RichText text={pageContent.tagline} goldColor={GOLD} />
-        </p> */}
 
         <div ref={filtersRef} style={{ maxWidth: 640, margin: '0 auto' }}>
           <div style={{ position: 'relative' }}>
@@ -563,8 +555,10 @@ export default function ConceptsPage() {
                 {visible.map((c, i) => (
                   <ConceptCard
                     key={c.id} concept={c} isMobile={isMobile} delay={(i % PAGE_SIZE) * 60} inView={gridInView}
-                    onOpen={() => triggerPageOut(() => navigate(`/concepts/${slugify(c.title)}`))}
-                    linkLabel={pageContent.linkLabel}
+                    onOpen={() => triggerPageOut(() => navigate(`/concepts/${slugify(c.conceptName)}`))}
+                    exploreConceptLabel={pageContent.exploreConceptLabel}
+                    newConceptBadgeLabel={pageContent.newConceptBadgeLabel}
+                    improvedConceptBadgeLabel={pageContent.improvedConceptBadgeLabel}
                   />
                 ))}
               </div>

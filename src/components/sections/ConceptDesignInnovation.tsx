@@ -3,13 +3,10 @@ import { useBreakpoint } from '@/hooks/useBreakpoint'
 import { useContent } from '@/hooks/useContent'
 import { RichText } from '@/utils/richText'
 import StarDivider from '@/components/ui/StarDivider'
-import BackgroundMedia from '@/components/ui/BackgroundMedia'
 
 const GOLD = '#D4AF37'
 
 interface ConceptItem {
-  icon: string
-  image: string
   title: string
   bullets: string[]
 }
@@ -100,8 +97,6 @@ export default function ConceptDesignInnovation() {
         padding: isMobile ? '90px 16px 100px' : '120px 40px 140px',
       }}
     >
-      <BackgroundMedia background={content.background} />
-
       <div ref={ref} style={{ position: 'relative', zIndex: 1, maxWidth: 1360, margin: '0 auto' }}>
 
         {/* ── Heading ── */}

@@ -4,7 +4,6 @@ import { smoothScrollTo } from '@/hooks/useLenis'
 import { useContent } from '@/hooks/useContent'
 import { RichText } from '@/utils/richText'
 import StarDivider from '@/components/ui/StarDivider'
-import BackgroundMedia from '@/components/ui/BackgroundMedia'
 import { MdKeyboardArrowDown } from 'react-icons/md'
 
 // Sequential reveal steps: tagline → Opportunity → → → Concept → → → Reality → divider → scroll cue
@@ -152,8 +151,6 @@ export default function Hero() {
         backgroundColor: 'transparent',
       }}
     >
-      <BackgroundMedia background={content.background} />
-
       <div style={{
         position: 'relative', zIndex: 1,
         width: '100%', minHeight: sectionMinHeight,

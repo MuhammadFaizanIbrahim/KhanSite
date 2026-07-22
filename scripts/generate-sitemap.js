@@ -22,7 +22,7 @@ function slugify(text) {
 
 const staticRoutes = ['/', '/concepts', '/contact']
 const conceptRoutes = site['concepts-page'].items.map(
-  item => `/concepts/${slugify(item.title)}`
+  item => `/concepts/${slugify(item.conceptName)}`
 )
 
 const urls = [...staticRoutes, ...conceptRoutes]

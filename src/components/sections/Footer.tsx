@@ -3,7 +3,6 @@ import { useBreakpoint } from '@/hooks/useBreakpoint'
 import { useContent } from '@/hooks/useContent'
 import { RichText } from '@/utils/richText'
 import StarDivider from '@/components/ui/StarDivider'
-import BackgroundMedia from '@/components/ui/BackgroundMedia'
 import { FaLinkedinIn } from 'react-icons/fa6'
 import { SiX, SiYoutube, SiInstagram } from 'react-icons/si'
 
@@ -52,9 +51,7 @@ export default function Footer() {
       // way down, at any screen size.
       padding: isMobile ? '60px 20px 100px' : '100px 40px 100px',
     }}>
-      <BackgroundMedia background={content.background} />
-
-      {/* Dark overlay so the logo, text and icons stay legible over an image/video background — harmless no-op when the background is plain black */}
+      {/* Dark overlay so the logo, text and icons stay legible over the animated starfield background */}
       <div style={{ position: 'absolute', inset: 0, background: 'rgba(0,0,0,0.5)', zIndex: 1 }} />
 
       <div

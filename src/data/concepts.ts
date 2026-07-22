@@ -4,6 +4,6 @@ import site from '@/content/site.json'
 
 type ConceptsPageContent = typeof site['concepts-page']
 
-export type ConceptSpace = ConceptsPageContent['spaces'][number]
-export type ConceptType = ConceptsPageContent['types'][number]
+export type ConceptSpace = ConceptsPageContent['industry'][number]
+export type ConceptType = ConceptsPageContent['conceptTypes'][number]
 export type Concept = ConceptsPageContent['items'][number]

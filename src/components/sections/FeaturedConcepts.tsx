@@ -2,8 +2,9 @@ import { useEffect, useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { useBreakpoint } from '@/hooks/useBreakpoint'
 import { useContent } from '@/hooks/useContent'
+import { slugify } from '@/utils/slug'
+import type { Concept } from '@/data/concepts'
 import StarDivider from '@/components/ui/StarDivider'
-import BackgroundMedia from '@/components/ui/BackgroundMedia'
 import { MdOutlineAutoAwesome, MdTrendingUp, MdChevronLeft, MdChevronRight, MdArrowForward } from 'react-icons/md'
 
 const GOLD = '#D4AF37'
@@ -13,14 +14,38 @@ const BADGE_ICONS: Record<string, JSX.Element> = {
   trend: <MdTrendingUp size={12} color={GOLD} />,
 }
 
-interface FeaturedTag { icon: string; text: string }
 interface FeaturedItem {
+  slug: string
   image: string
   badge: string
   badgeIcon: 'sparkle' | 'trend'
   titleWhite: string
   titleGold: string
-  tags: FeaturedTag[]
+  tags: string[]
+}
+
+// Card title is styled two-tone (first word white, the rest gold) — split on
+// the first space to match how every concept title happens to read.
+function splitTitle(title: string): [string, string] {
+  const i = title.indexOf(' ')
+  return i === -1 ? [title, ''] : [title.slice(0, i), title.slice(i + 1)]
+}
+
+// Featured Concepts no longer has its own list — it's derived from whichever
+// concepts have 'featuredConcept: true' in concepts-page.items, so a concept's
+// real title/image/industry/tagline never drifts out of sync with its own
+// detail page.
+function toFeaturedItem(concept: Concept, newBadgeLabel: string, improvedBadgeLabel: string): FeaturedItem {
+  const [titleWhite, titleGold] = splitTitle(concept.conceptName)
+  return {
+    slug: slugify(concept.conceptName),
+    image: concept.image,
+    badge: concept.conceptStatus === 'new' ? newBadgeLabel : improvedBadgeLabel,
+    badgeIcon: concept.conceptStatus === 'new' ? 'sparkle' : 'trend',
+    titleWhite,
+    titleGold,
+    tags: [concept.industry, concept.conceptTagLine],
+  }
 }
 
 function ChevronIcon({ dir }: { dir: 'left' | 'right' }) {
@@ -49,7 +74,7 @@ function CardImage({ src, alt }: { src: string; alt: string }) {
   )
 }
 
-function FeaturedCard({ item, cardWidth, isActive, linkLabel }: { item: FeaturedItem; cardWidth: number; isActive: boolean; linkLabel: string }) {
+function FeaturedCard({ item, cardWidth, isActive, exploreConceptLabel }: { item: FeaturedItem; cardWidth: number; isActive: boolean; exploreConceptLabel: string }) {
   return (
     <div style={{
       width: cardWidth,
@@ -93,14 +118,14 @@ function FeaturedCard({ item, cardWidth, isActive, linkLabel }: { item: Featured
             height relative to its neighbours. */}
         <div style={{ display: 'flex', flexDirection: 'column', gap: 4, marginTop: 12, minHeight: 42, overflow: 'hidden' }}>
           {item.tags.slice(0, 2).map(tag => (
-            <span key={tag.text} style={{ fontFamily: "'Inter', sans-serif", fontSize: 12.5, lineHeight: 1.4, color: 'var(--text-primary)' }}>{tag.text}</span>
+            <span key={tag} style={{ fontFamily: "'Inter', sans-serif", fontSize: 12.5, lineHeight: 1.4, color: 'var(--text-primary)' }}>{tag}</span>
           ))}
         </div>
 
         <div style={{ marginTop: 16, marginBottom: 14, height: 1, background: 'linear-gradient(to right, rgba(212,175,55,0.4), transparent)' }} />
 
-        <Link to="/concepts" style={{ display: 'inline-flex', alignItems: 'center', gap: 7, textDecoration: 'none' }}>
-          <span style={{ fontFamily: "'Inter', sans-serif", fontSize: 13.5, fontWeight: 500, color: 'var(--text-gold)' }}>{linkLabel}</span>
+        <Link to={`/concepts/${item.slug}`} style={{ display: 'inline-flex', alignItems: 'center', gap: 7, textDecoration: 'none' }}>
+          <span style={{ fontFamily: "'Inter', sans-serif", fontSize: 13.5, fontWeight: 500, color: 'var(--text-gold)' }}>{exploreConceptLabel}</span>
           <MdArrowForward size={14} color={GOLD} />
         </Link>
       </div>
@@ -142,11 +167,14 @@ function GlowRing({ isMobile }: { isMobile: boolean }) {
 export default function FeaturedConcepts() {
   const { isMobile, width } = useBreakpoint()
   const content = useContent('featured-concepts')
+  const conceptsContent = useContent('concepts-page')
   const [sectionRef, inView] = useInView<HTMLDivElement>()
   const [active, setActive] = useState(0)
   const touchX = useRef<number | null>(null)
 
-  const items = content.items as FeaturedItem[]
+  const items = (conceptsContent.items as Concept[])
+    .filter(c => c.featuredConcept)
+    .map(c => toFeaturedItem(c, content.newBadgeLabel, content.improvedBadgeLabel))
   const count = items.length
 
   const goTo = (i: number) => setActive(((i % count) + count) % count)
@@ -183,8 +211,6 @@ export default function FeaturedConcepts() {
         padding: isMobile ? '90px 0 90px' : '120px 0 150px',
       }}
     >
-      <BackgroundMedia background={content.background} />
-
       <div ref={sectionRef} style={{ position: 'relative', zIndex: 1, maxWidth: 1440, margin: '0 auto' }}>
 
         {/* Heading */}
@@ -259,7 +285,7 @@ export default function FeaturedConcepts() {
 
               return (
                 <div
-                  key={item.titleWhite + item.titleGold}
+                  key={item.slug}
                   data-cursor={isActive ? undefined : 'select'}
                   style={{
                     position: 'absolute', left: 0, top: 0,
@@ -272,7 +298,7 @@ export default function FeaturedConcepts() {
                   }}
                   onClick={() => !isActive && goTo(i)}
                 >
-                  <FeaturedCard item={item} cardWidth={cardWidth} isActive={isActive} linkLabel={content.linkLabel} />
+                  <FeaturedCard item={item} cardWidth={cardWidth} isActive={isActive} exploreConceptLabel={content.exploreConceptLabel} />
                 </div>
               )
             })}
@@ -284,7 +310,7 @@ export default function FeaturedConcepts() {
           <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
             {items.map((item, i) => (
               <button
-                key={item.titleWhite + item.titleGold}
+                key={item.slug}
                 aria-label={`Go to concept ${i + 1}`}
                 onClick={() => goTo(i)}
                 style={{

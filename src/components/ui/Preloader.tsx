@@ -1,7 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import { useContent } from '@/hooks/useContent'
 import { RichText } from '@/utils/richText'
-import BackgroundMedia from '@/components/ui/BackgroundMedia'
 import GalaxyBackground from '@/components/ui/GalaxyBackground'
 
 interface PreloaderProps { onComplete: () => void }
@@ -165,7 +164,6 @@ export default function Preloader({ onComplete }: PreloaderProps) {
       overflow: 'hidden',
     }}>
       <GalaxyBackground position="absolute" />
-      <BackgroundMedia background={content.background} />
 
       {/* ── Centered content stack ── */}
       <div style={{ position: 'relative', zIndex: 2, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
