@@ -44,7 +44,7 @@ function toFeaturedItem(concept: Concept, newBadgeLabel: string, improvedBadgeLa
     badgeIcon: concept.conceptStatus === 'new' ? 'sparkle' : 'trend',
     titleWhite,
     titleGold,
-    tags: [concept.industry, concept.conceptTagLine],
+    tags: [concept.industry, concept.conceptType],
   }
 }
 
