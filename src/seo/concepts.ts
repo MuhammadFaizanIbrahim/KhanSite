@@ -5,8 +5,8 @@ import { getKeywords } from './keywords'
 // Resolves the /concepts listing page's <SEO> props from site.json.
 export function getConceptsSEO(seo: SeoContent): SEOProps {
   return {
-    title: seo.concepts.title || seo.defaultTitle,
-    description: seo.concepts.description || seo.defaultDescription,
+    title: seo.concepts.title,
+    description: seo.concepts.description,
     image: seo.concepts.image || seo.defaultImage,
     keywords: getKeywords(seo, 'concepts'),
     path: '/concepts',

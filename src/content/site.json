@@ -1,12 +1,10 @@
 {
   "_instructions": "This file holds ALL the editable text on the KhanConcepts website. Each top-level key below is one section of the site — the '_section' note inside it tells you where that section appears. Only edit the plain text values; do not rename or remove any keys. Wrapping a phrase in **double asterisks** (e.g. **like this**) makes it show in gold on the site.",
   "seo": {
-    "_section": "Controls what shows up in Google search results and in link previews when a page is shared on social media, WhatsApp, iMessage, etc. 'title' is the browser tab title / search result heading, 'description' is the snippet shown below it, and 'image' is the preview picture shown when the link is shared. Leave any page's title/description/image blank to fall back to 'defaultTitle'/'defaultDescription'/'defaultImage' below. 'siteName' is appended after every page's title. 'domain' and 'logo' are used for the Organization schema search engines read to understand the business — leave 'domain' as the live production domain. 'social' is the ONE place to update social profile links on the entire site — it feeds both the footer's social icons and the schema search engines read; leave any entry blank until that profile exists, a blank one is simply omitted everywhere. 'keywords' per page are the target search phrases for that page; they're placed in a meta tag (a minor, mostly-ignored ranking signal) — the real SEO value comes from these same phrases appearing in the page's visible headings and paragraphs elsewhere in this file.",
+    "_section": "Controls what shows up in Google search results and in link previews when a page is shared on social media, WhatsApp, iMessage, etc. 'title' is the browser tab title / search result heading, 'description' is the snippet shown below it, and 'image' is the preview picture shown when the link is shared. Leave any page's image blank to fall back to 'defaultImage' below. 'siteName' is appended after every page's title. 'domain' and 'logo' are used for the Organization schema search engines read to understand the business — leave 'domain' as the live production domain. 'social' is the ONE place to update social profile links on the entire site — it feeds both the footer's social icons and the schema search engines read; leave any entry blank until that profile exists, a blank one is simply omitted everywhere. 'keywords' per page are the target search phrases for that page; they're placed in a meta tag (a minor, mostly-ignored ranking signal) — the real SEO value comes from these same phrases appearing in the page's visible headings and paragraphs elsewhere in this file.",
     "siteName": "KhanConcepts",
     "domain": "https://khanconcepts.com",
     "logo": "/images/logos/logo-1024.png",
-    "defaultTitle": "KhanConcepts — I Innovate Concepts That Redefine Industries",
-    "defaultDescription": "I innovate concepts that redefine industries and create better solutions across every industry, from product to hardware to technology.",
     "defaultImage": "/images/logos/logo-1024.png",
     "social": {
       "x": "https://x.com/KhanConcepts",
@@ -30,7 +28,7 @@
       "title": "KhanConcepts - Contact",
       "description": "Start a Concept Discussion with KhanConcepts to explore innovative Concept Designs, share your business challenges, and discover better solutions together.",
       "image": "",
-      "keywords": ["KhanConcepts", "Concept Discussion", "Concept Design"]
+      "keywords": ["KhanConcepts Concept Discussion", "Concept Design"]
     }
   },
   "navigation": {
@@ -215,7 +213,7 @@
     "whatsapp": {
       "label": "WhatsApp",
       "description": "Chat with us instantly on WhatsApp",
-      "href": "https://wa.me/YOUR_NUMBER"
+      "href": "https://wa.me/khanconcepts"
     },
     "email": {
       "label": "Email",
@@ -277,7 +275,7 @@
       "improvedStatusValue": "Improved",
       "presentationPlaceholder": "Presentation coming soon",
       "videoPlaceholder": "Video coming soon",
-      "notFoundMessage": "Concept not found.",
+      "notFoundMessage": "Concept not found",
       "ctaHeading": "Interested in **This Concept?**",
       "ctaParagraph": "Schedule a Concept Discussion to explore how this Concept Design can be tailored to your company's goals and requirements.",
       "ctaButtonLabel": "Schedule a Concept Discussion"

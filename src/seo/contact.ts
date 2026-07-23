@@ -4,8 +4,8 @@ import { getKeywords } from './keywords'
 // Resolves the /contact page's <SEO> props from site.json.
 export function getContactSEO(seo: SeoContent): SEOProps {
   return {
-    title: seo.contact.title || seo.defaultTitle,
-    description: seo.contact.description || seo.defaultDescription,
+    title: seo.contact.title,
+    description: seo.contact.description,
     image: seo.contact.image || seo.defaultImage,
     keywords: getKeywords(seo, 'contact'),
     path: '/contact',

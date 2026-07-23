@@ -19,7 +19,7 @@ export default function NotFoundPage() {
   return (
     <div className="fade-in" style={{ position: 'fixed', inset: 0, overflowY: 'auto', overflowX: 'hidden', background: 'transparent' }}>
       <SEO
-        title={`${seo.siteName} - ${content.title}`}
+        title={`${content.title} — ${seo.siteName}`}
         description={content.message}
         path="/404"
         noIndex

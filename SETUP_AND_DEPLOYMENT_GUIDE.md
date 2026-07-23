@@ -86,7 +86,7 @@ Skip this section entirely if that workflow isn't needed yet — the bundled `si
 
 This is already built; this section is so you understand what's there when you open `site.json`'s `"seo"` block.
 
-- **Titles, descriptions, keywords** — set per page in `site.json → seo → home / concepts / contact`. Leave a field blank to fall back to `seo.defaultTitle` / `defaultDescription`.
+- **Titles, descriptions, keywords** — set per page in `site.json → seo → home / concepts / contact`. Leave a page's `image` blank to fall back to `seo.defaultImage`.
 - **Individual Concept pages** — each Concept automatically gets its own unique title/description generated from its own data; nothing to configure per-concept.
 - **Organization schema (JSON-LD)** — tells Google this is a real business, built from `seo.siteName`, `seo.domain`, `seo.logo`, and `seo.social` (your X/LinkedIn/YouTube/Instagram links). Update those fields in `site.json` and it updates everywhere automatically.
 - **Open Graph / Twitter Card tags** — control the preview shown when a link is shared on WhatsApp, Slack, X, etc. Same `seo` fields drive these.

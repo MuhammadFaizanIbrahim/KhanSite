@@ -135,7 +135,7 @@ export default function ConceptDetailPage() {
   if (!concept) {
     return (
       <div style={{ position: 'fixed', inset: 0, background: 'transparent', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-        <p style={{ fontFamily: "'Inter', sans-serif", fontSize: 13, color: 'var(--text-primary)', letterSpacing: '0.08em' }}>
+        <p style={{ fontFamily: "'Inter', sans-serif", fontSize: isMobile ? 24 : 48, color: 'var(--text-gold)', letterSpacing: '0.08em' }}>
           {d.notFoundMessage}
         </p>
       </div>
