@@ -8,6 +8,7 @@ import { slugify } from '@/utils/slug'
 import { getVideoEmbed, getPresentationEmbed } from '@/utils/embed'
 import { RichText } from '@/utils/richText'
 import SEO from '@/components/SEO'
+import { getConceptDetailSEO } from '@/seo'
 import Footer from '@/components/sections/Footer'
 import type { Concept } from '@/data/concepts'
 import { MdOutlineShare, MdKeyboardArrowDown, MdOutlineLink, MdArrowBack, MdArrowForward } from 'react-icons/md'
@@ -145,12 +146,7 @@ export default function ConceptDetailPage() {
 
   return (
     <div ref={scrollRef} className="fade-in" style={{ position: 'fixed', inset: 0, background: 'transparent', overflowY: 'auto', overflowX: 'hidden' }}>
-      <SEO
-        title={`${concept.conceptName} — ${seo.siteName}`}
-        description={concept.description}
-        image={concept.image || seo.defaultImage}
-        path={`/concepts/${slug}`}
-      />
+      <SEO {...getConceptDetailSEO(seo, concept, slug)} />
 
       <div style={{ position: 'relative', zIndex: 2 }}>
 

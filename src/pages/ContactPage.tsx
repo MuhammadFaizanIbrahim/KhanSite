@@ -5,6 +5,7 @@ import { useBreakpoint } from '@/hooks/useBreakpoint'
 import { useLenis } from '@/hooks/useLenis'
 import { useContent } from '@/hooks/useContent'
 import SEO from '@/components/SEO'
+import { getContactSEO } from '@/seo'
 import StarDivider from '@/components/ui/StarDivider'
 import Footer from '@/components/sections/Footer'
 import DatePicker from 'react-datepicker'
@@ -419,12 +420,7 @@ export default function ContactPage() {
       background: 'transparent',
       overflow: 'hidden',
     }}>
-      <SEO
-        title={seo.contact.title || seo.defaultTitle}
-        description={seo.contact.description || seo.defaultDescription}
-        image={seo.contact.image || seo.defaultImage}
-        path="/contact"
-      />
+      <SEO {...getContactSEO(seo)} />
       <div ref={scrollRef} style={{ position: 'absolute', inset: 0, overflowY: 'auto' }}>
         {/* ── Back, on a line beneath the universal site logo ── */}
         <div style={{ padding: isMobile ? '90px 16px 0' : '120px 40px 0' }}>

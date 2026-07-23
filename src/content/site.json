@@ -1,14 +1,37 @@
 {
   "_instructions": "This file holds ALL the editable text on the KhanConcepts website. Each top-level key below is one section of the site — the '_section' note inside it tells you where that section appears. Only edit the plain text values; do not rename or remove any keys. Wrapping a phrase in **double asterisks** (e.g. **like this**) makes it show in gold on the site.",
   "seo": {
-    "_section": "Controls what shows up in Google search results and in link previews when a page is shared on social media, WhatsApp, iMessage, etc. 'title' is the browser tab title / search result heading, 'description' is the snippet shown below it, and 'image' is the preview picture shown when the link is shared. Leave any page's title/description/image blank to fall back to 'defaultTitle'/'defaultDescription'/'defaultImage' below. 'siteName' is appended after every page's title.",
+    "_section": "Controls what shows up in Google search results and in link previews when a page is shared on social media, WhatsApp, iMessage, etc. 'title' is the browser tab title / search result heading, 'description' is the snippet shown below it, and 'image' is the preview picture shown when the link is shared. Leave any page's title/description/image blank to fall back to 'defaultTitle'/'defaultDescription'/'defaultImage' below. 'siteName' is appended after every page's title. 'domain' and 'logo' are used for the Organization schema search engines read to understand the business — leave 'domain' as the live production domain. 'social' is the ONE place to update social profile links on the entire site — it feeds both the footer's social icons and the schema search engines read; leave any entry blank until that profile exists, a blank one is simply omitted everywhere. 'keywords' per page are the target search phrases for that page; they're placed in a meta tag (a minor, mostly-ignored ranking signal) — the real SEO value comes from these same phrases appearing in the page's visible headings and paragraphs elsewhere in this file.",
     "siteName": "KhanConcepts",
+    "domain": "https://khanconcepts.com",
+    "logo": "/images/logos/logo-1024.png",
     "defaultTitle": "KhanConcepts — I Innovate Concepts That Redefine Industries",
     "defaultDescription": "I innovate concepts that redefine industries and create better solutions across every industry, from product to hardware to technology.",
     "defaultImage": "/images/logos/logo-1024.png",
-    "home": { "title": "", "description": "", "image": "" },
-    "concepts": { "title": "", "description": "", "image": "" },
-    "contact": { "title": "", "description": "", "image": "" }
+    "social": {
+      "x": "https://x.com/KhanConcepts",
+      "linkedin": "https://www.linkedin.com/in/khan-concepts-a40754416",
+      "youtube": "https://www.youtube.com/@khanconcepts1",
+      "instagram": "https://www.instagram.com/khanconcepts1/"
+    },
+    "home": {
+      "title": "KhanConcepts",
+      "description": "KhanConcepts researches real-world problems and creates innovative Concept Designs that help companies discover better solutions before investing time and resources in bringing them to life.",
+      "image": "",
+      "keywords": ["KhanConcepts", "Concept Design Platform", "Concept Design", "Concept Designs", "Innovative Concept Designs", "Innovation Platform", "Concept Design for Innovation", "Innovation", "Real-World Problems"]
+    },
+    "concepts": {
+      "title": "KhanConcepts - Concepts",
+      "description": "Explore innovative Concept Designs across multiple industries, each focused on researching real-world problems and creating better solutions.",
+      "image": "",
+      "keywords": ["KhanConcepts", "Concept Designs", "Innovative Concept Designs", "Product Concept Designs", "Hardware Concept Designs", "Technology Concept Designs", "Business Concept Designs", "Mobility Concept Designs", "Research, Engineering & Invention Concept Designs", "Real & Virtual World Systems Concept Designs", "Entertainment Concept Designs", "Innovation Concepts", "Future Concepts"]
+    },
+    "contact": {
+      "title": "KhanConcepts - Contact",
+      "description": "Start a Concept Discussion with KhanConcepts to explore innovative Concept Designs, share your business challenges, and discover better solutions together.",
+      "image": "",
+      "keywords": ["KhanConcepts", "Concept Discussion", "Concept Design"]
+    }
   },
   "navigation": {
     "_section": "Labels for the navigation elements that appear identically on every page: the bottom pill nav, the desktop-only left sidebar on the homepage, and the generic 'Back' button used on the Concepts and Contact pages.",
@@ -175,16 +198,10 @@
     "improvedBadgeLabel": "Improved Concept"
   },
   "footer": {
-    "_section": "Homepage — Footer (final section, at the very bottom of the page).",
+    "_section": "Homepage — Footer (final section, at the very bottom of the page). The social icons shown here come from 'seo.social' above (the one place to update social links — see the 'seo' section's note) — not from this section.",
     "headingLine1": "Every Great **Innovation** Starts",
     "headingLine2": "With A **Concept**",
     "tagline": "CONCEPT INNOVATION",
-    "social": {
-      "linkedin": "https://www.linkedin.com/in/khan-concepts-a40754416",
-      "x": "https://x.com/KhanConcepts",
-      "youtube": "https://youtube.com/@khanconcepts1?si=I2UkDnLLo6yxMZCc",
-      "instagram": "https://www.instagram.com/khanconcepts1/"
-    },
     "copyright": "© 2026 KhanConcepts"
   },
   "contact-page": {
@@ -304,7 +321,6 @@
         "conceptStatus": "new",
         "industry": "Real & Virtual World Systems",
         "conceptType": "Sustainable Architecture",
-        "conceptTagLine": "Smart City Platform",
         "image": "/images/featured/neometropolis-ai-city.jpg",
         "conceptVideoLink": "",
         "embedPresentationLink": "",
@@ -320,19 +336,18 @@
       },
       {
         "id": 2,
-        "conceptName": "BioLab Automation Suite",
-        "conceptStatus": "improved",
-        "industry": "Research, Engineering & Invention",
-        "conceptType": "Automation & Robotics",
-        "conceptTagLine": "Automation System",
-        "image": "/images/featured/biolab-automation-suite.jpg",
+        "conceptName": "NeoMetropolis AI City",
+        "conceptStatus": "new",
+        "industry": "Real & Virtual World Systems",
+        "conceptType": "Sustainable Architecture",
+        "image": "/images/concepts/neometropolis-ai-city.jpg",
         "conceptVideoLink": "",
         "embedPresentationLink": "",
-        "description": "A robotics-driven laboratory automation suite that runs high-precision research workflows around the clock, freeing scientists from repetitive manual experimentation.",
+        "description": "An AI-orchestrated smart city framework that unifies infrastructure, mobility, energy, and governance into a single adaptive system built for sustainable urban growth.",
         "overview": [
-          "BioLab Automation Suite coordinates robotic arms, sensors, and analysis software into one closed-loop research pipeline — from sample prep to data capture.",
-          "The system executes experiment protocols with sub-millimeter precision and repeats them continuously, removing the variability of manual handling.",
-          "Researchers design an experiment once; the suite runs it at scale, logs every result, and flags anomalies for human review."
+          "NeoMetropolis AI City is a civilization-scale urban operating system that coordinates transportation, energy, housing, and public services through one adaptive AI layer.",
+          "By modeling the city as a living system, the platform continuously rebalances resources — routing traffic, distributing power, and allocating services — in response to real-time demand instead of static planning.",
+          "The framework scales from a single smart district to an entire metropolitan region, giving city planners a foundation for resilient, sustainable growth."
         ],
         "showPresentation": true,
         "showVideo": false,
@@ -340,24 +355,31 @@
       },
       {
         "id": 3,
-        "conceptName": "Cognitive OS 2.0",
+        "conceptName": "NeoMetropolis AI City",
         "conceptStatus": "new",
-        "industry": "Technology",
-        "conceptType": "AI & Machine Learning",
-        "conceptTagLine": "AI Operating System",
-        "image": "/images/featured/cognitive-os.jpg",
+        "industry": "Real & Virtual World Systems",
+        "conceptType": "Sustainable Architecture",
+        "image": "/images/featured/neometropolis-ai-city.jpg",
         "conceptVideoLink": "",
         "embedPresentationLink": "",
-        "description": "An operating system built around a native AI layer that understands intent across every app, automating complex, multi-step tasks on a user's behalf.",
+        "description": "An AI-orchestrated smart city framework that unifies infrastructure, mobility, energy, and governance into a single adaptive system built for sustainable urban growth.",
         "overview": [
-          "Cognitive OS 2.0 treats AI as a first-class layer of the operating system rather than a bolt-on assistant, giving it visibility across every installed application.",
-          "Users describe an outcome in plain language; the OS plans the steps, coordinates the relevant apps, and executes the task end-to-end.",
-          "The system is designed to hand off complex, multi-step work entirely — from research to booking to file organization — while keeping the user in control at every checkpoint."
+          "NeoMetropolis AI City is a civilization-scale urban operating system that coordinates transportation, energy, housing, and public services through one adaptive AI layer.",
+          "By modeling the city as a living system, the platform continuously rebalances resources — routing traffic, distributing power, and allocating services — in response to real-time demand instead of static planning.",
+          "The framework scales from a single smart district to an entire metropolitan region, giving city planners a foundation for resilient, sustainable growth."
         ],
         "showPresentation": true,
         "showVideo": false,
         "featuredConcept": true
       }
     ]
+  },
+  "not-found-page": {
+    "_section": "The 404 page shown for any URL that doesn't match a real page on the site.",
+    "title": "Page Not Found",
+    "heading": "This Page Doesn't Exist",
+    "message": "The page you're looking for may have been moved or no longer exists. Head back home or explore our Concept Designs.",
+    "homeLabel": "Back to Home",
+    "conceptsLabel": "Explore Concepts"
   }
 }

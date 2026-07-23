@@ -1,0 +1,15 @@
+{
+  "name": "KhanConcepts",
+  "short_name": "KhanConcepts",
+  "description": "KhanConcepts researches real-world problems and creates innovative Concept Designs that help companies discover better solutions before investing time and resources in bringing them to life.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#0A0A0D",
+  "theme_color": "#0A0A0D",
+  "icons": [
+    { "src": "/images/logos/logo.svg", "sizes": "any", "type": "image/svg+xml" },
+    { "src": "/images/logos/logo-512favicon.png", "sizes": "512x512", "type": "image/png" },
+    { "src": "/images/logos/logo-1024.png", "sizes": "1024x1024", "type": "image/png" }
+  ]
+}

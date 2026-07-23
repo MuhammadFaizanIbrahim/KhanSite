@@ -16,6 +16,7 @@ import HomePage           from '@/pages/HomePage'
 import ContactPage        from '@/pages/ContactPage'
 import ConceptsPage       from '@/pages/ConceptsPage'
 import ConceptDetailPage  from '@/pages/ConceptDetailPage'
+import NotFoundPage       from '@/pages/NotFoundPage'
 
 // Preloader → Homepage handoff uses a cinematic blur-to-focus reveal instead of
 // the WebGL noise-dissolve — the dissolve stays exactly as-is for every other
@@ -60,6 +61,7 @@ export default function App() {
           <Route path="/concepts"     element={<ConceptsPage />}      />
           <Route path="/concepts/:slug" element={<ConceptDetailPage />} />
           <Route path="/contact"      element={<ContactPage />}       />
+          <Route path="*"             element={<NotFoundPage />}      />
         </Routes>
       </div>
 

@@ -162,7 +162,7 @@ export default function Hero() {
         boxSizing: 'border-box',
       }}>
       {/* ── Tagline ── */}
-      <p style={{
+      <h1 style={{
         fontFamily: "'Playfair Display', serif",
         fontSize:   isMobile ? 'clamp(18px, 5.2vw, 24px)' : 'clamp(28px, 3vw, 46px)',
         fontWeight: 400,
@@ -174,7 +174,7 @@ export default function Hero() {
         ...fadeStyle(step >= STEP_TAGLINE),
       }}>
         <RichText text={content.tagline} />
-      </p>
+      </h1>
 
       {/* ── Opportunity → Concept → Reality (each piece fades in in sequence) ── */}
       <div style={{

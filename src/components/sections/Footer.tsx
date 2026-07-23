@@ -37,6 +37,7 @@ export default function Footer() {
   const { isMobile, isTablet } = useBreakpoint()
   const sectionMinHeight = isMobile ? '72vh' : isTablet ? '85vh' : '100vh'
   const content = useContent('footer')
+  const seo = useContent('seo')
   const [ref, inView] = useInView<HTMLDivElement>()
 
   return (
@@ -127,7 +128,7 @@ export default function Footer() {
           }} />
 
           <div style={{ display: 'flex', gap: isMobile ? 12 : 16 }}>
-            {Object.entries(content.social).map(([key, url]) => (
+            {Object.entries(seo.social).map(([key, url]) => (
               <a
                 key={key}
                 href={url as string}

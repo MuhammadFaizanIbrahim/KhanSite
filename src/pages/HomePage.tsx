@@ -2,6 +2,7 @@ import { useEffect, useRef } from 'react'
 import Snap from 'lenis/snap'
 import type { VirtualScrollData } from 'lenis'
 import SEO                         from '@/components/SEO'
+import { getHomepageSEO }          from '@/seo'
 import { useContent }              from '@/hooks/useContent'
 import Sidebar                     from '@/components/layout/Sidebar'
 import Hero                        from '@/components/sections/Hero'
@@ -108,15 +109,11 @@ export default function HomePage() {
   useSectionHashSpy()
   useSectionSnap('what-is-khanconcepts')
   const seo = useContent('seo')
+  const homepageSEO = getHomepageSEO(seo)
 
   return (
     <div ref={scrollRef} className="h-full w-full overflow-y-auto overflow-x-hidden">
-      <SEO
-        title={seo.home.title || seo.defaultTitle}
-        description={seo.home.description || seo.defaultDescription}
-        image={seo.home.image || seo.defaultImage}
-        path="/"
-      />
+      <SEO {...homepageSEO} />
       <Hero />
       <WhatIsKhanConcepts />
       <ConceptDesignInnovation />

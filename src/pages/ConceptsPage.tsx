@@ -5,6 +5,7 @@ import { useBreakpoint } from '@/hooks/useBreakpoint'
 import { useLenis } from '@/hooks/useLenis'
 import { useContent } from '@/hooks/useContent'
 import SEO from '@/components/SEO'
+import { getConceptsSEO } from '@/seo'
 import { slugify } from '@/utils/slug'
 import StarDivider from '@/components/ui/StarDivider'
 import Footer from '@/components/sections/Footer'
@@ -158,7 +159,7 @@ function ConceptCard({ concept, isMobile, delay, inView, onOpen, exploreConceptL
           {concept.industry.replace(' Concepts', '')}
         </span>
         <span style={{ fontFamily: "'Inter', sans-serif", fontSize: 11.5, lineHeight: 1.4, color: 'var(--text-primary)', minHeight: '1.4em' }}>
-          {concept.conceptTagLine}
+          {concept.conceptType}
         </span>
       </div>
       <button
@@ -392,12 +393,7 @@ export default function ConceptsPage() {
       className="fade-in"
       style={{ position: 'fixed', inset: 0, background: 'transparent', overflowY: 'auto', overflowX: 'hidden' }}
     >
-      <SEO
-        title={seo.concepts.title || seo.defaultTitle}
-        description={seo.concepts.description || seo.defaultDescription}
-        image={seo.concepts.image || seo.defaultImage}
-        path="/concepts"
-      />
+      <SEO {...getConceptsSEO(seo)} />
       {/* ── Back, on a line beneath the universal site logo ── */}
       <div style={{ padding: isMobile ? '90px 16px 0' : '120px 40px 0' }}>
         <button
