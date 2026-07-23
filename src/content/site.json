@@ -330,7 +330,8 @@
         ],
         "showPresentation": true,
         "showVideo": false,
-        "featuredConcept": true
+        "featuredConcept": true,
+        "excludeFromSitemap": true
       },
       {
         "id": 2,
@@ -349,7 +350,8 @@
         ],
         "showPresentation": true,
         "showVideo": false,
-        "featuredConcept": true
+        "featuredConcept": true,
+        "excludeFromSitemap": true
       },
       {
         "id": 3,
@@ -368,7 +370,8 @@
         ],
         "showPresentation": true,
         "showVideo": false,
-        "featuredConcept": true
+        "featuredConcept": true,
+        "excludeFromSitemap": true
       }
     ]
   },

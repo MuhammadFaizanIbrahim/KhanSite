@@ -26,8 +26,12 @@ const staticRoutes = [
 ]
 // De-duplicated by slug — multiple concept entries can share the same name
 // (e.g. placeholder/test data) and would otherwise emit the same URL twice.
+// Concepts flagged excludeFromSitemap stay live on the site but are left out
+// of the sitemap (e.g. not ready for search engines to index yet).
 const conceptSlugs = [...new Set(
-  site['concepts-page'].items.map(item => slugify(item.conceptName))
+  site['concepts-page'].items
+    .filter(item => !item.excludeFromSitemap)
+    .map(item => slugify(item.conceptName))
 )]
 const conceptRoutes = conceptSlugs.map(slug => ({ url: `/concepts/${slug}`, priority: '0.7' }))
 
