@@ -127,25 +127,27 @@ npm run preview
 
 ## 10. Deployment
 
-This repo is currently configured for **Vercel** (`vercel.json` at the root).
+The live site (client's custom domain) is deployed on **Cloudflare Pages**. `vercel.json` is also kept in the repo for the developer's own Vercel preview/testing deploys — it isn't used in the client's production setup and can be ignored/removed in any copy of the repo handed to the client.
 
-1. Push the repo to GitHub (or GitLab/Bitbucket).
-2. In Vercel: **Add New Project** → import the repo → Vercel auto-detects the build command from `vercel.json`.
-3. Add your environment variables (Section 3) in **Project Settings → Environment Variables** — they won't carry over from your local `.env.local` automatically.
-4. Deploy. Vercel gives you a `*.vercel.app` URL immediately.
-5. **Connect the custom domain**: **Project Settings → Domains** → add `khanconcepts.com` → follow Vercel's DNS instructions (usually an A record or CNAME at your domain registrar).
+**Cloudflare Pages (production):**
 
-`vercel.json` already includes the SPA rewrite rule this site needs (client-side routing via React Router means every path — `/concepts`, `/contact`, etc. — must fall back to `index.html` on direct navigation/refresh, not 404):
+1. Push the repo to GitHub (or GitLab).
+2. In Cloudflare: **Workers & Pages** → **Create application** → **Pages** → **Connect to Git** → select the repo.
+3. Build settings:
+   - Framework preset: `Vite` (or None — the commands below are explicit either way)
+   - Build command: `npm run build`
+   - Build output directory: `dist`
+4. Add your environment variables (Section 3) under **Settings → Environment variables** — they won't carry over from your local `.env` automatically.
+5. Deploy. Cloudflare gives you a `*.pages.dev` URL immediately.
+6. **Connect the custom domain**: **Custom domains** tab → add `khanconcepts.com` → follow Cloudflare's DNS instructions (a one-click CNAME if the domain's nameservers are already on Cloudflare).
 
-```json
-{
-  "buildCommand": "npm run build",
-  "installCommand": "npm install --include=dev",
-  "rewrites": [{ "source": "/(.*)", "destination": "/index.html" }]
-}
+`public/_redirects` already contains the SPA fallback rule this site needs (client-side routing via React Router means every path — `/concepts`, `/contact`, etc. — must fall back to `index.html` on direct navigation/refresh, not 404) — no extra config needed:
+
+```
+/*  /index.html  200
 ```
 
-**If instead you move to Cloudflare Pages** (this decision was left open during development — nothing here commits you to either): `public/_redirects` already contains the equivalent SPA fallback rule for Cloudflare Pages, so no extra config would be needed there. Cloudflare's dashboard also lets you similarly connect the `khanconcepts.com` domain and set the same environment variables.
+**Vercel (developer testing only):** `vercel.json` at the root configures the same build command and SPA rewrite for quick preview deploys via Vercel's dashboard — not part of the client handoff.
 
 ---
 
